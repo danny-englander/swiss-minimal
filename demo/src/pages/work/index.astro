@@ -1,0 +1,101 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import Row from '../../components/Row.astro';
+import { categories, work } from '../../data/work';
+
+const pad = (n: number) => String(n).padStart(2, '0');
+const numbered = work.map((item, i) => ({ ...item, num: i + 1 }));
+const years = [...new Set(numbered.map((w) => w.year))];
+const sections = years.map((year) => {
+  const items = numbered.filter((w) => w.year === year);
+  return { year, items, range: `${pad(items[0].num)}–${pad(items[items.length - 1].num)}` };
+});
+const count = (id: string) => work.filter((w) => w.category === id).length;
+---
+
+<SiteLayout title="Work" description="Selected work, filterable by category.">
+  <header class="work-head">
+    <h1 class="h2">All work</h1>
+  </header>
+
+  <details class="page-acc">
+    <summary>
+      <span>
+        <span class="page-acc-title">Filter by category</span>
+        <span class="page-acc-status" data-filter-status>All items</span>
+      </span>
+      <span class="acc-icon" aria-hidden="true"><i></i><i></i></span>
+    </summary>
+    <div class="page-acc-body chip-group" role="group" aria-label="Category">
+      <button type="button" class="chip" data-filter="all" aria-pressed="true">
+        All <span class="chip-count">{work.length}</span>
+      </button>
+      {
+        categories.map((c) => (
+          <button type="button" class="chip" data-filter={c.id} data-label={c.label} aria-pressed="false">
+            {c.label} <span class="chip-count">{count(c.id)}</span>
+          </button>
+        ))
+      }
+    </div>
+  </details>
+  <p class="sr-only" aria-live="polite" data-filter-live></p>
+
+  {
+    sections.map((s) => (
+      <section class="section" data-filter-section aria-labelledby={`y${s.year}`}>
+        <div class="section-head">
+          <p class="num small muted">{s.range}</p>
+          <h2 class="h2" id={`y${s.year}`}>{s.year}</h2>
+        </div>
+        <ul class="rows">
+          {s.items.map((w) => (
+            <Row
+              num={w.num}
+              title={w.title}
+              meta={w.meta}
+              category={w.category}
+              href={w.slug ? `/work/${w.slug}` : undefined}
+            />
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</SiteLayout>
+
+<script>
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+  const rows = [...document.querySelectorAll<HTMLElement>('.row[data-category]')];
+  const sections = [...document.querySelectorAll<HTMLElement>('[data-filter-section]')];
+  const status = document.querySelector<HTMLElement>('[data-filter-status]');
+  const live = document.querySelector<HTMLElement>('[data-filter-live]');
+
+  function apply(category: string, announce: boolean) {
+    const chip = chips.find((c) => c.dataset.filter === category) ?? chips[0];
+    const id = chip.dataset.filter ?? 'all';
+    chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+
+    let shown = 0;
+    rows.forEach((row) => {
+      row.hidden = id !== 'all' && row.dataset.category !== id;
+      if (!row.hidden) shown++;
+    });
+    sections.forEach((s) => {
+      s.hidden = !s.querySelector('.row:not([hidden])');
+    });
+
+    const label = chip.dataset.label;
+    const noun = shown === 1 ? 'item' : 'items';
+    if (status) status.textContent = label ? `${label} · ${shown} ${noun}` : 'All items';
+    if (announce && live) live.textContent = label ? `Showing ${shown} ${label} ${noun}` : `Showing all ${shown} items`;
+
+    const url = new URL(location.href);
+    if (id === 'all') url.searchParams.delete('category');
+    else url.searchParams.set('category', id);
+    history.replaceState(null, '', url);
+  }
+
+  chips.forEach((chip) => chip.addEventListener('click', () => apply(chip.dataset.filter ?? 'all', true)));
+  apply(new URLSearchParams(location.search).get('category') ?? 'all', false);
+</script>

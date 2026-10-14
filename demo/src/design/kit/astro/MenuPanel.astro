@@ -1,0 +1,28 @@
+---
+// The slide-down panel. Opened by <MenuButton />. Pass `items` for the menu, and use
+// the slot for anything extra below it (a contact form, a note, social links).
+// Remember to wrap the rest of the page in an element with the data-panel-page attribute.
+import MenuItems from './MenuItems.astro';
+import type { MenuItem } from './types';
+
+interface Props {
+  items: MenuItem[];
+  /** Accessible name for the panel and its navigation. */
+  label?: string;
+  id?: string;
+}
+const { items, label = 'Menu', id = 'panel' } = Astro.props;
+---
+
+<div id={id} class="panel" data-panel role="dialog" aria-modal="true" aria-label={label} aria-hidden="true" inert>
+  <div class="panel-inner">
+    <nav aria-label={label}>
+      <MenuItems items={items} />
+    </nav>
+    <slot />
+  </div>
+</div>
+
+<script>
+  import '../panel.js';
+</script>

@@ -1,0 +1,30 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Hero from '../design/kit/astro/Hero.astro';
+import landscape from '../assets/landscape.jpg';
+---
+
+<SiteLayout title="About" description="About the Swiss Minimal design kit.">
+  <Hero
+    title="About"
+    lead="Swiss Minimal is a small design kit for type-led sites: one grotesque typeface, flat color, thick rules and almost no decoration."
+    image={landscape}
+    alt="Wide crop of an abstract composition: a red circle, black and grey shapes and thin black rules"
+    caption="A 16:9 crop of the home page artwork, to show the wide hero."
+  />
+  <article class="article">
+    <p>
+      This page exists to check the type scale on running text. Body copy sits at 16px with a line height of
+      1.5, which keeps paragraphs open without feeling loose. Headings rely on size and weight alone; there are
+      no colored headings, no boxes and no icons to prop them up.
+    </p>
+    <p>
+      The palette is three colors and a red. Cream paper, near-black ink, a muted grey for secondary text, and
+      one brand red kept for large shapes and the focus ring. Small red text uses a darker tone on the page so
+      it still passes contrast.
+    </p>
+    <p class="small muted">
+      Set in Overused Grotesk, released under the SIL Open Font License 1.1.
+    </p>
+  </article>
+</SiteLayout>

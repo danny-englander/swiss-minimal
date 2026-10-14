@@ -1,0 +1,45 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Row from '../components/Row.astro';
+import Hero from '../design/kit/astro/Hero.astro';
+import hero from '../assets/hero.jpg';
+
+const principles = [
+  { title: 'One typeface', meta: 'Weights 400, 500 and 700 only' },
+  { title: 'Flat color', meta: 'Cream, ink and one red' },
+  { title: 'Thick rules', meta: 'A 2px line opens every section' },
+  { title: 'The grid', meta: 'Header and rows share one set of columns' },
+  { title: 'Quiet motion', meta: 'Short, eased, and off with Reduce Motion' },
+  { title: 'Access first', meta: 'Visible focus, 14px floor, real buttons' },
+];
+const active = 2;
+---
+
+<SiteLayout title="Home" description="A demo site for the Swiss Minimal design kit.">
+  <Hero
+    lead="A small test bed for the design kit: flat color, thick rules, one typeface."
+    image={hero}
+    alt="Abstract composition of black, grey and red circles and rectangles divided by black rules"
+    caption="Composition in black, grey and red. Example artwork."
+  >
+    <Fragment slot="title">Swiss<br />Minimal</Fragment>
+  </Hero>
+
+  <section class="section" aria-labelledby="principles">
+    <div class="section-head">
+      <p class="num small muted">01–06</p>
+      <h2 class="h2" id="principles">Principles</h2>
+    </div>
+    <ul class="rows">
+      {
+        principles.map((p, i) => (
+          <Row num={i + 1} title={p.title} meta={p.meta} active={i + 1 === active}>
+            {i + 1 === active && (
+              <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+            )}
+          </Row>
+        ))
+      }
+    </ul>
+  </section>
+</SiteLayout>

@@ -1,0 +1,26 @@
+---
+// One numbered list row (ListRow in COMPONENTS.md). The end slot takes an indicator or arrow.
+interface Props {
+  num: number;
+  title: string;
+  meta?: string;
+  href?: string;
+  active?: boolean;
+  category?: string;
+}
+const { num, title, meta, href, active, category } = Astro.props;
+---
+
+<li
+  class="row"
+  data-active={active ? 'true' : undefined}
+  aria-current={active ? 'true' : undefined}
+  data-category={category}
+>
+  <span class="num small muted">{String(num).padStart(2, '0')}</span>
+  <span class="row-body">
+    {href ? <a class="title row-link" href={href}>{title}</a> : <span class="title">{title}</span>}
+    {meta && <span class="small muted">{meta}</span>}
+  </span>
+  <span class="row-end"><slot /></span>
+</li>

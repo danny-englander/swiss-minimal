@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Swiss Minimal example</title>
+  <link rel="stylesheet" href="theme.css">
+  <script>
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <style>
+    :root { --bar-h: 0rem; }  /* this page has no fixed bottom bar */
+    /* Page-specific layout only. Everything else comes from theme.css. */
+    .bar { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid currentColor; padding: 0.75rem 0; }
+    .hero { padding: 3rem 0 4rem; }
+    .hero p { max-width: 28rem; margin: 2rem 0 0; }
+    .section { border-top: 2px solid var(--ink); padding-top: 0.75rem; margin-bottom: 4rem; }
+    .section-head { display: grid; grid-template-columns: 3rem 1fr; column-gap: 0.5rem; align-items: baseline; padding-bottom: 1.5rem; }
+    .section-head .num { padding-left: 0.5rem; }
+    .row { display: grid; grid-template-columns: 3rem 1fr 1.75rem; column-gap: 0.5rem; align-items: start; padding: 1rem 0; }
+    .row .num { padding-left: 1rem; }  /* clear of the active row's 6px edge */
+    @media (min-width: 768px) { .row .num { padding-left: 1.25rem; } }
+    .page-acc { margin-bottom: 2.5rem; }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: 0.75rem; margin: 1rem 0 3rem; }
+    .sw { padding: 1rem; border: 1px solid var(--rule); font-size: 0.875rem; }
+    .sw b { display: block; height: 2.5rem; margin-bottom: 0.5rem; border: 1px solid var(--rule); }
+    form { max-width: 28rem; background: var(--bar); color: var(--bar-ink); padding: 1.5rem; margin-bottom: 4rem; }
+    form .btn { margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="page">
+      <div class="bar">
+        <span class="small" style="font-weight:500">Swiss Minimal example</span>
+        <span style="display:flex;gap:0.5rem">
+          <button type="button" class="topbar-btn burger" data-panel-button aria-label="Menu" aria-expanded="false" aria-controls="panel"><i></i><i></i><i></i></button>
+          <button class="topbar-btn topbar-btn--text" id="toggle">
+            <span class="label-stack"><span id="toggle-label">Dark</span><span aria-hidden="true">Dark</span><span aria-hidden="true">Light</span></span>
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div id="panel" class="panel" data-panel role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true" inert>
+    <div class="panel-inner">
+      <nav aria-label="Menu">
+        <ul class="menu-list">
+          <li><a class="menu-link" href="#" aria-current="page" data-panel-close>Home</a></li>
+          <li>
+            <details class="acc" name="menu">
+              <summary>Work <span class="acc-icon" aria-hidden="true"><i></i><i></i></span></summary>
+              <div class="acc-body">
+                <ul class="submenu">
+                  <li><a href="#europe" data-panel-close>Writing</a></li>
+                  <li>
+                    <details class="acc" name="menu-1">
+                      <summary>Projects <span class="acc-icon" aria-hidden="true"><i></i><i></i></span></summary>
+                      <div class="acc-body">
+                        <ul class="submenu">
+                          <li><a href="#japan" data-panel-close>Current</a></li>
+                          <li><a href="#korea" data-panel-close>Archive</a></li>
+                        </ul>
+                      </div>
+                    </details>
+                  </li>
+                  <li><a href="#americas" data-panel-close>Talks</a></li>
+                </ul>
+              </div>
+            </details>
+          </li>
+          <li>
+            <details class="acc" name="menu">
+              <summary>About <span class="acc-icon" aria-hidden="true"><i></i><i></i></span></summary>
+              <div class="acc-body">
+                <ul class="submenu">
+                  <li><a href="#story" data-panel-close>The story</a></li>
+                  <li><a href="#credits" data-panel-close>Credits</a></li>
+                </ul>
+              </div>
+            </details>
+          </li>
+          <li><a class="menu-link" href="#contact" data-panel-close>Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div data-panel-page>
+  <div class="page">
+    <header class="hero">
+      <h1 class="display">Swiss<br>Minimal</h1>
+      <p class="lead">Flat color, thick rules, one typeface. Everything here is theme.css and nothing else.</p>
+    </header>
+
+    <div class="swatches" id="swatches"></div>
+
+    <details class="page-acc">
+      <summary>
+        <span><span class="page-acc-title">Filter by category</span><span class="page-acc-status" id="chip-status">All items</span></span>
+        <span class="acc-icon" aria-hidden="true"><i></i><i></i></span>
+      </summary>
+      <div class="page-acc-body chip-group" role="group" aria-label="Category">
+        <button type="button" class="chip" aria-pressed="true">All <span class="chip-count">3</span></button>
+        <button type="button" class="chip" aria-pressed="false">Writing <span class="chip-count">1</span></button>
+        <button type="button" class="chip" aria-pressed="false">Design &amp; code <span class="chip-count">2</span></button>
+      </div>
+    </details>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="num small muted" style="margin:0;font-weight:500">01–03</p>
+        <h2 class="h2">Selected work</h2>
+      </div>
+      <ul style="list-style:none;margin:0;padding:0">
+        <li class="row" data-active="true">
+          <span class="num small muted" style="font-weight:500">01</span>
+          <span><span class="title" style="display:block">Field notes</span><span class="small muted">Essay, 2026</span></span>
+          <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+        </li>
+        <li class="row">
+          <span class="num small muted" style="font-weight:500">02</span>
+          <span><span class="title" style="display:block">A type specimen</span><span class="small muted">Design, 2025</span></span>
+          <span></span>
+        </li>
+        <li class="row">
+          <span class="num small muted" style="font-weight:500">03</span>
+          <span><span class="title" style="display:block">Small tools</span><span class="small muted">Code, 2025</span></span>
+          <span></span>
+        </li>
+      </ul>
+    </section>
+
+    <form onsubmit="return false">
+      <label class="field-label" for="n">Your name</label>
+      <input class="field" id="n" placeholder="Jane">
+      <button class="btn" type="submit">Send</button>
+    </form>
+  </div>
+  </div>
+
+  <script src="panel.js"></script>
+  <script>
+    var root = document.documentElement, btn = document.getElementById('toggle');
+    function cur() { return root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }
+    function sync() { document.getElementById('toggle-label').textContent = cur() === 'dark' ? 'Light' : 'Dark'; swatches(); }
+    btn.onclick = function () {
+      var n = cur() === 'dark' ? 'light' : 'dark'; root.dataset.theme = n;
+      try { localStorage.setItem('theme', n); } catch (e) {} sync();
+    };
+    function swatches() {
+      var names = ['paper', 'ink', 'muted', 'rule', 'accent', 'accent-text', 'accent-bright', 'bar',
+                   'row-hover-bg', 'row-active-bg', 'row-fg', 'row-edge'];
+      // Resolve through a probe element: some tokens are declared as var(--other), which
+      // getPropertyValue would return unresolved.
+      var probe = document.body.appendChild(document.createElement('i'));
+      document.getElementById('swatches').innerHTML = names.map(function (n) {
+        probe.style.color = 'var(--' + n + ')';
+        var v = '#' + getComputedStyle(probe).color.match(/\d+/g).slice(0, 3).map(function (c) {
+          return ('0' + (+c).toString(16)).slice(-2);
+        }).join('');
+        return '<div class="sw"><b style="background:' + v + '"></b>--' + n + '<br><span class="muted">' + v + '</span></div>';
+      }).join('');
+      probe.remove();
+    }
+    sync();
+
+    // Filter buttons: only one is pressed, and the accordion's summary says which.
+    var chips = document.querySelectorAll('.chip');
+    chips.forEach(function (chip) {
+      chip.onclick = function () {
+        chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c === chip)); });
+        document.getElementById('chip-status').textContent =
+          chip === chips[0] ? 'All items' : chip.firstChild.textContent.trim();
+      };
+    });
+  </script>
+</body>
+</html>

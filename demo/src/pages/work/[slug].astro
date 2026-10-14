@@ -1,0 +1,34 @@
+---
+import type { GetStaticPaths } from 'astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { work, type WorkItem } from '../../data/work';
+
+export const getStaticPaths = (() =>
+  work
+    .filter((w) => w.slug)
+    .map((item) => ({ params: { slug: item.slug }, props: { item } }))) satisfies GetStaticPaths;
+
+interface Props {
+  item: WorkItem;
+}
+const { item } = Astro.props;
+---
+
+<SiteLayout title={item.title} description={item.body?.[0]}>
+  <article class="article">
+    <a class="link small back" href="/work">All work</a>
+    <h1 class="h2">{item.title}</h1>
+    {item.meta && <p class="small muted">{item.meta}</p>}
+    {item.body?.map((p) => <p>{p}</p>)}
+    {
+      item.site && (
+        <p>
+          <a class="link" href={item.site} target="_blank" rel="noopener noreferrer">
+            Site <span aria-hidden="true">↗</span>
+            <span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </p>
+      )
+    }
+  </article>
+</SiteLayout>

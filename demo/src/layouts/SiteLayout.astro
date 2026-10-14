@@ -1,0 +1,89 @@
+---
+// The demo's page shell: the kit's BaseLayout plus a contact form in the panel,
+// a fixed bottom bar with a scrolling title, and the toast.
+import BaseLayout from '../design/kit/astro/BaseLayout.astro';
+import { menuFor } from '../data/menu';
+import '../styles/demo.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+const nowReading =
+  'Field notes: twelve months of small projects set in a single typeface, and what that taught me about restraint';
+---
+
+<BaseLayout
+  title={`${title} · Swiss Minimal`}
+  description={description}
+  menu={menuFor(Astro.url.pathname)}
+  tagline="Swiss Minimal demo"
+>
+  <form slot="panel" id="contact" class="contact" data-contact-form>
+    <p class="label panel-label">Contact</p>
+    <label class="field-label" for="contact-name">Your name</label>
+    <input class="field" id="contact-name" name="name" autocomplete="name" placeholder="Jane Doe" required />
+    <label class="field-label" for="contact-email">Email</label>
+    <input class="field" id="contact-email" name="email" type="email" autocomplete="email" placeholder="jane@example.com" required />
+    <label class="field-label" for="contact-message">Message</label>
+    <textarea class="field" id="contact-message" name="message" rows="3"></textarea>
+    <button class="btn" type="submit">Send</button>
+  </form>
+
+  <slot />
+
+  <div class="bottombar">
+    <div class="page bottombar-inner">
+      <p class="label">Now</p>
+      <span class="marquee" title={nowReading} data-marquee><span>{nowReading}</span></span>
+    </div>
+  </div>
+
+  <div class="toast" role="status" data-toast></div>
+</BaseLayout>
+
+<script>
+  // Marquee: from COMPONENTS.md. Three rounds, then rest with an ellipsis. Never with Reduce Motion.
+  function scrollTitle(el: HTMLElement) {
+    const distance = el.scrollWidth - el.clientWidth;
+    if (distance <= 4 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const pause = 2000;
+    const slide = Math.max(1500, (distance / 50) * 1000);
+    const total = 2 * pause + 2 * slide;
+    const end = `translateX(-${distance}px)`;
+    el.dataset.scrolling = '';
+    const inner = el.firstElementChild as HTMLElement;
+    inner.animate(
+      [
+        { transform: 'none', offset: 0 },
+        { transform: 'none', offset: pause / total, easing: 'ease-in-out' },
+        { transform: end, offset: (pause + slide) / total },
+        { transform: end, offset: (2 * pause + slide) / total, easing: 'ease-in-out' },
+        { transform: 'none', offset: 1 },
+      ],
+      { duration: total, iterations: 3 },
+    ).onfinish = () => {
+      delete el.dataset.scrolling;
+    };
+  }
+  const marquee = document.querySelector<HTMLElement>('[data-marquee]');
+  if (marquee) document.fonts.ready.then(() => scrollTitle(marquee));
+
+  // Contact form: no backend. Close the panel and confirm with a toast.
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const toast = document.querySelector<HTMLElement>('[data-toast]');
+  let timer: number | undefined;
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    form.reset();
+    document.dispatchEvent(new Event('menu:close'));
+    if (!toast) return;
+    toast.textContent = 'Message sent. Thank you.';
+    toast.dataset.show = 'true';
+    clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      delete toast.dataset.show;
+    }, 4000);
+  });
+</script>

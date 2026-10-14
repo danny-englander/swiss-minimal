@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "demo",
+      "runtimeExecutable": "/bin/zsh",
+      "runtimeArgs": ["-c", "cd demo && PATH=$HOME/.nvm/versions/node/v24.21.0/bin:$PATH npx astro dev --port 4321"],
+      "port": 4321
+    }
+  ]
+}
