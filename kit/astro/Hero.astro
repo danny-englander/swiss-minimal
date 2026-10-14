@@ -1,0 +1,49 @@
+---
+// The page's name, a lead line and an optional captioned image.
+// The layout follows the image's shape, read from its file at build time:
+// square or portrait -> "split" (text and image 50/50 from 768px);
+// landscape          -> "wide"  (text above, image the full width of the page).
+// Import the image (`import art from '../assets/art.jpg'`) so Astro knows its size
+// and serves resized, modern formats.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  /** Plain-text title. For a stacked title with a line break, use the "title" slot instead. */
+  title?: string;
+  lead?: string;
+  image?: ImageMetadata;
+  /** Required with an image: one sentence on what it shows ("" only if the text already says it). */
+  alt?: string;
+  caption?: string;
+  /** Force a layout instead of reading it from the image's shape. */
+  layout?: 'auto' | 'split' | 'wide';
+}
+const { title, lead, image, alt = '', caption, layout = 'auto' } = Astro.props;
+
+const shape = image && (layout === 'auto' ? (image.width / image.height > 1 ? 'wide' : 'split') : layout);
+const sizes = shape === 'split' ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 88rem) 88rem, 100vw';
+---
+
+<header class:list={['hero', shape && `hero--${shape}`]}>
+  <div class="hero-text">
+    <h1 class="display">{Astro.slots.has('title') ? <slot name="title" /> : title}</h1>
+    {lead && <p class="lead hero-lead">{lead}</p>}
+  </div>
+  {
+    image && (
+      <figure class="figure hero-figure">
+        <Image
+          class="media"
+          src={image}
+          alt={alt}
+          widths={[480, 800, 1200, 1600, 2000].filter((w) => w <= image.width)}
+          sizes={sizes}
+          loading="eager"
+          fetchpriority="high"
+        />
+        {caption && <figcaption>{caption}</figcaption>}
+      </figure>
+    )
+  }
+</header>

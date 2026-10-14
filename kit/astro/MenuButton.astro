@@ -1,0 +1,19 @@
+---
+// The hamburger that turns into an X. Put it in the top bar.
+interface Props {
+  /** The id of the <MenuPanel /> it controls. */
+  controls?: string;
+}
+const { controls = 'panel' } = Astro.props;
+---
+
+<button
+  type="button"
+  data-panel-button
+  class="topbar-btn burger"
+  aria-label="Menu"
+  aria-expanded="false"
+  aria-controls={controls}
+>
+  <i></i><i></i><i></i>
+</button>

@@ -1,0 +1,74 @@
+---
+// A starting layout for an Astro-only site in this style. Copy it, then edit.
+// Needs the whole design/ folder next to it (theme.css, panel.js, fonts/, astro/).
+// No React and no Tailwind required.
+import '../theme.css';
+import MenuButton from './MenuButton.astro';
+import MenuPanel from './MenuPanel.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import type { MenuItem } from './types';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** The slide-down menu. Items with `children` become accordions. */
+  menu?: MenuItem[];
+  /** Small text at the left of the top bar. */
+  tagline?: string;
+}
+const { title, description, menu = [], tagline = '' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta name="theme-color" content="#f3f0e9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0c0c" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      // Apply a saved theme before first paint so there is no flash.
+      try {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="page">
+        <div
+          style="display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid currentColor;padding:0.75rem 0"
+        >
+          <p class="small" style="margin:0;font-weight:500">{tagline}</p>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            {menu.length > 0 && <MenuButton />}
+            <ThemeToggle />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {
+      menu.length > 0 && (
+        <MenuPanel items={menu}>
+          <slot name="panel" />
+        </MenuPanel>
+      )
+    }
+
+    <!-- Everything else goes in here: it becomes inert while the panel is open. -->
+    <div data-panel-page>
+      <div class="page">
+        <slot />
+      </div>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  /* No fixed bottom bar on this layout, so the panel runs to the bottom of the screen. */
+  html:root { --bar-h: 0rem; }
+</style>

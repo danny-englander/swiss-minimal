@@ -1,0 +1,38 @@
+---
+// Light / dark switch. Remembers the choice. Pair it with the no-flash script
+// in BaseLayout.astro so a saved choice does not flash on load.
+---
+
+<button type="button" data-theme-toggle class="topbar-btn topbar-btn--text">
+  <!-- Both words share one spot and only one shows, so the button never changes width. -->
+  <span class="label-stack">
+    <span data-theme-label>Dark</span>
+    <span aria-hidden="true">Dark</span>
+    <span aria-hidden="true">Light</span>
+  </span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const button = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const label = document.querySelector<HTMLElement>('[data-theme-label]');
+
+  const current = () =>
+    root.dataset.theme ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+  function sync() {
+    const next = current() === 'dark' ? 'light' : 'dark';
+    if (label) label.textContent = next === 'dark' ? 'Dark' : 'Light';
+    button?.setAttribute('aria-label', `Switch to ${next} theme`);
+  }
+
+  button?.addEventListener('click', () => {
+    const next = current() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {}
+    sync();
+  });
+  sync();
+</script>

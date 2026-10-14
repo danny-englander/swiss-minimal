@@ -1,0 +1,45 @@
+---
+// Renders a list of menu items. Items with `children` become accordions
+// (native <details>, no JavaScript), and the list calls itself for nested levels.
+// Accordions on the same level close each other (the `name` attribute is supported
+// in current browsers; older ones just allow several open at once).
+import type { MenuItem } from './types';
+
+interface Props {
+  items: MenuItem[];
+  level?: number;
+  /** Accordions that share a group name behave as one exclusive set. */
+  group?: string;
+}
+const { items, level = 0, group = 'menu' } = Astro.props;
+const Self = Astro.self;
+---
+
+<ul class={level === 0 ? 'menu-list' : 'submenu'}>
+  {
+    items.map((item, i) => (
+      <li>
+        {item.children && item.children.length > 0 ? (
+          <details class="acc" name={group} open={item.open}>
+            <summary>
+              {item.label}
+              <span class="acc-icon" aria-hidden="true"><i></i><i></i></span>
+            </summary>
+            <div class="acc-body">
+              <Self items={item.children} level={level + 1} group={`${group}-${i}`} />
+            </div>
+          </details>
+        ) : (
+          <a
+            class={level === 0 ? 'menu-link' : undefined}
+            href={item.href}
+            aria-current={item.current ? 'page' : undefined}
+            data-panel-close={item.href?.startsWith('#') ? '' : undefined}
+          >
+            {item.label}
+          </a>
+        )}
+      </li>
+    ))
+  }
+</ul>
