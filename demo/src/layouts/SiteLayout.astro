@@ -3,7 +3,7 @@
 // a fixed bottom bar with a scrolling title, and the toast.
 import BaseLayout from '../design/kit/astro/BaseLayout.astro';
 import { menuFor } from '../data/menu';
-import '../styles/demo.css';
+import '../styles/global.css';
 
 interface Props {
   title: string;
@@ -19,24 +19,27 @@ const nowReading =
   description={description}
   menu={menuFor(Astro.url.pathname)}
   tagline="Swiss Minimal demo"
+  barHeight="5rem"
 >
-  <form slot="panel" id="contact" class="contact" data-contact-form>
-    <p class="label panel-label">Contact</p>
+  <form slot="panel" id="contact" class="mt-12 max-w-xl border-t-2 border-current pt-3" data-contact-form>
+    <p class="label mb-6 font-bold text-accent-bright">Contact</p>
     <label class="field-label" for="contact-name">Your name</label>
-    <input class="field" id="contact-name" name="name" autocomplete="name" placeholder="Jane Doe" required />
+    <input class="field mb-7" id="contact-name" name="name" autocomplete="name" placeholder="Jane Doe" required />
     <label class="field-label" for="contact-email">Email</label>
-    <input class="field" id="contact-email" name="email" type="email" autocomplete="email" placeholder="jane@example.com" required />
+    <input class="field mb-7" id="contact-email" name="email" type="email" autocomplete="email" placeholder="jane@example.com" required />
     <label class="field-label" for="contact-message">Message</label>
-    <textarea class="field" id="contact-message" name="message" rows="3"></textarea>
+    <textarea class="field mb-7 min-h-24 resize-y" id="contact-message" name="message" rows="3"></textarea>
     <button class="btn" type="submit">Send</button>
   </form>
 
   <slot />
 
-  <div class="bottombar">
-    <div class="page bottombar-inner">
-      <p class="label">Now</p>
-      <span class="marquee" title={nowReading} data-marquee><span>{nowReading}</span></span>
+  <div class="fixed inset-x-0 bottom-0 z-40 h-(--bar-h) bg-bar text-bar-ink">
+    <div class="page flex h-full items-center gap-4">
+      <p class="label flex-none font-bold text-accent-bright">Now</p>
+      <span class="marquee min-w-0 flex-1 text-lg font-medium" title={nowReading} data-marquee>
+        <span>{nowReading}</span>
+      </span>
     </div>
   </div>
 

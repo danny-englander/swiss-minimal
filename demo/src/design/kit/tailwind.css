@@ -1,0 +1,29 @@
+/* Swiss Minimal for Tailwind v4. Import this once, from your site's global stylesheet:
+
+     @import "../design/kit/tailwind.css";
+
+   It loads Tailwind, then theme.css into Tailwind's `components` layer, so a utility in
+   your markup (`pt-0`, `max-w-none`) always beats a kit class it sits beside. Then it maps
+   the tokens to utilities: bg-paper, text-ink, text-muted, border-rule, bg-bar, text-bar-ink,
+   text-accent-text, bg-row-hover and so on. Colors follow light and dark automatically,
+   because they point at the CSS variables rather than copying their values. */
+@import "tailwindcss";
+@import "./theme.css" layer(components);
+
+@theme inline {
+  --font-sans: "Overused Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-text: var(--accent-text);
+  --color-accent-bright: var(--accent-bright);
+  --color-bar: var(--bar);
+  --color-bar-ink: var(--bar-ink);
+  --color-row-hover: var(--row-hover-bg);
+  --color-row-active: var(--row-active-bg);
+  --color-row-fg: var(--row-fg);
+  --color-row-edge: var(--row-edge);
+}

@@ -1,5 +1,7 @@
 ---
 // One numbered list row (ListRow in COMPONENTS.md). The end slot takes an indicator or arrow.
+// Phones: number and end slot share the first line, the name stacks under them.
+// From 768px: one line on the section's grid (number, name, end slot).
 interface Props {
   num: number;
   title: string;
@@ -12,15 +14,22 @@ const { num, title, meta, href, active, category } = Astro.props;
 ---
 
 <li
-  class="row"
+  class="row grid grid-cols-[1fr_auto] gap-y-1 p-4 md:grid-cols-[3rem_1fr_1.75rem] md:items-baseline md:gap-x-2 md:px-0"
   data-active={active ? 'true' : undefined}
   aria-current={active ? 'true' : undefined}
   data-category={category}
 >
-  <span class="num small muted">{String(num).padStart(2, '0')}</span>
-  <span class="row-body">
-    {href ? <a class="title row-link" href={href}>{title}</a> : <span class="title">{title}</span>}
-    {meta && <span class="small muted">{meta}</span>}
+  <!-- md:pl-5 keeps the number clear of the active row's 6px edge -->
+  <span class="num small muted col-start-1 row-start-1 font-medium md:pl-5">{String(num).padStart(2, '0')}</span>
+  <span class="col-span-2 row-start-2 md:col-span-1 md:col-start-2 md:row-start-1">
+    {
+      href ? (
+        <a class="title block underline-offset-4 hover:underline" href={href}>{title}</a>
+      ) : (
+        <span class="title block">{title}</span>
+      )
+    }
+    {meta && <span class="small muted block">{meta}</span>}
   </span>
-  <span class="row-end"><slot /></span>
+  <span class="col-start-2 row-start-1 self-center md:col-start-3"><slot /></span>
 </li>

@@ -1,0 +1,4 @@
+/* The site's one stylesheet. Tailwind, the kit's components and the token utilities
+   (bg-paper, text-ink, border-rule, ...) all come from the kit's Tailwind entry.
+   Page layout is written as utilities in the markup; add site-only CSS below. */
+@import "../design/kit/tailwind.css";

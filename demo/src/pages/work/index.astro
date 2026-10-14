@@ -1,6 +1,7 @@
 ---
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import Row from '../../components/Row.astro';
+import Section from '../../components/Section.astro';
 import { categories, work } from '../../data/work';
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -14,11 +15,11 @@ const count = (id: string) => work.filter((w) => w.category === id).length;
 ---
 
 <SiteLayout title="Work" description="Selected work, filterable by category.">
-  <header class="work-head">
+  <header class="pt-12 pb-8">
     <h1 class="h2">All work</h1>
   </header>
 
-  <details class="page-acc">
+  <details class="page-acc mb-10">
     <summary>
       <span>
         <span class="page-acc-title">Filter by category</span>
@@ -43,23 +44,17 @@ const count = (id: string) => work.filter((w) => w.category === id).length;
 
   {
     sections.map((s) => (
-      <section class="section" data-filter-section aria-labelledby={`y${s.year}`}>
-        <div class="section-head">
-          <p class="num small muted">{s.range}</p>
-          <h2 class="h2" id={`y${s.year}`}>{s.year}</h2>
-        </div>
-        <ul class="rows">
-          {s.items.map((w) => (
-            <Row
-              num={w.num}
-              title={w.title}
-              meta={w.meta}
-              category={w.category}
-              href={w.slug ? `/work/${w.slug}` : undefined}
-            />
-          ))}
-        </ul>
-      </section>
+      <Section id={`y${s.year}`} title={String(s.year)} range={s.range} filterable>
+        {s.items.map((w) => (
+          <Row
+            num={w.num}
+            title={w.title}
+            meta={w.meta}
+            category={w.category}
+            href={w.slug ? `/work/${w.slug}` : undefined}
+          />
+        ))}
+      </Section>
     ))
   }
 </SiteLayout>
