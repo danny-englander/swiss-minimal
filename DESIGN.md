@@ -4,11 +4,12 @@ A Swiss / Bauhaus look for any site: type-led, flat color, thick rules, almost n
 
 ## What to load
 
-This folder is the standalone kit. Copy `kit/` and `fonts/` side by side into a project.
+This folder is the standalone kit, built for **Astro with Tailwind v4** (no React needed). Copy `kit/` and `fonts/` side by side into a project.
 
-- `kit/theme.css`: every token (light and dark), the base styles and every component class, in plain CSS. Dark mode follows the system unless `<html data-theme="light|dark">` is set.
+- `kit/tailwind.css`: the entry point for a Tailwind site. Imports Tailwind, loads `theme.css` into the `components` layer and maps the tokens to utilities. See "With Tailwind v4".
+- `kit/theme.css`: every token (light and dark), the base styles and every component class, in plain CSS. It also works on its own, without Tailwind. Dark mode follows the system unless `<html data-theme="light|dark">` is set.
 - `kit/panel.js`: the slide-down panel's behavior. Plain JavaScript, no dependencies.
-- `kit/astro/`: BaseLayout, Hero, MenuButton, MenuPanel, MenuItems, ThemeToggle and the `MenuItem` type. No React, no Tailwind.
+- `kit/astro/`: BaseLayout, Hero, MenuButton, MenuPanel, MenuItems, ThemeToggle and the `MenuItem` type. They use Tailwind utilities for layout and the kit classes for components.
 - `kit/example.html`: a one-page demo using only `theme.css`. Open it to see what "correct" looks like.
 - `fonts/OverusedGrotesk-VF.woff2` and `fonts/LICENSE.txt` (SIL OFL 1.1). Keep the license beside the font.
 - `tokens.json`: the token values as data. If a value in `theme.css` ever differs, `tokens.json` wins.
@@ -75,7 +76,7 @@ One family, `--font-sans` (Overused Grotesk, falling back to Helvetica Neue, Hel
 - Section header: 2px `ink` top rule, then the grid row (range label, `h2` title, blurb).
 - List rows: 1px `rule` bottom border, `space-4` vertical padding. The row number sits `space-4` in from the left (1.25rem from 768px) so it stays clear of the active row's 6px edge.
 - Mobile first. Rows stack on phones and become a column grid from 768px.
-- If the site has a fixed bottom bar, set `bar-h` to its height and reserve that space at the bottom of the page. Without one, set `--bar-h: 0rem`.
+- If the site has a fixed bottom bar, set `bar-h` to its height and reserve that space at the bottom of the page (`BaseLayout`'s `barHeight` prop does both). Without one, `--bar-h` is `0rem`.
 - Everything is square: `radius-none`. `radius-round` is for the spinner alone.
 
 ## Iconography
@@ -116,11 +117,34 @@ Photos, artwork, screenshots and product shots are welcome. The test is whether 
 
 ## Components
 
-Every component is a plain CSS class in `kit/theme.css`; there is no JavaScript bundle. In short: **Top bar** (`.topbar`), **Outlined button** (`.topbar-btn`, `.burger`), **Filled button** (`.btn`), **Slide-down panel** (`.panel`, with `kit/panel.js`), **Menu** (`.menu-list`, `.acc`, `.submenu`), **Field** (`.field`), **Filter buttons** (`.chip`), **Page accordion** (`.page-acc`), **List row** (`.row`), **Scrolling title** (`.marquee`), **Toast** (`.toast`), **Activity indicators** (`.eq`, `.spinner`), **Image** (`.media`, `.figure`), **Hero** (`.hero`, `.hero--split`, `.hero--wide`).
+Every component is a plain CSS class in `kit/theme.css` (loaded through `kit/tailwind.css`); there is no JavaScript bundle. In short: **Top bar** (`.topbar`), **Outlined button** (`.topbar-btn`, `.burger`), **Filled button** (`.btn`), **Slide-down panel** (`.panel`, with `kit/panel.js`), **Menu** (`.menu-list`, `.acc`, `.submenu`), **Field** (`.field`), **Filter buttons** (`.chip`), **Page accordion** (`.page-acc`), **List row** (`.row`), **Scrolling title** (`.marquee`), **Toast** (`.toast`), **Activity indicators** (`.eq`, `.spinner`), **Image** (`.media`, `.figure`), **Hero** (`.hero`, `.hero--split`, `.hero--wide`).
 
 ## With Tailwind v4
 
-Map the tokens after `@import "tailwindcss"` to get utilities like `bg-paper` and `text-ink`:
+This is the default setup, and how Dial Hopping is built.
+
+1. Install `tailwindcss` and `@tailwindcss/vite`, and add the plugin in `astro.config.mjs`:
+   ```js
+   import tailwindcss from '@tailwindcss/vite';
+   export default defineConfig({ vite: { plugins: [tailwindcss()] } });
+   ```
+2. Make one global stylesheet, e.g. `src/styles/global.css`, and import it in your layout:
+   ```css
+   @import "../design/kit/tailwind.css";
+   /* site-only CSS below */
+   ```
+   Don't also `@import "tailwindcss"` or `theme.css` anywhere else; `tailwind.css` does both.
+3. Pass `barHeight="5rem"` to `BaseLayout` if the site has a fixed bottom bar.
+
+**Who does what.** Components with state, motion or several parts are kit classes (`.row`, `.chip`, `.panel`, `.toast`, `.hero`, `.media`, the type styles). Page layout is utilities in the markup: grids, spacing, widths, which column a piece sits in. Mix them freely: `class="row grid gap-y-1 md:grid-cols-[3rem_1fr_1.75rem]"`.
+
+**Layers.** `theme.css` sits in Tailwind's `components` layer, so a utility always beats a kit class it is paired with (`class="field mb-7"` sets the margin). Your own unlayered CSS beats both.
+
+**Token utilities.** Use these instead of raw colors, so light and dark both work: `bg-paper`, `text-ink`, `text-muted`, `border-rule`, `bg-bar`, `text-bar-ink`, `bg-accent` (large shapes only), `text-accent-text` (small red text on the page), `text-accent-bright` (small red text on `bar`), `bg-row-hover`, `bg-row-active`, `text-row-fg`, and `var(--bar-h)` as `h-(--bar-h)` / `pb-(--bar-h)`. Never `text-red-600`, `bg-black` or Tailwind's grey scale.
+
+**Defaults that line up.** Tailwind's `sm` (640px) and `md` (768px) breakpoints are the kit's. Preflight clears margins on `p`, `h1`–`h6` and lists, so set spacing with utilities (`mb-5`, `[&>p]:mb-5` on a block of prose). Tailwind v4 drops the hand cursor on buttons; `theme.css` puts it back.
+
+`kit/tailwind.css` maps the tokens like this:
 
 ```css
 @theme inline {
@@ -138,6 +162,7 @@ Map the tokens after `@import "tailwindcss"` to get utilities like `bg-paper` an
   --color-row-hover: var(--row-hover-bg);
   --color-row-active: var(--row-active-bg);
   --color-row-fg: var(--row-fg);
+  --color-row-edge: var(--row-edge);
 }
 ```
 

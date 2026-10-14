@@ -1,6 +1,6 @@
 # Swiss Minimal components
 
-Markup and rules for each component. All classes live in `kit/theme.css`.
+Markup and rules for each component. All classes live in `kit/theme.css`, which a Tailwind site loads through `kit/tailwind.css`. Add Tailwind utilities beside a kit class for layout and spacing (`class="field mb-7"`); the utility wins.
 
 ## TopBar
 
@@ -55,7 +55,7 @@ Load `kit/panel.js` (plain JavaScript, no dependencies). It:
 - closes on the burger, Escape, a click on any `[data-panel-close]` link, or `document.dispatchEvent(new Event('menu:close'))`;
 - with `<html data-panel-hash="menu">`, shows `#menu` in the URL while open so Back closes it and a shared link opens it.
 
-The panel sits at z-index 30, under the top bar (50). Its bottom stops at `bar-h`; with no bottom bar set `--bar-h: 0rem`. Reduced motion turns the slide off. Small labels inside it are bold `accent-bright`.
+The panel sits at z-index 30, under the top bar (50). Its bottom stops at `bar-h` (set by `BaseLayout`'s `barHeight`, `0rem` by default). Reduced motion turns the slide off. Small labels inside it are bold `accent-bright`.
 
 ## Menu
 

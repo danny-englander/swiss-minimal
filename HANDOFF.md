@@ -20,23 +20,25 @@ Swiss-minimal/
   tokens.json       token values as data (the source of truth)
   fonts/            Overused Grotesk variable font + LICENSE.txt (keep together)
   kit/
+    tailwind.css    Tailwind v4 entry: Tailwind + theme.css (components layer) + token utilities
     theme.css       tokens + components, plain CSS, font url is ../fonts/
     panel.js        slide-down panel behavior, vanilla JS
-    example.html    one-page demo
-    astro/          BaseLayout, MenuButton, MenuPanel, MenuItems, ThemeToggle, types.ts
+    example.html    one-page demo (theme.css only, no Tailwind)
+    astro/          BaseLayout, Hero, MenuButton, MenuPanel, MenuItems, ThemeToggle, types.ts
   demo/             (you create this: the Astro site)
 ```
 
 ## Setup
 
-1. Create a new Astro project in a `demo/` subfolder of this folder, with the minimal/empty template and TypeScript strict. Use the current stable Astro. No React, no Tailwind, no other integrations.
+1. Create a new Astro project in a `demo/` subfolder of this folder, with the minimal/empty template and TypeScript strict. Use the current stable Astro (it needs Node 22.12 or later). Add Tailwind v4 (`tailwindcss` and `@tailwindcss/vite`, plugin in `astro.config.mjs`). No React and no other integrations.
 2. Copy `kit/` and `fonts/` into `demo/src/design/` so the paths stay relative:
    ```
    src/design/kit/...
    src/design/fonts/...
    ```
-   `kit/theme.css` loads `../fonts/OverusedGrotesk-VF.woff2`, `kit/astro/BaseLayout.astro` imports `../theme.css`, and `kit/astro/MenuPanel.astro` imports `../panel.js`. Keep that structure and these imports just work.
-3. Do not edit the files in `src/design/` unless something is broken. If you must change one, tell Danny what and why, because the same change belongs back in the design system.
+   `kit/theme.css` loads `../fonts/OverusedGrotesk-VF.woff2`, `kit/astro/BaseLayout.astro` preloads `../../fonts/…`, and `kit/astro/MenuPanel.astro` imports `../panel.js`. Keep that structure and these imports just work.
+3. Create `src/styles/global.css` with `@import "../design/kit/tailwind.css";` and import it in the site's layout. Write page layout as Tailwind utilities, and use the kit classes for components (see "With Tailwind v4" in `DESIGN.md`).
+4. Do not edit the files in `src/design/` unless something is broken. If you must change one, tell Danny what and why, because the same change belongs back in the design system.
 
 ## Pages to build
 
@@ -63,7 +65,7 @@ Define the menu once (e.g. `src/data/menu.ts`) as a `MenuItem[]` and pass it to 
 4. **About (`/about`)**: `lead` paragraph and body copy, so the type scale can be checked on running text.
 5. **Contact (in the panel)**: put a form in `BaseLayout`'s `panel` slot with `id="contact"`: underline fields (`.field-label`, `.field`) for name, email and message, and a `.btn` "Send". On submit (no backend; just `preventDefault`), close the panel with `document.dispatchEvent(new Event('menu:close'))` and show a `.toast` ("Message sent. Thank you.") for about 4 seconds.
 
-Add a **fixed bottom bar** on every page (a dark `--bar` strip, `--bar-h: 5rem`) holding a long title in a `.marquee`, so the scrolling title can be tested and the panel and toast can be seen stopping above the bar. That means removing the `--bar-h: 0rem` rule at the bottom of `BaseLayout.astro` (or overriding it in the demo's own CSS) and reserving `5rem` of padding at the bottom of the page. Use the `scrollTitle()` function from `COMPONENTS.md` (Marquee). It runs three rounds then stops, and not at all with Reduce Motion.
+Add a **fixed bottom bar** on every page (a dark `--bar` strip, `--bar-h: 5rem`) holding a long title in a `.marquee`, so the scrolling title can be tested and the panel and toast can be seen stopping above the bar. Pass `barHeight="5rem"` to `BaseLayout`; it sets `--bar-h` and reserves the space at the bottom of the page. Use the `scrollTitle()` function from `COMPONENTS.md` (Marquee). It runs three rounds then stops, and not at all with Reduce Motion.
 
 ## Rules that matter most
 
