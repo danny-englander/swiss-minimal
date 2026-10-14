@@ -3,6 +3,8 @@
    Read DESIGN.md for the rules that sit on top of these tokens.
 
    Use it:  <link rel="stylesheet" href="theme.css">
+   With Tailwind v4, import tailwind.css instead: it loads this file into the components layer
+   and maps the tokens to utilities.
    Dark mode follows the system. Force one with <html data-theme="light|dark">.
    The font lives in ../fonts (SIL OFL 1.1, keep LICENSE.txt beside it).
 
@@ -151,7 +153,7 @@ button:disabled { cursor: not-allowed; }
 .row:hover { background: var(--row-hover-bg); color: var(--row-fg); }
 .row[data-active="true"] { background: var(--row-active-bg); color: var(--row-fg); box-shadow: inset 6px 0 0 var(--row-edge); }
 .row:hover .muted, .row[data-active="true"] .muted { color: var(--row-fg); }
-a.link { text-decoration: underline; text-underline-offset: 4px; }
+a.link { color: inherit; text-decoration: underline; text-underline-offset: 4px; }
 a.link:hover { color: var(--accent-text); }
 
 /* ---------- Top bar and buttons ---------- */

@@ -1,8 +1,9 @@
 ---
-// A starting layout for an Astro-only site in this style. Copy it, then edit.
-// Needs the whole design/ folder next to it (theme.css, panel.js, fonts/, astro/).
-// No React and no Tailwind required.
-import '../theme.css';
+// A starting layout for an Astro site in this style, built on Tailwind v4. Copy it, then edit.
+// Needs the whole kit/ folder next to it (tailwind.css, theme.css, panel.js, astro/) and
+// fonts/ beside kit/. It does not import any CSS itself: import your site's global
+// stylesheet (which starts with `@import "<path>/kit/tailwind.css";`) in your own layout.
+import font from '../../fonts/OverusedGrotesk-VF.woff2?url';
 import MenuButton from './MenuButton.astro';
 import MenuPanel from './MenuPanel.astro';
 import ThemeToggle from './ThemeToggle.astro';
@@ -15,12 +16,14 @@ interface Props {
   menu?: MenuItem[];
   /** Small text at the left of the top bar. */
   tagline?: string;
+  /** Height of a fixed bottom bar, if the site has one (e.g. "5rem"). The panel and toast stop above it. */
+  barHeight?: string;
 }
-const { title, description, menu = [], tagline = '' } = Astro.props;
+const { title, description, menu = [], tagline = '', barHeight = '0rem' } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" style={`--bar-h: ${barHeight}`}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -28,6 +31,7 @@ const { title, description, menu = [], tagline = '' } = Astro.props;
     {description && <meta name="description" content={description} />}
     <meta name="theme-color" content="#f3f0e9" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0c0c0c" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" href={font} as="font" type="font/woff2" crossorigin />
     <script is:inline>
       // Apply a saved theme before first paint so there is no flash.
       try {
@@ -39,11 +43,9 @@ const { title, description, menu = [], tagline = '' } = Astro.props;
   <body>
     <div class="topbar">
       <div class="page">
-        <div
-          style="display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid currentColor;padding:0.75rem 0"
-        >
-          <p class="small" style="margin:0;font-weight:500">{tagline}</p>
-          <div style="display:flex;align-items:center;gap:0.5rem">
+        <div class="flex items-center justify-between border-b-2 border-current py-3">
+          <p class="text-sm font-medium">{tagline}</p>
+          <div class="flex items-center gap-2">
             {menu.length > 0 && <MenuButton />}
             <ThemeToggle />
           </div>
@@ -59,16 +61,12 @@ const { title, description, menu = [], tagline = '' } = Astro.props;
       )
     }
 
-    <!-- Everything else goes in here: it becomes inert while the panel is open. -->
-    <div data-panel-page>
+    <!-- Everything else goes in here: it becomes inert while the panel is open.
+         The bottom padding keeps the end of the page clear of a fixed bottom bar. -->
+    <div data-panel-page class="pb-(--bar-h)">
       <div class="page">
         <slot />
       </div>
     </div>
   </body>
 </html>
-
-<style is:global>
-  /* No fixed bottom bar on this layout, so the panel runs to the bottom of the screen. */
-  html:root { --bar-h: 0rem; }
-</style>
