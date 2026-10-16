@@ -310,6 +310,7 @@ A row of icon-only links and buttons under a list item (share, search elsewhere,
 - **Rows built in the browser** can't call `astro-icon` (it runs at build time). Render each icon once with `<IconTemplates icons={{ copy: 'material-symbols:content-copy-outline', … }} />`, then `iconControl('button', 'copy', 'Copy link: Work')` from `kit/icon-controls.js` clones it into a ready button with its name and hover label.
 - **Remove moves focus.** The row disappears with focus on its button, so call `focusAfterRemoval(list, item, '.icon-btn--remove', heading)` before removing it and the returned function after: focus lands on the remove button now in that place, or the heading once the list is empty. Confirm with a toast ("Page removed.").
 - Copy confirms with a toast, and says so if the clipboard is refused.
+- **Scroll containers.** The icon row and the remove button reach 0.5rem past each side of the row, so a scrolling list that holds them must reach out to match, or it ends up 8px wider than its scroll area and scrolls sideways on a phone. Give the container `margin-inline: -0.5rem; padding-inline: 0.5rem; overflow-x: hidden;` beside its `overflow-y: auto` (`.drawer-list` already has it). The demo's `tests/drawer.spec.ts` checks it at 375px.
 
 **Don't.** Add an icon beside a text label that already says the same thing, use icons for decoration, or let a row hold more than four.
 

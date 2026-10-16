@@ -373,7 +373,14 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 .drawer-heading { color: var(--accent-bright); font-weight: 700; }
 .drawer-heading:focus { outline: none; }  /* focused by script on open, not by the user */
 .drawer-list-wrap { position: relative; display: flex; flex-direction: column; min-height: 0; margin-top: 1rem; }
-.drawer-list { min-height: 0; margin: 0; padding: 0; list-style: none; overflow-y: auto; overscroll-behavior: contain; }
+/* Icon rows reach 0.5rem past each side (.icon-row, .icon-btn--remove), which would make the
+   list wider than its scroll area and let it scroll sideways on a phone. So the list reaches
+   0.5rem out on both sides, pads back in, and never scrolls sideways. Any scroll container
+   holding icon rows needs the same. */
+.drawer-list {
+  min-height: 0; margin: 0 -0.5rem; padding: 0 0.5rem; list-style: none;
+  overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+}
 .drawer-item {
   display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
   padding: 1rem 0;

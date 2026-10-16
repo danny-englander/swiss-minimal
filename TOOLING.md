@@ -94,6 +94,7 @@ axe finds missing names, bad contrast and broken ARIA. It can't tell whether thi
 - **Jump to current:** scroll the current row away and the button appears; filter it out and the button clears the filter and focuses the row.
 - **Favorites:** a star tap doesn't trigger the row; the Favorites filter shows only starred items; it survives a reload.
 - **"New" dot:** none on a first visit; shown for a returning one; gone after the tab is opened.
+- **No sideways scroll:** at a 375px viewport, a scrolling list of icon rows has `scrollWidth <= clientWidth` (the demo's `tests/drawer.spec.ts`).
 
 Write them with Playwright's role locators (`page.getByRole('tab', { name: /Contact/ })`), so a test also proves the accessible name is right.
 
