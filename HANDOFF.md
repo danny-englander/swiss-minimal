@@ -98,6 +98,7 @@ Test in a real browser at about 390px and 1280px wide, in both light and dark.
 - [ ] Jump: scroll the current item away (or filter it out) and the triangle in the bottom bar brings it back and focuses it.
 - [ ] Accordions: only one open per level; nested level works; plus becomes minus.
 - [ ] Current page is underlined in red in the menu.
+- [ ] With `accent="teal"` on BaseLayout, every red mark turns teal in light and dark, and nothing else changes.
 - [ ] Theme toggle switches and remembers; reloading in dark shows no flash of light.
 - [ ] Filters: hide/show, keep numbers, status line updates, URL updates and is read on load, live region announces.
 - [ ] Contact form: submit closes the panel and shows the toast above the bottom bar.

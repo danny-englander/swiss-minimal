@@ -1,6 +1,6 @@
 # Swiss Minimal
 
-A Swiss / Bauhaus look for any site: type-led, flat color, thick rules, almost no decoration. One typeface, a cream page, black ink, and a single brand red used sparingly. It works for a portfolio, a blog, a directory, a nonprofit or a product site; nothing in it assumes a subject.
+A Swiss / Bauhaus look for any site: type-led, flat color, thick rules, almost no decoration. One typeface, a cream page, black ink, and a single accent, red or teal, used sparingly. It works for a portfolio, a blog, a directory, a nonprofit or a product site; nothing in it assumes a subject.
 
 ## What to load
 
@@ -43,12 +43,13 @@ Put this in `<head>` before first paint so a saved theme does not flash:
 Light is the default. Dark keeps the same roles.
 
 - Page: `paper` ground, `ink` text and thick rules, `muted` for secondary text, `rule` for thin dividers.
-- **Red has three tokens, by size and ground.** `accent` is for large shapes and the focus ring only. Small red text on `paper` uses `accent-text`; small red text on a dark surface uses `accent-bright`. Never set small text in plain `accent` (3.9:1 on light `paper`).
+- **One accent per site: red or teal.** Red is the default. A teal site sets `<html data-accent="teal">` (in Astro, `<BaseLayout accent="teal">`). Only the four accent tokens change; paper, ink and the dark bars stay the same, and every rule below holds for either. A site never mixes the two, and visitors don't switch between them.
+- **The accent has three tokens, by size and ground.** `accent` is for large shapes and the focus ring only. Small accent text on `paper` uses `accent-text`; small accent text on a dark surface uses `accent-bright`. Never set small text in plain `accent` (3.9:1 red, 3.5:1 teal on light `paper`).
 - The filled button is `accent-text` with `accent-ink` text.
 - **Dark surfaces stay dark in both themes.** The panel, the drawer, the top bar while either is open, a bottom bar and the toast are `bar` with `bar-ink` text. These black blocks are what make the light page feel Swiss.
 - Small labels on `bar` (a definition term, an accordion heading) are bold `accent-bright`, never faded white.
-- List rows fill on hover and when active: `row-hover-bg` / `row-active-bg` with every piece of text (muted too) in `row-fg`. The active row also gets a 6px `row-edge` on its left (red in dark).
-- Never add a color. A new state reuses these roles.
+- List rows fill on hover and when active: `row-hover-bg` / `row-active-bg` with every piece of text (muted too) in `row-fg`. The active row also gets a 6px `row-edge` on its left (the accent, in dark).
+- Never add a color. A new state reuses these roles. A new accent must pass every contrast check red and teal pass (see `tokens.json`), and needs a dark version too.
 
 ## Type
 
@@ -155,7 +156,7 @@ This is the default setup, and how Dial Hopping is built.
 
 **Layers.** `theme.css` sits in Tailwind's `components` layer, so a utility always beats a kit class it is paired with (`class="field mb-7"` sets the margin). Your own unlayered CSS beats both.
 
-**Token utilities.** Use these instead of raw colors, so light and dark both work: `bg-paper`, `text-ink`, `text-muted`, `border-rule`, `bg-bar`, `text-bar-ink`, `bg-accent` (large shapes only), `text-accent-text` (small red text on the page), `text-accent-bright` (small red text on `bar`), `bg-row-hover`, `bg-row-active`, `text-row-fg`, and `var(--bar-h)` as `h-(--bar-h)` / `pb-(--bar-h)`. Never `text-red-600`, `bg-black` or Tailwind's grey scale.
+**Token utilities.** Use these instead of raw colors, so light and dark both work: `bg-paper`, `text-ink`, `text-muted`, `border-rule`, `bg-bar`, `text-bar-ink`, `bg-accent` (large shapes only), `text-accent-text` (small accent text on the page), `text-accent-bright` (small accent text on `bar`), `bg-row-hover`, `bg-row-active`, `text-row-fg`, and `var(--bar-h)` as `h-(--bar-h)` / `pb-(--bar-h)`. Never `text-red-600`, `bg-black` or Tailwind's grey scale.
 
 **Defaults that line up.** Tailwind's `sm` (640px) and `md` (768px) breakpoints are the kit's. Preflight clears margins on `p`, `h1`–`h6` and lists, so set spacing with utilities (`mb-5`, `[&>p]:mb-5` on a block of prose). Tailwind v4 drops the hand cursor on buttons; `theme.css` puts it back.
 
