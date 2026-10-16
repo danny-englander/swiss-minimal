@@ -2,3 +2,37 @@
    (bg-paper, text-ink, border-rule, ...) all come from the kit's Tailwind entry.
    Page layout is written as utilities in the markup; add site-only CSS below. */
 @import "../design/kit/tailwind.css";
+
+/* Demo only: the gear on the right edge for previewing accents (AccentSwitcher.astro).
+   Built from the kit's dark-surface roles; under the panel and drawer, under the bottom bar. */
+.accent-switcher {
+  position: fixed; right: 0; top: 50%; z-index: 20;
+  display: flex; flex-direction: row-reverse; align-items: flex-start;
+  transform: translateY(-50%);
+}
+.accent-switcher-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.75rem; height: 2.75rem;
+  border: 0; padding: 0;
+  background: var(--bar); color: var(--bar-ink);
+  transition: color 150ms;
+}
+.accent-switcher-btn:hover { color: var(--accent-bright); }
+.accent-switcher-gear { width: 1.5rem; height: 1.5rem; }
+.accent-switcher-panel {
+  width: 15rem; padding: 1rem 1.25rem 1.25rem;
+  background: var(--bar); color: var(--bar-ink);
+}
+.accent-option {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  min-height: 2.75rem; padding: 0.6rem 1rem;
+  border: 1px solid currentColor; background: transparent; color: inherit;
+  font: inherit; font-size: 1rem; font-weight: 500; line-height: 1.2;
+  transition: background-color 150ms, color 150ms;
+}
+.accent-option:hover, .accent-option[aria-pressed="true"] { background: var(--bar-ink); color: var(--bar); }
+/* Each swatch shows its own accent, whatever the page's accent is, so these two are the
+   accents' fixed values from tokens.json rather than the live --accent token. */
+.accent-swatch { width: 0.875rem; height: 0.875rem; flex: none; }
+.accent-swatch--red { background: #e5301b; }
+.accent-swatch--teal { background: #0f8f8c; }

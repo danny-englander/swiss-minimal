@@ -6,6 +6,7 @@ import BaseLayout from '../design/kit/astro/BaseLayout.astro';
 import DrawerButton from '../design/kit/astro/DrawerButton.astro';
 import FeaturesList from '../design/kit/astro/FeaturesList.astro';
 import RecentDrawer from '../components/RecentDrawer.astro';
+import AccentSwitcher from '../components/AccentSwitcher.astro';
 import { menuFor } from '../data/menu';
 import { features, latestFeatureDate } from '../data/features';
 import '../styles/global.css';
@@ -39,6 +40,14 @@ const tabs = [
   tagline="Swiss Minimal demo"
   barHeight="5rem"
 >
+  <script is:inline slot="head">
+    // Demo only: apply the accent picked in the gear switcher before first paint.
+    try {
+      const accent = localStorage.getItem('swiss-demo:accent');
+      if (accent === 'teal') document.documentElement.dataset.accent = accent;
+    } catch {}
+  </script>
+
   <DrawerButton slot="topbar" label="Recent pages">Recent</DrawerButton>
 
   <form slot="contact" class="max-w-xl border-t-2 border-current pt-3" data-contact-form>
@@ -61,6 +70,8 @@ const tabs = [
   <RecentDrawer slot="overlays" />
 
   <slot />
+
+  <AccentSwitcher />
 
   <div class="fixed inset-x-0 bottom-0 z-40 h-(--bar-h) bg-bar text-bar-ink" data-jump-bar data-drawer-keep>
     <div class="page flex h-full items-center gap-4">

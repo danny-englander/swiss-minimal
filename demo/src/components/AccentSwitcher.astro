@@ -1,0 +1,92 @@
+---
+// Demo only: a gear on the right edge that opens a small panel for previewing the kit's
+// accents. A real site picks one accent in BaseLayout (accent="teal") and has no switcher.
+// The choice is remembered on this device; the inline "head" script in SiteLayout applies it
+// before first paint, so a reload doesn't flash the other color.
+import { Icon } from 'astro-icon/components';
+
+const accents = [
+  { id: 'red', label: 'Red' },
+  { id: 'teal', label: 'Teal' },
+];
+---
+
+<div class="accent-switcher" data-accent-switcher>
+  <button
+    type="button"
+    class="accent-switcher-btn"
+    aria-expanded="false"
+    aria-controls="accent-switcher-panel"
+    aria-label="Change accent color"
+    title="Change accent color"
+    data-accent-toggle
+  >
+    <Icon name="material-symbols:settings-outline" class="icon accent-switcher-gear" aria-hidden="true" />
+  </button>
+  <div id="accent-switcher-panel" class="accent-switcher-panel" hidden>
+    <p class="label font-bold text-accent-bright" id="accent-switcher-label">Accent</p>
+    <div class="mt-3 flex gap-2" role="group" aria-labelledby="accent-switcher-label">
+      {
+        accents.map((a) => (
+          <button type="button" class="accent-option" data-accent-option={a.id} aria-pressed={a.id === 'red' ? 'true' : 'false'}>
+            <span class={`accent-swatch accent-swatch--${a.id}`} aria-hidden="true"></span>
+            {a.label}
+          </button>
+        ))
+      }
+    </div>
+    <p class="closing-note mt-4">Demo only. A real site picks one accent.</p>
+  </div>
+</div>
+
+<script>
+  const KEY = 'swiss-demo:accent';
+  const root = document.documentElement;
+  const wrap = document.querySelector<HTMLElement>('[data-accent-switcher]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-accent-toggle]');
+  const panel = document.querySelector<HTMLElement>('#accent-switcher-panel');
+  const options = [...document.querySelectorAll<HTMLButtonElement>('[data-accent-option]')];
+
+  function current() {
+    return root.dataset.accent ?? 'red';
+  }
+
+  function sync() {
+    for (const o of options) o.setAttribute('aria-pressed', String(o.dataset.accentOption === current()));
+  }
+
+  function setOpen(open: boolean, returnFocus = true) {
+    if (!toggle || !panel) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    panel.hidden = !open;
+    if (open) options.find((o) => o.getAttribute('aria-pressed') === 'true')?.focus();
+    else if (returnFocus) toggle.focus();
+  }
+
+  toggle?.addEventListener('click', () => setOpen(panel?.hidden ?? false));
+
+  for (const o of options) {
+    o.addEventListener('click', () => {
+      const id = o.dataset.accentOption ?? 'red';
+      // Red is the default, so it is the absence of the attribute.
+      if (id === 'red') delete root.dataset.accent;
+      else root.dataset.accent = id;
+      try {
+        localStorage.setItem(KEY, id);
+      } catch {}
+      sync();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panel && !panel.hidden) setOpen(false);
+  });
+  // A click anywhere else closes it, and still does what it was aimed at.
+  document.addEventListener('pointerdown', (e) => {
+    if (panel && !panel.hidden && !wrap?.contains(e.target as Node)) setOpen(false, false);
+  });
+  // The menu takes over the page; close this first.
+  document.addEventListener('panel:tab', () => setOpen(false, false));
+
+  sync();
+</script>

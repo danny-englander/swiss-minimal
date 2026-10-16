@@ -2,7 +2,7 @@
 
 A Swiss / Bauhaus design kit for Astro and Tailwind v4: type-led, flat color, thick rules, one typeface.
 
-Each site picks one accent: red (the default) or teal, with `<BaseLayout accent="teal">` or `<html data-accent="teal">`. See Color in [`DESIGN.md`](DESIGN.md).
+Each site picks one accent: red (the default) or teal, with `<BaseLayout accent="teal">` or `<html data-accent="teal">`. See Color in [`DESIGN.md`](DESIGN.md). In the demo, the gear on the right edge previews both.
 
 - [`DESIGN.md`](DESIGN.md): the rules (color, type, layout, images, motion, accessibility, Tailwind setup).
 - [`COMPONENTS.md`](COMPONENTS.md): markup and rules for each component.

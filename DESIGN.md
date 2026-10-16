@@ -43,7 +43,7 @@ Put this in `<head>` before first paint so a saved theme does not flash:
 Light is the default. Dark keeps the same roles.
 
 - Page: `paper` ground, `ink` text and thick rules, `muted` for secondary text, `rule` for thin dividers.
-- **One accent per site: red or teal.** Red is the default. A teal site sets `<html data-accent="teal">` (in Astro, `<BaseLayout accent="teal">`). Only the four accent tokens change; paper, ink and the dark bars stay the same, and every rule below holds for either. A site never mixes the two, and visitors don't switch between them.
+- **One accent per site: red or teal.** Red is the default. A teal site sets `<html data-accent="teal">` (in Astro, `<BaseLayout accent="teal">`). Only the four accent tokens change; paper, ink and the dark bars stay the same, and every rule below holds for either. A site never mixes the two, and visitors don't switch between them. (The demo has a gear on its right edge for previewing both; that switcher is demo-only, not a kit component.)
 - **The accent has three tokens, by size and ground.** `accent` is for large shapes and the focus ring only. Small accent text on `paper` uses `accent-text`; small accent text on a dark surface uses `accent-bright`. Never set small text in plain `accent` (3.9:1 red, 3.5:1 teal on light `paper`).
 - The filled button is `accent-text` with `accent-ink` text.
 - **Dark surfaces stay dark in both themes.** The panel, the drawer, the top bar while either is open, a bottom bar and the toast are `bar` with `bar-ink` text. These black blocks are what make the light page feel Swiss.
