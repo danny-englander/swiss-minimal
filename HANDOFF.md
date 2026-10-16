@@ -75,7 +75,7 @@ Add a **fixed bottom bar** on every page (a dark `--bar` strip, `--bar-h: 5rem`)
 ## Rules that matter most
 
 - One typeface, weights 400, 500, 700 only. Nothing under 14px.
-- No shadows, gradients (except the marquee edge fade), rounded corners, input boxes, icon libraries or decorative images.
+- No shadows, gradients (except the marquee edge fade), rounded corners, input boxes or decorative images. Icons only as DESIGN.md's Iconography allows: brand marks and a few action icons, one color.
 - Brand red: `--accent` for large shapes and the focus ring only. Small red text uses `--accent-text` on the page and `--accent-bright` on dark surfaces.
 - All caps only for one or two words.
 - Focus rings visible everywhere; hand cursor on everything clickable.

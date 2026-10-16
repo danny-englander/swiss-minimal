@@ -81,9 +81,20 @@ One family, `--font-sans` (Overused Grotesk, falling back to Helvetica Neue, Hel
 
 ## Iconography
 
-- No icon library and no icon font. The plus/minus is two CSS bars (`.acc-icon`), the menu button is three CSS bars (`.burger`).
-- Use real glyphs from the font where they exist: an external link is "Site ↗" with the font's own arrow at 1.3em of the label size.
-- Keep icon strokes the same weight as the text beside them (2px).
+- **Type and CSS come first.** Draw UI chrome in CSS: the plus/minus is two bars (`.acc-icon`), the menu button is three bars (`.burger`). Use the font's own glyphs where they exist: "Site ↗" (the arrow at 1.3em of the label size), the ▲ / ▼ of a jump button.
+- **An icon set is allowed for two things only:**
+  1. Third-party brand marks (YouTube, Spotify, Apple Music) where the mark is the clearest label. Use Simple Icons.
+  2. A few action icons with no good glyph, such as copy and remove. Use Material Symbols, outline style.
+
+  Load them with `astro-icon`, so each one is inlined as SVG at build time. No icon font, no icon CDN.
+- **One color, always:** `currentColor`. That is `bar-ink` on dark surfaces and `ink` on the page. On hover it turns `accent-bright` (on `bar`) or `accent-text` (on `paper`). Never a brand's own colors, not even on its logo.
+- **Sized to the text:** 1.25rem beside body text, 1.5rem for a lone row action. Outline icons, with strokes close to the text's 2px. Don't mix filled and outline icons in one row.
+- **Hit area at least 36px square** (2.25rem), even when the icon is smaller.
+- **Every icon-only control** gets a verb-first `aria-label` naming the action and its object ("Search on Spotify: *title* (opens in a new tab)", "Remove: *title*") and a `title` tooltip with the short form ("Search on Spotify"). The icon itself is `aria-hidden="true"`.
+- **No icons for decoration**, none beside a text label that already says it, and no trash can: remove is a circled X.
+- One custom mark (a star, a music note) may be a hand-drawn inline SVG under the same rules.
+
+See IconActions in `COMPONENTS.md` for the markup.
 
 ## Images
 
@@ -179,7 +190,7 @@ This is the default setup, and how Dial Hopping is built.
 - Use all caps for more than a couple of words.
 - Let text keep moving forever, or move at all with Reduce Motion on.
 - Hide focus rings or drop the hand cursor.
-- Pull in an icon font or icon set.
+- Use an icon font, a brand's colors, or icons beyond brand marks and a few actions.
 
 ## License
 
