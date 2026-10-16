@@ -7,7 +7,7 @@ This is a test bed, not a real product. Keep the content neutral and short.
 ## Read first
 
 1. `DESIGN.md`: the brand book (principles, colors, type, layout, motion, accessibility, the "Do not" list). Follow it exactly.
-2. `COMPONENTS.md`: markup and rules for each of the 22 components.
+2. `COMPONENTS.md`: markup and rules for each of the 23 components.
 3. `kit/example.html`: open it in a browser. This is what "correct" looks like.
 
 ## What's in this folder
@@ -27,9 +27,10 @@ Swiss-minimal/
     drawer.js       the second, non-modal slide-down panel
     jump.js         jump to the current item from a bottom bar
     favorites.js    favorite stars, saved on the device
+    icon-controls.js  icon-only buttons for rows built in the browser
     example.html    one-page demo (theme.css only, no Tailwind)
     astro/          BaseLayout, Hero, MenuButton, MenuPanel, MenuItems, ThemeToggle,
-                    Drawer, DrawerButton, FavoriteButton, FeaturesList, types.ts
+                    Drawer, DrawerButton, FavoriteButton, FeaturesList, IconTemplates, types.ts
   demo/             (you create this: the Astro site)
 ```
 
@@ -92,6 +93,7 @@ Test in a real browser at about 390px and 1280px wide, in both light and dark.
 - [ ] "New" dot: none on a first visit; shows for a returning visitor; opening the Features tab clears it.
 - [ ] Hover labels show under the top-bar buttons after a pause (not on a phone); the last one stays on screen.
 - [ ] Drawer: page stays clickable but doesn't scroll; a click outside closes it and still works; the menu and drawer close each other; the round arrow shows while the list overflows.
+- [ ] Icon actions: icons are one color and turn red on hover; each says what it does (hover label and screen reader); removing a row moves focus to the next row's remove button.
 - [ ] Favorites: the star never opens its row; the Favorites filter shows only starred items.
 - [ ] Jump: scroll the current item away (or filter it out) and the triangle in the bottom bar brings it back and focuses it.
 - [ ] Accordions: only one open per level; nested level works; plus becomes minus.

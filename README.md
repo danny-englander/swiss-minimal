@@ -5,7 +5,7 @@ A Swiss / Bauhaus design kit for Astro and Tailwind v4: type-led, flat color, th
 - [`DESIGN.md`](DESIGN.md): the rules (color, type, layout, images, motion, accessibility, Tailwind setup).
 - [`COMPONENTS.md`](COMPONENTS.md): markup and rules for each component.
 - [`TOOLING.md`](TOOLING.md): recipes for accessibility tests (Playwright and axe) and date-tagged releases.
-- [`kit/`](kit): `tailwind.css`, `theme.css`, small plain scripts (`panel.js`, `new-dot.js`, `drawer.js`, `jump.js`, `favorites.js`) and the Astro components.
+- [`kit/`](kit): `tailwind.css`, `theme.css`, small plain scripts (`panel.js`, `new-dot.js`, `drawer.js`, `jump.js`, `favorites.js`, `icon-controls.js`) and the Astro components.
 - [`fonts/`](fonts): Overused Grotesk (SIL OFL 1.1).
 - [`demo/`](demo): a small Astro site that uses every component.
 

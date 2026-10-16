@@ -283,6 +283,36 @@ Load `kit/drawer.js`. In Astro, `<DrawerButton slot="topbar" label="Recent pages
 
 **Do.** Give it a short label heading and a closing note saying where the data lives. **Don't.** Put a form or a second level of navigation in it; that belongs in the panel.
 
+## IconActions
+
+A row of icon-only links and buttons under a list item (share, search elsewhere, copy), plus a circled-X remove button at the row's end. The only place the kit uses an icon set; the rules are under Iconography in `DESIGN.md`.
+
+**Markup.**
+
+```html
+<li class="drawer-item">
+  <div>
+    <a class="drawer-title" href="/work">Work</a>
+    <p class="icon-row">
+      <a class="icon-btn" href="…" target="_blank" rel="noopener noreferrer"
+         aria-label="Share on Bluesky: Work (opens in a new tab)" title="Share on Bluesky"><svg class="icon" aria-hidden="true">…</svg></a>
+      <button type="button" class="icon-btn" aria-label="Copy link: Work" title="Copy link"><svg class="icon" aria-hidden="true">…</svg></button>
+    </p>
+  </div>
+  <button type="button" class="icon-btn icon-btn--remove" aria-label="Remove: Work" title="Remove"><svg class="icon" aria-hidden="true">…</svg></button>
+</li>
+```
+
+- **Icons** come from `astro-icon`: Simple Icons for brand marks (`simple-icons:bluesky`), Material Symbols outline for actions (`material-symbols:content-copy-outline`, `material-symbols:cancel-outline` for remove). Never a trash can.
+- **One color.** `.icon-btn` takes the text's color (`bar-ink` on dark, `ink` on the page) and turns `accent-bright` (dark) or `accent-text` (page) on hover. Never a brand's colors.
+- **Sizes.** 36px (2.25rem) square targets; the icon is 1.25rem, and 1.5rem on the remove button. The row starts 0.5rem to the left so the first glyph lines up with the text above.
+- **Names, verb first,** naming the action and its object: "Share on Bluesky: Work (opens in a new tab)", "Copy link: Work", "Remove: Work". The `title` hover label is the short form, the part before the colon. The `<svg>` is `aria-hidden`.
+- **Rows built in the browser** can't call `astro-icon` (it runs at build time). Render each icon once with `<IconTemplates icons={{ copy: 'material-symbols:content-copy-outline', … }} />`, then `iconControl('button', 'copy', 'Copy link: Work')` from `kit/icon-controls.js` clones it into a ready button with its name and hover label.
+- **Remove moves focus.** The row disappears with focus on its button, so call `focusAfterRemoval(list, item, '.icon-btn--remove', heading)` before removing it and the returned function after: focus lands on the remove button now in that place, or the heading once the list is empty. Confirm with a toast ("Page removed.").
+- Copy confirms with a toast, and says so if the clipboard is refused.
+
+**Don't.** Add an icon beside a text label that already says the same thing, use icons for decoration, or let a row hold more than four.
+
 ## ClosingNote
 
 A bold 2px rule that closes off a list, over one quiet line of text ("Kept on this device only.").
