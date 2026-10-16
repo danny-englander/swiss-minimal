@@ -17,7 +17,7 @@
 
    What it does, and how it differs from the menu panel (kit/panel.js):
    - Non-modal: the page is not made inert, so a click on it still works. The page does not
-     scroll while it is open (<html data-drawer="open">); only the drawer's list does.
+     scroll while it is open (<html data-drawer-open>); only the drawer's list does.
    - Closes on its button, Escape, 'drawer:close', or a pointer press anywhere outside it.
      That press still does what it was aimed at, and focus stays where it lands. Elements
      marked data-drawer-keep (a bottom bar, the toast) are left out, so they stay usable.
@@ -65,7 +65,7 @@
     if (open) {
       document.dispatchEvent(new Event('menu:close'));
       drawer.removeAttribute('inert');
-      root.setAttribute('data-drawer', 'open');
+      root.setAttribute('data-drawer-open', '');
       if (list) list.scrollTo({ top: 0 });
       updateMore();
       // As in the menu: with Reduce Motion on, the first focus() can be refused for a moment.
@@ -76,7 +76,7 @@
       })();
     } else {
       drawer.setAttribute('inert', '');
-      root.removeAttribute('data-drawer');
+      root.removeAttribute('data-drawer-open');
       if (returnFocus) button.focus({ preventScroll: true });
     }
   }

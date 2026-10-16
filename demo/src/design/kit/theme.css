@@ -166,7 +166,7 @@ a.link:hover { color: var(--accent-text); }
   transition: background-color 400ms var(--ease-out), color 400ms var(--ease-out);
 }
 html[data-menu="open"] .topbar,
-html[data-drawer="open"] .topbar { --tb-bg: var(--bar); --tb-fg: var(--bar-ink); }
+html[data-drawer-open] .topbar { --tb-bg: var(--bar); --tb-fg: var(--bar-ink); }
 .topbar-btn {                    /* outlined, inverts on hover */
   position: relative;            /* anchors its hover label and "new" dot */
   border: 1px solid currentColor;
@@ -318,7 +318,7 @@ html[data-drawer="open"] .topbar { --tb-bg: var(--bar); --tb-fg: var(--bar-ink);
 }
 
 html[data-menu="open"],
-html[data-drawer="open"] { overflow: hidden; }  /* stop the page scrolling behind a panel */
+html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind a panel */
 .panel-inner {                   /* the scrolling content area inside .panel */
   max-width: var(--page-max); height: 100%; margin: 0 auto;
   overflow-y: auto; padding: 6rem var(--gutter) 3rem;
