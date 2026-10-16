@@ -401,6 +401,30 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 }
 .topbar-btn[data-drawer-button][aria-expanded="true"] { background: var(--tb-fg); color: var(--tb-bg); }
 
+/* ---------- Icon actions: icon-only links and buttons in a row (see Iconography in DESIGN.md) ---------- */
+/* One color: the text's own (bar-ink on dark, ink on the page), turning accent-bright (dark) or
+   accent-text (page) on hover. 36px square targets around a 20px icon; a lone remove button
+   gets a 24px one. Markup: <p class="icon-row"><a class="icon-btn" aria-label="…" title="…">svg</a>…</p> */
+.icon-row {
+  display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem;
+  margin: 0.5rem 0 0 -0.5rem;    /* lines the first icon's glyph up with the text above */
+}
+.icon-btn {
+  --icon-hover: var(--accent-text);
+  display: inline-flex; flex: none; align-items: center; justify-content: center;
+  width: 2.25rem; height: 2.25rem;
+  border: 0; padding: 0; background: transparent;
+  color: inherit;
+  transition: color 150ms;
+}
+.panel .icon-btn, .drawer .icon-btn { --icon-hover: var(--accent-bright); }
+.icon-btn:hover { color: var(--icon-hover); }
+.icon { width: 1.25rem; height: 1.25rem; }
+.icon-btn--remove {              /* one per row, at its end, centered on the title's first line */
+  margin: -0.375rem -0.5rem 0 0;
+}
+.icon-btn--remove .icon { width: 1.5rem; height: 1.5rem; }
+
 /* ---------- Closing note: a bold rule that ends a list, over a quiet line of text ---------- */
 /* The text is dimmed by color, not opacity, so the 2px rule above it stays solid. */
 .closing-note {

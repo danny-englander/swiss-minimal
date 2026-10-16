@@ -1,0 +1,23 @@
+---
+// Renders each icon once into a <template data-icon="key">, for rows built in the browser to
+// clone (kit/icon-controls.js). Needs astro-icon and the sets you name, e.g.
+//   npm install astro-icon @iconify-json/simple-icons @iconify-json/material-symbols
+// with `integrations: [icon()]` in astro.config.mjs. Only brand marks (simple-icons) and a few
+// action icons (material-symbols, outline) belong here; see Iconography in DESIGN.md.
+// For icons in markup Astro renders itself, use <Icon name="…" class="icon" aria-hidden="true" />.
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  /** Key → icon name, e.g. { copy: 'material-symbols:content-copy-outline' }. */
+  icons: Record<string, string>;
+}
+const { icons } = Astro.props;
+---
+
+{
+  Object.entries(icons).map(([key, name]) => (
+    <template data-icon={key}>
+      <Icon name={name} class="icon" aria-hidden="true" />
+    </template>
+  ))
+}
