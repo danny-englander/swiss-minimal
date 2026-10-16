@@ -8,6 +8,7 @@
 // under every tab); with `panelTabs`, each tab's content goes in the slot named after its id.
 // "topbar" adds buttons to the top bar, before the menu button (e.g. a <DrawerButton />).
 // "overlays" sits outside the page, for a <Drawer />, a bottom bar or a toast.
+// "head" adds to <head> (meta tags, or an inline script that must run before first paint).
 import font from '../../fonts/OverusedGrotesk-VF.woff2?url';
 import MenuButton from './MenuButton.astro';
 import MenuPanel from './MenuPanel.astro';
@@ -64,6 +65,7 @@ const tabContent = await Promise.all(
         if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
       } catch {}
     </script>
+    <slot name="head" />
   </head>
   <body>
     <div class="topbar">
