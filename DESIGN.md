@@ -8,8 +8,8 @@ This folder is the standalone kit, built for **Astro with Tailwind v4** (no Reac
 
 - `kit/tailwind.css`: the entry point for a Tailwind site. Imports Tailwind, loads `theme.css` into the `components` layer and maps the tokens to utilities. See "With Tailwind v4".
 - `kit/theme.css`: every token (light and dark), the base styles and every component class, in plain CSS. It also works on its own, without Tailwind. Dark mode follows the system unless `<html data-theme="light|dark">` is set.
-- `kit/panel.js`: the slide-down panel's behavior. Plain JavaScript, no dependencies.
-- `kit/astro/`: BaseLayout, Hero, MenuButton, MenuPanel, MenuItems, ThemeToggle and the `MenuItem` type. They use Tailwind utilities for layout and the kit classes for components.
+- `kit/panel.js`: the slide-down panel's behavior, tabs included. Plain JavaScript, no dependencies, like the other scripts: `new-dot.js` (the "new" dot), `drawer.js` (the second, non-modal panel), `jump.js` (jump to the current item) and `favorites.js` (favorite stars).
+- `kit/astro/`: BaseLayout, Hero, MenuButton, MenuPanel, MenuItems, ThemeToggle, Drawer, DrawerButton, FavoriteButton, FeaturesList and the types (`MenuItem`, `PanelTab`, `NewDot`, `Feature`). They use Tailwind utilities for layout and the kit classes for components.
 - `kit/example.html`: a one-page demo using only `theme.css`. Open it to see what "correct" looks like.
 - `fonts/OverusedGrotesk-VF.woff2` and `fonts/LICENSE.txt` (SIL OFL 1.1). Keep the license beside the font.
 - `tokens.json`: the token values as data. If a value in `theme.css` ever differs, `tokens.json` wins.
@@ -25,7 +25,7 @@ Put this in `<head>` before first paint so a saved theme does not flash:
 ## Principles
 
 - **Type does the work.** Big bold headings, small quiet labels, nothing decorative.
-- **Flat.** No shadows, gradients, rounded corners or glass in the interface. The only curve the UI draws is the spinner. (One exception: a scrolling title fades at its edges; that fade hides text, it is not decoration.) Images are content and keep their own color and shapes; see Images.
+- **Flat.** No shadows, gradients, rounded corners or glass in the interface. The UI draws only three curves: the spinner, the "new" dot and the drawer's round "more below" arrow, all small marks that must read as different from the square controls around them. (One exception: a scrolling title fades at its edges; that fade hides text, it is not decoration.) Images are content and keep their own color and shapes; see Images.
 - **One typeface, two weights.** Overused Grotesk at 700 (headings, names) and 500 (small labels). Body copy is 400. Never a third weight.
 - **Thick rule, thin rule.** A 2px `ink` rule starts each section and ends the top bar. Rows are separated by a 1px `rule`.
 - **One grid.** Section headings, list rows and descriptions share the same columns, so a range label sits over the numbers, the title over the names and the blurb over the descriptions.
@@ -45,7 +45,7 @@ Light is the default. Dark keeps the same roles.
 - Page: `paper` ground, `ink` text and thick rules, `muted` for secondary text, `rule` for thin dividers.
 - **Red has three tokens, by size and ground.** `accent` is for large shapes and the focus ring only. Small red text on `paper` uses `accent-text`; small red text on a dark surface uses `accent-bright`. Never set small text in plain `accent` (3.9:1 on light `paper`).
 - The filled button is `accent-text` with `accent-ink` text.
-- **Dark surfaces stay dark in both themes.** The panel, the top bar while the panel is open, a bottom bar and the toast are `bar` with `bar-ink` text. These black blocks are what make the light page feel Swiss.
+- **Dark surfaces stay dark in both themes.** The panel, the drawer, the top bar while either is open, a bottom bar and the toast are `bar` with `bar-ink` text. These black blocks are what make the light page feel Swiss.
 - Small labels on `bar` (a definition term, an accordion heading) are bold `accent-bright`, never faded white.
 - List rows fill on hover and when active: `row-hover-bg` / `row-active-bg` with every piece of text (muted too) in `row-fg`. The active row also gets a 6px `row-edge` on its left (red in dark).
 - Never add a color. A new state reuses these roles.
@@ -77,7 +77,7 @@ One family, `--font-sans` (Overused Grotesk, falling back to Helvetica Neue, Hel
 - List rows: 1px `rule` bottom border, `space-4` vertical padding. The row number sits `space-4` in from the left (1.25rem from 768px) so it stays clear of the active row's 6px edge.
 - Mobile first. Rows stack on phones and become a column grid from 768px.
 - If the site has a fixed bottom bar, set `bar-h` to its height and reserve that space at the bottom of the page (`BaseLayout`'s `barHeight` prop does both). Without one, `--bar-h` is `0rem`.
-- Everything is square: `radius-none`. `radius-round` is for the spinner alone.
+- Everything is square: `radius-none`. `radius-round` is for three marks only: the spinner, the "new" dot (`.new-dot`) and the drawer's "more below" arrow (`.drawer-more`).
 
 ## Iconography
 
@@ -103,7 +103,8 @@ Photos, artwork, screenshots and product shots are welcome. The test is whether 
 ## Motion
 
 - Short and purposeful: 150ms hover swaps, 400 to 550ms slides with `--ease-out` (`cubic-bezier(0.22, 1, 0.36, 1)`).
-- Only the activity indicator, the spinner, the panel, accordions and an overlong title move. A title scrolls three rounds at most, then stops.
+- Only the activity indicator, the spinner, the panel and drawer, accordions and panel tabs, an overlong title and the jump flash move. A title scrolls three rounds at most, then stops.
+- Hover labels wait 350ms before they show, so passing the pointer over the top bar doesn't flicker them.
 - Always honor `prefers-reduced-motion`; `theme.css` switches slides, fades and loops off.
 
 ## States and accessibility
@@ -113,11 +114,14 @@ Photos, artwork, screenshots and product shots are welcome. The test is whether 
 - Hover keeps text readable: when a row or button fills, its text switches to the opposite color.
 - Pressed filter buttons use `aria-pressed="true"`; the current page uses `aria-current="page"`.
 - External links announce "(opens in a new tab)" to screen readers.
+- A control's name says what it does, verb first: "Show Field notes in the list", "Remove: Field notes". A toggle keeps one name and uses `aria-pressed`.
+- When a control is about to disappear with focus on it (a removed row, an arrow that hides once used), move focus to the next sensible place first.
+- Remember things in localStorage only as a convenience: wrap every read and write, and make the page work the same without it.
 - Text at 14px or more, contrast 4.5:1 or better in both themes.
 
 ## Components
 
-Every component is a plain CSS class in `kit/theme.css` (loaded through `kit/tailwind.css`); there is no JavaScript bundle. In short: **Top bar** (`.topbar`), **Outlined button** (`.topbar-btn`, `.burger`), **Filled button** (`.btn`), **Slide-down panel** (`.panel`, with `kit/panel.js`), **Menu** (`.menu-list`, `.acc`, `.submenu`), **Field** (`.field`), **Filter buttons** (`.chip`), **Page accordion** (`.page-acc`), **List row** (`.row`), **Scrolling title** (`.marquee`), **Toast** (`.toast`), **Activity indicators** (`.eq`, `.spinner`), **Image** (`.media`, `.figure`), **Hero** (`.hero`, `.hero--split`, `.hero--wide`).
+Every component is a plain CSS class in `kit/theme.css` (loaded through `kit/tailwind.css`); there is no JavaScript bundle, only a few small plain scripts for the pieces that need behavior. In short: **Top bar** (`.topbar`), **Outlined button** (`.topbar-btn`, `.burger`), **Hover label** (`data-tip`), **Filled button** (`.btn`), **Slide-down panel** (`.panel`, with `kit/panel.js`), **Menu** (`.menu-list`, `.acc`, `.submenu`), **Panel tabs** (`.panel-tabs`, `.panel-tab`), **"New" dot** (`.new-dot`, with `kit/new-dot.js`), **Field** (`.field`), **Filter buttons** (`.chip`), **Favorite star** (`.fav-btn`, with `kit/favorites.js`), **Page accordion** (`.page-acc`), **List row** (`.row`), **Jump to current** (`.jump-btn`, with `kit/jump.js`), **Scrolling title** (`.marquee`), **Toast** (`.toast`), **Drawer** (`.drawer`, with `kit/drawer.js`), **Closing note** (`.closing-note`), **Dated list** (`.dated-list`), **Activity indicators** (`.eq`, `.spinner`), **Image** (`.media`, `.figure`), **Hero** (`.hero`, `.hero--split`, `.hero--wide`).
 
 ## With Tailwind v4
 

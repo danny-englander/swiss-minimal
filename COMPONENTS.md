@@ -22,6 +22,19 @@ The quiet button: 1px border in `currentColor`, transparent, inverts on hover. U
 
 Hover fills with the bar's text color and swaps the text to its background (inside `.topbar` these are `--tb-fg` / `--tb-bg`). Give an icon-only button an `aria-label`.
 
+## HoverLabel
+
+A small label under a top-bar button saying what it does ("Menu", "Switch to dark theme"), for buttons whose look alone may not say it.
+
+**Markup.** Add `data-tip="Menu"` to any `.topbar-btn`. CSS draws it from the attribute; no script.
+
+- Shows after a 350ms pause on devices with a real hover (`@media (hover: hover)`), so it never sticks after a tap on a phone, and at once on `:focus-visible`.
+- Colors are the bar's, reversed (`--tb-fg` fill, `--tb-bg` text), so it reads on the paper bar and on the dark one while a panel is open. 14px, weight 500, sentence case.
+- Centered under its button; the last button in the group (`:last-of-type`) is right-aligned so its label never runs off the screen.
+- Keep it in step with the button: `MenuButton`, `DrawerButton` and `ThemeToggle` update `data-tip` with their `aria-label` ("Menu" / "Close menu").
+
+**Do.** Use the same words as the `aria-label`, or its short form. **Don't.** Put one on a link in running text, or write more than a few words.
+
 ## Button
 
 The one filled button: `accent-text` fill, `accent-ink` text, bold uppercase with 0.15em tracking. It is the only place red fills a small area.
@@ -53,6 +66,8 @@ Load `kit/panel.js` (plain JavaScript, no dependencies). It:
 - sets `<html data-menu="open">`, which flips the top bar dark and locks page scroll;
 - moves focus to the first item on open and back to the burger on close;
 - closes on the burger, Escape, a click on any `[data-panel-close]` link, or `document.dispatchEvent(new Event('menu:close'))`;
+- closes a `Drawer` when it opens (it dispatches `drawer:close`; the drawer dispatches `menu:close`), so only one is open at a time;
+- with `data-label="Menu" data-label-open="Close menu"` on the button (as `MenuButton` has), keeps its `aria-label` and `data-tip` in step;
 - with `<html data-panel-hash="menu">`, shows `#menu` in the URL while open so Back closes it and a shared link opens it.
 
 The panel sits at z-index 30, under the top bar (50). Its bottom stops at `bar-h` (set by `BaseLayout`'s `barHeight`, `0rem` by default). Reduced motion turns the slide off. Small labels inside it are bold `accent-bright`.
@@ -70,6 +85,47 @@ The menu inside the slide-down panel: big bold lines separated by thin rules. An
 - Two levels read well; three is the limit.
 - Give in-page `#` links `data-panel-close` so the panel shuts.
 - In Astro, `kit/astro/MenuItems.astro` renders this from a plain `MenuItem[]` array.
+
+## PanelTabs
+
+Numbered tabs across the top of the slide-down panel ("01 Menu  02 Contact  03 Features"), so the panel can hold a few pages: the menu, a contact form, a features list, a privacy note.
+
+**Markup.**
+
+```html
+<div role="tablist" aria-label="Menu pages" class="panel-tabs">
+  <button type="button" role="tab" id="tab-about" data-tab="about" aria-controls="panel-about"
+          aria-selected="true" class="panel-tab"><span class="panel-tab-num">01</span> About</button>
+  …
+</div>
+<div id="panel-about" role="tabpanel" aria-labelledby="tab-about" class="panel-tabpanel">…</div>
+<div id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" class="panel-tabpanel" hidden>…</div>
+```
+
+`kit/panel.js` finds the tabs and runs them. In Astro, pass `panelTabs={[{ id: 'menu', label: 'Menu' }, …]}` to `BaseLayout` (or `tabs` to `MenuPanel`) and put each tab's content in the slot named after its id (`<form slot="contact">`). The menu `items` sit at the top of the first tab.
+
+- **Every tab is a Tab stop**, and Enter or Space opens it (they are real buttons). The arrow keys, Home and End also move between them. With three to five tabs, a keyboard user never has to discover the arrows.
+- **Each tab deep-links.** `#contact` in the URL opens the panel on Contact, the URL shows the open tab, and Back closes the panel. A plain `<a href="#contact">` anywhere on the page opens it. So no element on the page may use a tab's id.
+- On open, focus goes to the open tab, retried for a moment because Reduce Motion can refuse the first `focus()`.
+- Labels are `label` style at 70% of `bar-ink`; the chosen tab is full strength with a 2px `accent-bright` underline. The number is tabular.
+- The panel scrolls back to the top when the tab changes. A tab's content fades up (450ms), not under Reduce Motion.
+- `panel.js` fires `panel:tab` (`{ detail: { id } }`) when a tab shows while the panel is open; `NewDot` listens for it.
+
+**Do.** Keep labels to one word, and three to five tabs. **Don't.** Nest tabs, or use tabs for the menu's own sections (that is what accordions are for).
+
+## NewDot
+
+A small red dot that tells a returning visitor something was added since they last looked: on the menu button's corner and after the label of the tab that lists what is new.
+
+**Markup.** On the button, `<span data-new-dot class="new-dot new-dot--button" aria-hidden="true" hidden></span>`; on the tab, `<span data-new-dot class="new-dot new-dot--tab" hidden><span class="sr-only">(new)</span></span>`. The settings go on the panel as `data-new-*` attributes, and `kit/new-dot.js` does the rest. In Astro, pass `newDot={{ latest, tab: 'features', key: 'mysite:features-seen', returning: ['theme', 'mysite:favorites'] }}` to `BaseLayout`.
+
+- **Who sees it.** The newest date is compared with the one this browser last saw (localStorage, YYYY-MM-DD strings). A first visit has nothing to catch up on: it is marked seen with no dot. A returning visitor (any key in `returning` is saved) who has not seen the newest date gets the dot. Don't list a key that every page writes on load, or every first visit counts as returning.
+- **Clearing.** Opening that tab, by click, key, link or `#hash`, clears it for good.
+- **Saying it.** The button's name becomes "Menu, new features" and its hover label "Menu · New features"; the tab reads "(new)" to screen readers.
+- **Shape.** Round (`radius-round`): 0.5rem on the tab, 0.75rem on the button with a 2px ring in the bar's color so it stands clear of the border. Both are absolutely placed, so the dot never wraps onto its own line on a phone.
+- In plain `accent`: it is a mark, not text.
+
+**Don't.** Show a count, animate it, or use it for anything but "new since your last visit".
 
 ## Field
 
@@ -92,6 +148,23 @@ A row of outlined buttons that narrows a list to one category. One choice at a t
 - Hide rows that don't match (and any section left empty) but keep their numbers.
 - Put the choice in the address (`?category=writing`), not a `#`.
 - Announce the result in a polite live region outside the accordion: `<p class="sr-only" aria-live="polite">Showing 5 Writing items</p>`.
+- With `FavoriteStar`, add a **Favorites** chip after All, its count in `<span class="chip-count" data-favorites-count>0</span>`. It filters like a category, using the starred ids. When it shows nothing, say how to add some in a `muted` line under the accordion.
+- Listen for `filter:reset` and go back to All (`JumpToCurrent` sends it when the current item is filtered out).
+
+## FavoriteStar
+
+A star in a list row that saves the item as a favorite on this device: an outline in `muted`, filled `accent-text` when chosen.
+
+**Markup.** `<button type="button" class="fav-btn" data-favorite="field-notes" aria-pressed="false" aria-label="Favorite Field notes">` holding a 24px-viewBox star `<svg aria-hidden="true">`. Load `kit/favorites.js`. In Astro, `<FavoriteButton id="field-notes" name="Field notes" />` does both.
+
+- **Beside the row's main action, never inside it.** The row's link or play button and the star are siblings, so a star tap never opens or plays the row. (A button can't hold another anyway.)
+- **Saved by id**, not by position or number, which shift when items are added. A JSON array in localStorage under `<html data-favorites-key="mysite:favorites">` (default `favorites`).
+- `aria-pressed` says whether it is on, so the name stays "Favorite <name>" either way. 44px square target; the 20px star overlaps the row's padding rather than making the row taller.
+- On a filled row (hover, active) it follows the row's text: `row-fg`, and `accent-bright` when chosen.
+- Unstarring while the Favorites filter shows leaves the row in place until the next filter choice, so the star doesn't vanish from under the pointer and can be tapped again to undo.
+- `import { getFavorites } from '…/kit/favorites.js'` in a filter script; it fires `favorites:change` after each change.
+
+**Don't.** Use a heart, a count, or a confirmation toast for each tap.
 
 ## PageAccordion
 
@@ -114,6 +187,29 @@ A section of numbered rows: a 2px `ink` rule, a header on the shared grid, then 
 - On hover and when active, the row fills (`row-hover-bg` / `row-active-bg`) and all text, muted included, turns `row-fg`. In dark mode the fill is a raised dark, never a cream slab, and the active row shows a red edge.
 - Rows stack on phones; switch to columns from 768px.
 - Keep the numbers when filtering; don't renumber.
+
+## JumpToCurrent
+
+A small solid triangle in a fixed bottom bar that appears while the current item's row is off screen, and brings it back: like a player's "show in list".
+
+**Markup.**
+
+```html
+<div class="… bg-bar" data-jump-bar>
+  <button type="button" class="jump-btn" data-jump data-jump-target='[data-item="field-notes"]'
+          data-jump-name="Field notes" hidden><span aria-hidden="true" data-jump-glyph>▲</span></button>
+  …
+</div>
+```
+
+Load `kit/jump.js`. `data-jump-target` is a selector for the current row (default `.row[data-active="true"]`); with no match, the button stays hidden.
+
+- **The font's own glyphs:** ▲ when the row is above or hidden by a filter, ▼ when it is below. 14px, `accent-bright` on the bar, in a 2rem square target.
+- Shows only while the row is off the visible part of the page, between the top bar and the bottom bar (a sliver at the edge doesn't count). Re-checked on scroll, resize and any layout change.
+- A click closes the menu and the drawer, sends `filter:reset` if a filter hides the row, scrolls the row to the middle of the screen (instantly with Reduce Motion), puts keyboard focus on its first link or button, and flashes a 3px `accent` outline that fades over 1.6s.
+- **Name:** "Show Field notes in the list", plus "(shows all items)" when it will clear a filter. Hover label (`title`): "Show in the list".
+
+**Don't.** Show it while the row is on screen, or use it for anything but the one current item.
 
 ## Marquee
 
@@ -151,6 +247,71 @@ A short confirmation on a `bar` block with a 6px `accent-bright` left edge, bott
 
 **Use** for one-line confirmations that need no action. Hide it after a few seconds. **Don't** stack several or put buttons in it.
 
+## Drawer
+
+A second, smaller slide-down panel for a list the visitor dips into while using the page (recently played, recently viewed, saved items). Same `bar` surface as the panel, but it doesn't take over the page.
+
+**Markup.** A top-bar button and a `<section>` outside `[data-panel-page]`:
+
+```html
+<button data-drawer-button aria-expanded="false" aria-controls="drawer" class="topbar-btn topbar-btn--text"
+        data-label="Recent pages" data-label-open="Close recent pages" aria-label="Recent pages" data-tip="Recent pages">Recent</button>
+
+<section id="drawer" class="drawer" data-drawer aria-labelledby="drawer-heading" aria-hidden="true" inert>
+  <div class="drawer-inner">
+    <h2 id="drawer-heading" tabindex="-1" data-drawer-focus class="label drawer-heading">Recent pages</h2>
+    <div class="drawer-list-wrap">
+      <ol class="drawer-list" data-drawer-list>
+        <li class="drawer-item"><div><a class="drawer-title" href="/work">Work</a><p class="drawer-meta">…</p></div></li>
+      </ol>
+      <button type="button" class="drawer-more" data-drawer-more data-show="false" tabindex="-1" aria-hidden="true" aria-label="Scroll to more">…arrow…</button>
+    </div>
+    <p class="closing-note mt-6">Kept on this device only.</p>
+  </div>
+</section>
+```
+
+Load `kit/drawer.js`. In Astro, `<DrawerButton slot="topbar" label="Recent pages">Recent</DrawerButton>` and `<Drawer slot="overlays" title="Recent pages">` in `BaseLayout` write it all.
+
+- **Non-modal.** The page is not made inert, and there is no `aria-modal`. A click or tap anywhere outside closes it and still does what it was aimed at (tap an item on the page: the drawer closes and the item opens). Focus stays where the click put it. Mark things that should stay usable with it open, such as a bottom bar or the toast, `data-drawer-keep`.
+- **Only the list scrolls.** The page is locked (`<html data-drawer="open">`, which also turns the top bar dark) and the heading and closing note stay put. At most 70% of the screen (`70svh`), so some of the page always shows below; a 2px `accent` rule marks its bottom edge.
+- **Closes** on its button, Escape, `drawer:close`, or a click outside. Opening it sends `menu:close`, and opening the menu sends `drawer:close`: one at a time.
+- **Focus** goes to the heading on open (retried under Reduce Motion) and back to the button when closed by the button or Escape. The open button stays filled.
+- **"More below" arrow.** A 2.75rem round `accent` button centered over the bottom of the list, shown while the list overflows and has not been scrolled. It scrolls most of a screen; from the keyboard it also moves focus to the first row that comes into view, since it is about to disappear. No shadow. Rows can be added and removed from a script; it re-checks on its own.
+- Rows: `drawer-title` (1.125rem, 500) over `drawer-meta` (14px, 75%), with 1px rules at 25% of `bar-ink` between them. Set text from data with `textContent`, never as HTML.
+- Slides in 450ms; not under Reduce Motion.
+
+**Do.** Give it a short label heading and a closing note saying where the data lives. **Don't.** Put a form or a second level of navigation in it; that belongs in the panel.
+
+## ClosingNote
+
+A bold 2px rule that closes off a list, over one quiet line of text ("Kept on this device only.").
+
+**Markup.** `<p class="closing-note">…</p>` after the list.
+
+- The rule is `ink` on the page and `bar-ink` in the panel or a drawer, always solid.
+- The text is 14px, dimmed with `color-mix(in srgb, <ink> 70%, transparent)`, **not** `opacity`, which would also fade the rule.
+- One or two sentences. It says something true about the list (where it is kept, how it is sorted), not marketing.
+
+## DatedList
+
+What a site can do and when each part arrived, newest first: the "Features" tab of a panel, or a changelog page.
+
+**Markup.**
+
+```html
+<ol class="dated-list">
+  <li><time datetime="2026-10-16">Oct 16, 2026</time><div><h3>Favorites</h3><p>Star an item…</p></div></li>
+</ol>
+```
+
+In Astro, `<FeaturesList features={features} />`, with the data in a typed file (`src/data/features.ts` exporting `features: Feature[]`, newest first; `Feature` is in `kit/astro/types.ts`).
+
+- A 2px `currentColor` rule on top, 1px rules at 25% between entries.
+- Date over the text on phones; a 10rem date column beside it from 640px. The date is 14px bold, `accent-text` on the page and `accent-bright` on dark.
+- **Format dates in UTC.** They are plain days, so `toLocaleDateString(…, { timeZone: 'UTC' })`; otherwise a visitor west of UTC sees the day before.
+- One entry per thing a visitor would notice, dated the day it went live; when a feature grows, edit its line rather than adding one. The newest date also drives `NewDot`.
+
 ## ActivityIndicators
 
 Two small moving marks: the equalizer (`.eq`, three `accent` bars) says "this is live / playing now"; the spinner (`.spinner`, a 2px `currentColor` ring with one side open) says "loading".
@@ -158,7 +319,7 @@ Two small moving marks: the equalizer (`.eq`, three `accent` bars) says "this is
 **Markup.** `<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>` and `<span class="spinner" role="status" aria-label="Loading"></span>`.
 
 - The equalizer marks the one active item in a list (put it in the row's end slot). It is decorative: pair it with text or `aria-current` for screen readers.
-- The spinner is the only round shape in the system (`radius-round`).
+- The spinner is one of only three round shapes in the system (`radius-round`), with the `NewDot` and the drawer's "more below" arrow.
 - Both stop under Reduce Motion (the equalizer rests at 10px bars).
 
 ## Image

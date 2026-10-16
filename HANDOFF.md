@@ -7,7 +7,7 @@ This is a test bed, not a real product. Keep the content neutral and short.
 ## Read first
 
 1. `DESIGN.md`: the brand book (principles, colors, type, layout, motion, accessibility, the "Do not" list). Follow it exactly.
-2. `COMPONENTS.md`: markup and rules for each of the 14 components.
+2. `COMPONENTS.md`: markup and rules for each of the 22 components.
 3. `kit/example.html`: open it in a browser. This is what "correct" looks like.
 
 ## What's in this folder
@@ -22,9 +22,14 @@ Swiss-minimal/
   kit/
     tailwind.css    Tailwind v4 entry: Tailwind + theme.css (components layer) + token utilities
     theme.css       tokens + components, plain CSS, font url is ../fonts/
-    panel.js        slide-down panel behavior, vanilla JS
+    panel.js        slide-down panel behavior (tabs too), vanilla JS
+    new-dot.js      "new" dot on the menu button and a tab
+    drawer.js       the second, non-modal slide-down panel
+    jump.js         jump to the current item from a bottom bar
+    favorites.js    favorite stars, saved on the device
     example.html    one-page demo (theme.css only, no Tailwind)
-    astro/          BaseLayout, Hero, MenuButton, MenuPanel, MenuItems, ThemeToggle, types.ts
+    astro/          BaseLayout, Hero, MenuButton, MenuPanel, MenuItems, ThemeToggle,
+                    Drawer, DrawerButton, FavoriteButton, FeaturesList, types.ts
   demo/             (you create this: the Astro site)
 ```
 
@@ -82,7 +87,13 @@ Test in a real browser at about 390px and 1280px wide, in both light and dark.
 
 - [ ] Menu button opens the panel; the top bar turns dark with it; the page behind doesn't scroll.
 - [ ] Focus moves into the panel on open and back to the menu button on close. Tab can't reach the page behind.
-- [ ] Escape closes it. Clicking "Contact" (a `#` link) closes it.
+- [ ] Escape closes it. Clicking an in-page `#` link in the menu closes it.
+- [ ] Panel tabs: every tab is a Tab stop; arrows, Home and End move; `#contact` in the URL opens the Contact tab; Back closes the panel.
+- [ ] "New" dot: none on a first visit; shows for a returning visitor; opening the Features tab clears it.
+- [ ] Hover labels show under the top-bar buttons after a pause (not on a phone); the last one stays on screen.
+- [ ] Drawer: page stays clickable but doesn't scroll; a click outside closes it and still works; the menu and drawer close each other; the round arrow shows while the list overflows.
+- [ ] Favorites: the star never opens its row; the Favorites filter shows only starred items.
+- [ ] Jump: scroll the current item away (or filter it out) and the triangle in the bottom bar brings it back and focuses it.
 - [ ] Accordions: only one open per level; nested level works; plus becomes minus.
 - [ ] Current page is underlined in red in the menu.
 - [ ] Theme toggle switches and remembers; reloading in dark shows no flash of light.
