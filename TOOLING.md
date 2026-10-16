@@ -20,20 +20,23 @@ Add `"test": "playwright test"` to `package.json` scripts, and `test-results/` a
 ```ts
 import { defineConfig, devices } from '@playwright/test';
 
+const PORT = 4392; // one per site: Dial Hopping uses 4391, this demo 4392
+const baseURL = `http://localhost:${PORT}`;
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   reporter: 'list',
   retries: process.env.CI ? 2 : 0,
   use: {
-    baseURL: 'http://localhost:4327',
+    baseURL,
     reducedMotion: 'reduce',
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: 'npx astro build && npx astro preview --port 4327 --ignore-lock',
-    url: 'http://localhost:4327',
-    reuseExistingServer: !process.env.CI,
+    command: `npx astro build && npx astro preview --port ${PORT} --ignore-lock`,
+    url: baseURL,
+    reuseExistingServer: false,
     timeout: 120_000,
   },
 });
@@ -41,8 +44,9 @@ export default defineConfig({
 
 - **Test the built site, not the dev server.** Visitors get the build. The dev server can also reload the page once while it warms up, which breaks a test mid-run.
 - **Reduce Motion on.** The kit turns its slides and fades off for this setting, so a scan never catches a panel halfway down or text mid-fade (which axe reads as low contrast).
-- **A port of its own** (4327 here), so the tests never meet a dev server on 4321. `--ignore-lock` lets the preview run while a dev server holds Astro's lock.
-- `reuseExistingServer` saves a rebuild locally, but it will happily reuse a stale preview left running from an earlier run. If a fix doesn't seem to take, stop whatever is on the port and run again.
+- **An uncommon port of its own, never near 4321.** Astro dev servers start at 4321 and, when a port is busy, quietly move up one: with a few running, a dev server can land on 4326 or higher. That really happened: a Swiss Minimal dev server moved to 4326, the port Dial Hopping's tests used, and those tests passed against the wrong site. So give each site's tests a distinct port well away from 4321–4330 (Dial Hopping 4391, this demo 4392). `--ignore-lock` lets the preview run while a dev server holds Astro's lock.
+- **`reuseExistingServer: false`.** With reuse on, Playwright tests whatever already answers on the port: another site, or a stale build from an earlier run. Off, a busy port fails loudly at the start instead. (The cost is a fresh build each run.)
+- **Write the port once.** Tests use relative URLs (`page.goto('/work')`), and anything that needs the origin, such as a route that blocks every other site, reads it from `baseURL` (the `baseURL` fixture, or `new URL(page.url()).origin`), never a hard-coded `localhost:…`.
 
 ### What to scan
 
