@@ -1,0 +1,22 @@
+---
+// A star that saves an item as a favorite (kit/favorites.js). Put it beside the row's main
+// link or button, never inside it. aria-pressed says whether it is on, so the name stays
+// "Favorite <name>" either way.
+interface Props {
+  /** A stable id for the item (a slug), not its position. */
+  id: string;
+  /** The item's name, for the button's accessible name. */
+  name: string;
+}
+const { id, name } = Astro.props;
+---
+
+<button type="button" class="fav-btn" data-favorite={id} aria-pressed="false" aria-label={`Favorite ${name}`} title="Favorite">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z" />
+  </svg>
+</button>
+
+<script>
+  import '../favorites.js';
+</script>

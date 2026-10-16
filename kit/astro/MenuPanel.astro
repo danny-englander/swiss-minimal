@@ -2,27 +2,96 @@
 // The slide-down panel. Opened by <MenuButton />. Pass `items` for the menu, and use
 // the slot for anything extra below it (a contact form, a note, social links).
 // Remember to wrap the rest of the page in an element with the data-panel-page attribute.
+//
+// With `tabs`, the panel becomes numbered pages ("01 Menu  02 Contact  03 Features"). Each
+// tab's content goes in the slot named after its id, and `items` (if any) sit at the top of
+// the first tab. Each tab deep-links (#contact opens the panel on Contact).
+// With `newDot`, the menu button and that tab show a red dot for returning visitors until
+// the tab is opened (kit/new-dot.js). Give <MenuButton newDot /> as well.
 import MenuItems from './MenuItems.astro';
-import type { MenuItem } from './types';
+import type { MenuItem, NewDot, PanelTab } from './types';
 
 interface Props {
-  items: MenuItem[];
+  items?: MenuItem[];
   /** Accessible name for the panel and its navigation. */
   label?: string;
   id?: string;
+  tabs?: PanelTab[];
+  newDot?: NewDot;
 }
-const { items, label = 'Menu', id = 'panel' } = Astro.props;
+const { items = [], label = 'Menu', id = 'panel', tabs = [], newDot } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+
+// Render each tab's named slot here (slot names can't be dynamic in the markup).
+const tabContent = await Promise.all(
+  tabs.map((t) => (Astro.slots.has(t.id) ? Astro.slots.render(t.id) : Promise.resolve(''))),
+);
 ---
 
-<div id={id} class="panel" data-panel role="dialog" aria-modal="true" aria-label={label} aria-hidden="true" inert>
+<div
+  id={id}
+  class="panel"
+  data-panel
+  role="dialog"
+  aria-modal="true"
+  aria-label={label}
+  aria-hidden="true"
+  inert
+  data-new-latest={newDot?.latest}
+  data-new-tab={newDot?.tab}
+  data-new-key={newDot?.key}
+  data-new-returning={newDot ? (newDot.returning ?? ['theme']).join(',') : undefined}
+  data-new-note={newDot ? (newDot.note ?? 'new features') : undefined}
+>
   <div class="panel-inner">
-    <nav aria-label={label}>
-      <MenuItems items={items} />
-    </nav>
-    <slot />
+    {
+      tabs.length > 0 ? (
+        <>
+          <div role="tablist" aria-label={`${label} pages`} class="panel-tabs">
+            {tabs.map((t, i) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tab-${t.id}`}
+                data-tab={t.id}
+                aria-controls={`panel-${t.id}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                class="panel-tab"
+              >
+                <span class="panel-tab-num">{pad(i + 1)}</span> {t.label}
+                {newDot?.tab === t.id && (
+                  <span data-new-dot class="new-dot new-dot--tab" hidden>
+                    <span class="sr-only">(new)</span>
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+          {tabs.map((t, i) => (
+            <div id={`panel-${t.id}`} role="tabpanel" aria-labelledby={`tab-${t.id}`} class="panel-tabpanel" hidden={i !== 0}>
+              {i === 0 && items.length > 0 && (
+                <nav aria-label={label}>
+                  <MenuItems items={items} />
+                </nav>
+              )}
+              <Fragment set:html={tabContent[i]} />
+            </div>
+          ))}
+          <slot />
+        </>
+      ) : (
+        <>
+          <nav aria-label={label}>
+            <MenuItems items={items} />
+          </nav>
+          <slot />
+        </>
+      )
+    }
   </div>
 </div>
 
 <script>
   import '../panel.js';
+  import '../new-dot.js';
 </script>

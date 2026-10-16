@@ -1,0 +1,31 @@
+---
+// What the site can do and when each part arrived, newest first (DatedList in COMPONENTS.md).
+// Keep the entries in a typed file, e.g. src/data/features.ts exporting `features: Feature[]`.
+// Works on the page and inside the panel (the dates turn accent-bright on dark).
+import type { Feature } from './types';
+
+interface Props {
+  features: Feature[];
+  /** Heading level for each entry's title. */
+  level?: 'h3' | 'h4';
+}
+const { features, level: Title = 'h3' } = Astro.props;
+
+// Dates are plain days, so format them in UTC or they can slip back a day.
+const format = (date: string) =>
+  new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+---
+
+<ol class="dated-list">
+  {
+    features.map((f) => (
+      <li>
+        <time datetime={f.date}>{format(f.date)}</time>
+        <div>
+          <Title>{f.title}</Title>
+          <p>{f.body}</p>
+        </div>
+      </li>
+    ))
+  }
+</ol>

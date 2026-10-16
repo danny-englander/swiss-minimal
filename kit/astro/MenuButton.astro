@@ -1,10 +1,13 @@
 ---
 // The hamburger that turns into an X. Put it in the top bar.
+// Its name and hover label follow the panel ("Menu" / "Close menu"); see kit/panel.js.
 interface Props {
   /** The id of the <MenuPanel /> it controls. */
   controls?: string;
+  /** Room for the "new" dot (kit/new-dot.js shows it). MenuPanel's `newDot` prop turns it on. */
+  newDot?: boolean;
 }
-const { controls = 'panel' } = Astro.props;
+const { controls = 'panel', newDot = false } = Astro.props;
 ---
 
 <button
@@ -12,8 +15,12 @@ const { controls = 'panel' } = Astro.props;
   data-panel-button
   class="topbar-btn burger"
   aria-label="Menu"
+  data-label="Menu"
+  data-label-open="Close menu"
+  data-tip="Menu"
   aria-expanded="false"
   aria-controls={controls}
 >
   <i></i><i></i><i></i>
+  {newDot && <span data-new-dot class="new-dot new-dot--button" aria-hidden="true" hidden></span>}
 </button>
