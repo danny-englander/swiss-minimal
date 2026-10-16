@@ -1,8 +1,13 @@
 ---
-// The demo's page shell: the kit's BaseLayout plus a contact form in the panel,
-// a fixed bottom bar with a scrolling title, and the toast.
+// The demo's page shell: the kit's BaseLayout with a tabbed panel (Menu, Contact, Features),
+// the "new" dot, a Recent drawer, a fixed bottom bar with a scrolling title and a
+// jump-to-current button, and the toast.
 import BaseLayout from '../design/kit/astro/BaseLayout.astro';
+import DrawerButton from '../design/kit/astro/DrawerButton.astro';
+import FeaturesList from '../design/kit/astro/FeaturesList.astro';
+import RecentDrawer from '../components/RecentDrawer.astro';
 import { menuFor } from '../data/menu';
+import { features, latestFeatureDate } from '../data/features';
 import '../styles/global.css';
 
 interface Props {
@@ -12,16 +17,31 @@ interface Props {
 const { title, description } = Astro.props;
 const nowReading =
   'Field notes: twelve months of small projects set in a single typeface, and what that taught me about restraint';
+const tabs = [
+  { id: 'menu', label: 'Menu' },
+  { id: 'contact', label: 'Contact' },
+  { id: 'features', label: 'Features' },
+];
 ---
 
 <BaseLayout
   title={`${title} · Swiss Minimal`}
   description={description}
   menu={menuFor(Astro.url.pathname)}
+  panelTabs={tabs}
+  newDot={{
+    latest: latestFeatureDate,
+    tab: 'features',
+    key: 'swiss-demo:features-seen',
+    // Not swiss-demo:recent: every page saves that on load, so a first visit would count.
+    returning: ['theme', 'favorites'],
+  }}
   tagline="Swiss Minimal demo"
   barHeight="5rem"
 >
-  <form slot="panel" id="contact" class="mt-12 max-w-xl border-t-2 border-current pt-3" data-contact-form>
+  <DrawerButton slot="topbar" label="Recent pages">Recent</DrawerButton>
+
+  <form slot="contact" class="max-w-xl border-t-2 border-current pt-3" data-contact-form>
     <p class="label mb-6 font-bold text-accent-bright">Contact</p>
     <label class="field-label" for="contact-name">Your name</label>
     <input class="field mb-7" id="contact-name" name="name" autocomplete="name" placeholder="Jane Doe" required />
@@ -32,21 +52,36 @@ const nowReading =
     <button class="btn" type="submit">Send</button>
   </form>
 
+  <div slot="features" class="max-w-4xl">
+    <h2 class="h2">Features</h2>
+    <p class="lead mt-6 mb-10 max-w-2xl">What this demo can do, and when each part arrived. Newest first.</p>
+    <FeaturesList features={features} />
+  </div>
+
+  <RecentDrawer slot="overlays" />
+
   <slot />
 
-  <div class="fixed inset-x-0 bottom-0 z-40 h-(--bar-h) bg-bar text-bar-ink">
+  <div class="fixed inset-x-0 bottom-0 z-40 h-(--bar-h) bg-bar text-bar-ink" data-jump-bar data-drawer-keep>
     <div class="page flex h-full items-center gap-4">
-      <p class="label flex-none font-bold text-accent-bright">Now</p>
+      <p class="label flex flex-none items-center gap-2 font-bold text-accent-bright">
+        Now
+        <button type="button" class="jump-btn" data-jump data-jump-target='[data-item="field-notes"]' data-jump-name="Field notes" hidden>
+          <span aria-hidden="true" data-jump-glyph>▲</span>
+        </button>
+      </p>
       <span class="marquee min-w-0 flex-1 text-lg font-medium" title={nowReading} data-marquee>
         <span>{nowReading}</span>
       </span>
     </div>
   </div>
 
-  <div class="toast" role="status" data-toast></div>
+  <div class="toast" role="status" data-toast data-drawer-keep></div>
 </BaseLayout>
 
 <script>
+  import '../design/kit/jump.js';
+
   // Marquee: from COMPONENTS.md. Three rounds, then rest with an ellipsis. Never with Reduce Motion.
   function scrollTitle(el: HTMLElement) {
     const distance = el.scrollWidth - el.clientWidth;
@@ -73,20 +108,27 @@ const nowReading =
   const marquee = document.querySelector<HTMLElement>('[data-marquee]');
   if (marquee) document.fonts.ready.then(() => scrollTitle(marquee));
 
-  // Contact form: no backend. Close the panel and confirm with a toast.
-  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  // Toast: any script can show one with
+  //   document.dispatchEvent(new CustomEvent('toast', { detail: 'Saved.' }))
   const toast = document.querySelector<HTMLElement>('[data-toast]');
   let timer: number | undefined;
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    form.reset();
-    document.dispatchEvent(new Event('menu:close'));
+  function showToast(text: string) {
     if (!toast) return;
-    toast.textContent = 'Message sent. Thank you.';
+    toast.textContent = text;
     toast.dataset.show = 'true';
     clearTimeout(timer);
     timer = window.setTimeout(() => {
       delete toast.dataset.show;
     }, 4000);
+  }
+  document.addEventListener('toast', (e) => showToast(String((e as CustomEvent).detail)));
+
+  // Contact form: no backend. Close the panel and confirm with a toast.
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    form.reset();
+    document.dispatchEvent(new Event('menu:close'));
+    showToast('Message sent. Thank you.');
   });
 </script>

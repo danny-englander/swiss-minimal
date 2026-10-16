@@ -1,0 +1,37 @@
+---
+// A smaller, non-modal slide-down panel (Drawer in COMPONENTS.md), opened by <DrawerButton />.
+// Put it in BaseLayout's "overlays" slot, outside the page. Slots:
+//   "before"  under the heading (an empty-state line)
+//   "list"    the rows, <li class="drawer-item">; or leave it empty and add rows from a script
+//   default   under the list (a .closing-note, actions)
+// Behavior is kit/drawer.js.
+interface Props {
+  id?: string;
+  /** The heading, set as a small accent-bright label. One or two words read best. */
+  title: string;
+  /** Name of the round "more below" arrow. */
+  moreLabel?: string;
+}
+const { id = 'drawer', title, moreLabel = 'Scroll to more' } = Astro.props;
+---
+
+<section id={id} class="drawer" data-drawer aria-labelledby={`${id}-heading`} aria-hidden="true" inert>
+  <div class="drawer-inner">
+    <h2 id={`${id}-heading`} tabindex="-1" data-drawer-focus class="label drawer-heading">{title}</h2>
+    <slot name="before" />
+    <div class="drawer-list-wrap">
+      <ol class="drawer-list" data-drawer-list><slot name="list" /></ol>
+      <!-- Shown only while there is more below and the list has not been scrolled -->
+      <button type="button" class="drawer-more" data-drawer-more data-show="false" tabindex="-1" aria-hidden="true" aria-label={moreLabel}>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">
+          <path d="M12 4v15M5 12l7 7 7-7" />
+        </svg>
+      </button>
+    </div>
+    <slot />
+  </div>
+</section>
+
+<script>
+  import '../drawer.js';
+</script>

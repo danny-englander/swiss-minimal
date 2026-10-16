@@ -1,0 +1,84 @@
+---
+// "Recent pages": the kit's Drawer, filled in the browser with the pages opened on this
+// device, newest first. Shows the drawer, its "more below" arrow and the closing note.
+import Drawer from '../design/kit/astro/Drawer.astro';
+---
+
+<Drawer title="Recent pages" moreLabel="Scroll to more pages">
+  <p slot="before" data-recent-empty class="mt-6 max-w-md">Nothing yet. Pages you open here are listed.</p>
+  <p class="closing-note mt-6 max-w-md">Kept on this device only.</p>
+</Drawer>
+
+<script>
+  const KEY = 'swiss-demo:recent';
+  const MAX = 20;
+
+  interface Visit {
+    path: string;
+    title: string;
+    at: number;
+  }
+
+  function load(): Visit[] {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(KEY) ?? '[]');
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+  function save(visits: Visit[]) {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(visits));
+    } catch {}
+  }
+
+  const list = document.querySelector<HTMLOListElement>('[data-drawer-list]');
+  const empty = document.querySelector<HTMLElement>('[data-recent-empty]');
+
+  /** "14:05", or "Oct 11, 14:05" for an earlier day. */
+  function when(at: number) {
+    const d = new Date(at);
+    const time = d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    if (d.toDateString() === new Date().toDateString()) return time;
+    return `${d.toLocaleDateString([], { month: 'short', day: 'numeric' })}, ${time}`;
+  }
+
+  function el<K extends keyof HTMLElementTagNameMap>(tag: K, className = '', text = '') {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text) node.textContent = text;
+    return node;
+  }
+
+  // Titles are only ever set as text, never as HTML.
+  function render(visits: Visit[]) {
+    if (!list || !empty) return;
+    list.replaceChildren(
+      ...visits.map((v) => {
+        const item = el('li', 'drawer-item');
+        const body = el('div', 'min-w-0');
+        const link = el('a', 'drawer-title block underline-offset-4 hover:underline', v.title);
+        link.href = v.path;
+        const meta = el('p', 'drawer-meta');
+        const time = el('time', '', when(v.at));
+        time.dateTime = new Date(v.at).toISOString();
+        meta.append(`${v.path} · `, time);
+        body.append(link, meta);
+        item.append(body);
+        return item;
+      }),
+    );
+    empty.hidden = visits.length > 0;
+  }
+
+  // Record this page, newest first, once per path.
+  const here: Visit = {
+    path: location.pathname,
+    title: document.title.replace(/ · Swiss Minimal$/, ''),
+    at: Date.now(),
+  };
+  const visits = [here, ...load().filter((v) => v.path !== here.path)].slice(0, MAX);
+  save(visits);
+  render(visits);
+</script>

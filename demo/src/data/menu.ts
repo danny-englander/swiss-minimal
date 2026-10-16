@@ -16,7 +16,6 @@ const menu: MenuItem[] = [
     ],
   },
   { label: 'About', href: '/about' },
-  { label: 'Contact', href: '#contact' },
 ];
 
 /** The menu with the current page marked, and the accordions around it opened. */

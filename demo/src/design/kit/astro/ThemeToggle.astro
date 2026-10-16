@@ -24,6 +24,7 @@
     const next = current() === 'dark' ? 'light' : 'dark';
     if (label) label.textContent = next === 'dark' ? 'Dark' : 'Light';
     button?.setAttribute('aria-label', `Switch to ${next} theme`);
+    if (button) button.dataset.tip = `Switch to ${next} theme`;  // hover label (see .topbar-btn[data-tip])
   }
 
   button?.addEventListener('click', () => {

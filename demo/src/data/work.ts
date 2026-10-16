@@ -17,7 +17,7 @@ export interface WorkItem {
   body?: string[];
 }
 
-export const work: WorkItem[] = [
+const items: WorkItem[] = [
   {
     title: 'Field notes',
     category: 'writing',
@@ -50,3 +50,9 @@ export const work: WorkItem[] = [
   { title: 'Colour tokens', category: 'design', year: 2024, meta: 'Design, 2024' },
   { title: 'Static site starter', category: 'design', year: 2024, meta: 'Code, 2024' },
 ];
+
+/** Every item with a stable id (its slug, or its title in kebab case), for favorites and links. */
+export const work = items.map((item) => ({
+  ...item,
+  id: item.slug ?? item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+}));

@@ -3,23 +3,37 @@
 // Needs the whole kit/ folder next to it (tailwind.css, theme.css, panel.js, astro/) and
 // fonts/ beside kit/. It does not import any CSS itself: import your site's global
 // stylesheet (which starts with `@import "<path>/kit/tailwind.css";`) in your own layout.
+//
+// Slots: the default slot is the page. "panel" goes under the menu (or, with `panelTabs`,
+// under every tab); with `panelTabs`, each tab's content goes in the slot named after its id.
+// "topbar" adds buttons to the top bar, before the menu button (e.g. a <DrawerButton />).
+// "overlays" sits outside the page, for a <Drawer />, a bottom bar or a toast.
 import font from '../../fonts/OverusedGrotesk-VF.woff2?url';
 import MenuButton from './MenuButton.astro';
 import MenuPanel from './MenuPanel.astro';
 import ThemeToggle from './ThemeToggle.astro';
-import type { MenuItem } from './types';
+import type { MenuItem, NewDot, PanelTab } from './types';
 
 interface Props {
   title: string;
   description?: string;
   /** The slide-down menu. Items with `children` become accordions. */
   menu?: MenuItem[];
+  /** Numbered tabs in the panel. The menu sits at the top of the first one. */
+  panelTabs?: PanelTab[];
+  /** The "new" dot on the menu button and one tab. */
+  newDot?: NewDot;
   /** Small text at the left of the top bar. */
   tagline?: string;
   /** Height of a fixed bottom bar, if the site has one (e.g. "5rem"). The panel and toast stop above it. */
   barHeight?: string;
 }
-const { title, description, menu = [], tagline = '', barHeight = '0rem' } = Astro.props;
+const { title, description, menu = [], panelTabs = [], newDot, tagline = '', barHeight = '0rem' } = Astro.props;
+const hasPanel = menu.length > 0 || panelTabs.length > 0;
+// Pass each tab's slot on to the panel.
+const tabContent = await Promise.all(
+  panelTabs.map((t) => (Astro.slots.has(t.id) ? Astro.slots.render(t.id) : Promise.resolve(''))),
+);
 ---
 
 <!doctype html>
@@ -46,7 +60,8 @@ const { title, description, menu = [], tagline = '', barHeight = '0rem' } = Astr
         <div class="flex items-center justify-between border-b-2 border-current py-3">
           <p class="text-sm font-medium">{tagline}</p>
           <div class="flex items-center gap-2">
-            {menu.length > 0 && <MenuButton />}
+            <slot name="topbar" />
+            {hasPanel && <MenuButton newDot={Boolean(newDot)} />}
             <ThemeToggle />
           </div>
         </div>
@@ -54,12 +69,17 @@ const { title, description, menu = [], tagline = '', barHeight = '0rem' } = Astr
     </div>
 
     {
-      menu.length > 0 && (
-        <MenuPanel items={menu}>
+      hasPanel && (
+        <MenuPanel items={menu} tabs={panelTabs} newDot={newDot}>
+          {panelTabs.map((t, i) => (
+            <Fragment slot={t.id} set:html={tabContent[i]} />
+          ))}
           <slot name="panel" />
         </MenuPanel>
       )
     }
+
+    <slot name="overlays" />
 
     <!-- Everything else goes in here: it becomes inert while the panel is open.
          The bottom padding keeps the end of the page clear of a fixed bottom bar. -->

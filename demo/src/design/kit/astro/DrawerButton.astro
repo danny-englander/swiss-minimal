@@ -1,0 +1,28 @@
+---
+// The top-bar button that opens a <Drawer />. Put it in BaseLayout's "topbar" slot.
+// Text by default ("Recent"); pass a mark in the slot and `square` for an icon-only button.
+// Its name and hover label follow the drawer: `label` closed, "Close <label>" open.
+interface Props {
+  /** What the drawer holds, e.g. "Recently viewed". Also the hover label. */
+  label: string;
+  /** The id of the <Drawer /> it controls. */
+  controls?: string;
+  /** A 2rem square button for a single mark, instead of a text button. */
+  square?: boolean;
+}
+const { label, controls = 'drawer', square = false } = Astro.props;
+---
+
+<button
+  type="button"
+  data-drawer-button
+  class:list={['topbar-btn', square ? 'inline-flex size-8 items-center justify-center' : 'topbar-btn--text']}
+  aria-label={label}
+  data-label={label}
+  data-label-open={`Close ${label.charAt(0).toLowerCase()}${label.slice(1)}`}
+  data-tip={label}
+  aria-expanded="false"
+  aria-controls={controls}
+>
+  <slot />
+</button>

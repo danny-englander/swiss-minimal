@@ -2,6 +2,9 @@
 // One numbered list row (ListRow in COMPONENTS.md). The end slot takes an indicator or arrow.
 // Phones: number and end slot share the first line, the name stacks under them.
 // From 768px: one line on the section's grid (number, name, end slot).
+// With `favorite`, a star sits in the end slot, beside the title link rather than inside it.
+import FavoriteButton from '../design/kit/astro/FavoriteButton.astro';
+
 interface Props {
   num: number;
   title: string;
@@ -9,15 +12,19 @@ interface Props {
   href?: string;
   active?: boolean;
   category?: string;
+  /** A stable id for the item; needed for `favorite` and to find the row from a script. */
+  id?: string;
+  favorite?: boolean;
 }
-const { num, title, meta, href, active, category } = Astro.props;
+const { num, title, meta, href, active, category, id, favorite } = Astro.props;
 ---
 
 <li
-  class="row grid grid-cols-[1fr_auto] gap-y-1 p-4 md:grid-cols-[3rem_1fr_1.75rem] md:items-baseline md:gap-x-2 md:px-0"
+  class="row grid grid-cols-[1fr_auto] gap-y-1 p-4 md:grid-cols-[3rem_1fr_2.75rem] md:items-baseline md:gap-x-2 md:px-0"
   data-active={active ? 'true' : undefined}
   aria-current={active ? 'true' : undefined}
   data-category={category}
+  data-item={id}
 >
   <!-- md:pl-5 keeps the number clear of the active row's 6px edge -->
   <span class="num small muted col-start-1 row-start-1 font-medium md:pl-5">{String(num).padStart(2, '0')}</span>
@@ -31,5 +38,8 @@ const { num, title, meta, href, active, category } = Astro.props;
     }
     {meta && <span class="small muted block">{meta}</span>}
   </span>
-  <span class="col-start-2 row-start-1 self-center md:col-start-3"><slot /></span>
+  <!-- The star's 44px touch target overlaps the row's padding instead of making the row taller -->
+  <span class="col-start-2 row-start-1 -my-2.5 flex items-center justify-center self-center md:col-start-3">
+    {favorite && id ? <FavoriteButton id={id} name={title} /> : <slot />}
+  </span>
 </li>

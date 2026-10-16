@@ -31,6 +31,10 @@ const count = (id: string) => work.filter((w) => w.category === id).length;
       <button type="button" class="chip" data-filter="all" aria-pressed="true">
         All <span class="chip-count">{work.length}</span>
       </button>
+      <!-- The count is filled in from this browser's saved favorites (kit/favorites.js). -->
+      <button type="button" class="chip" data-filter="favorites" data-label="Favorites" aria-pressed="false">
+        Favorites <span class="chip-count" data-favorites-count>0</span>
+      </button>
       {
         categories.map((c) => (
           <button type="button" class="chip" data-filter={c.id} data-label={c.label} aria-pressed="false">
@@ -40,6 +44,9 @@ const count = (id: string) => work.filter((w) => w.category === id).length;
       }
     </div>
   </details>
+  <p class="-mt-4 mb-10 max-w-md muted" data-favorites-empty hidden>
+    No favorites yet. Choose All, then tap the star next to an item to add it here.
+  </p>
   <p class="sr-only" aria-live="polite" data-filter-live></p>
 
   {
@@ -52,6 +59,9 @@ const count = (id: string) => work.filter((w) => w.category === id).length;
             meta={w.meta}
             category={w.category}
             href={w.slug ? `/work/${w.slug}` : undefined}
+            id={w.id}
+            active={w.id === 'field-notes'}
+            favorite
           />
         ))}
       </Section>
@@ -60,22 +70,30 @@ const count = (id: string) => work.filter((w) => w.category === id).length;
 </SiteLayout>
 
 <script>
+  import { getFavorites } from '../../design/kit/favorites.js';
+
   const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
   const rows = [...document.querySelectorAll<HTMLElement>('.row[data-category]')];
   const sections = [...document.querySelectorAll<HTMLElement>('[data-filter-section]')];
   const status = document.querySelector<HTMLElement>('[data-filter-status]');
   const live = document.querySelector<HTMLElement>('[data-filter-live]');
+  const favoritesEmpty = document.querySelector<HTMLElement>('[data-favorites-empty]');
 
   function apply(category: string, announce: boolean) {
     const chip = chips.find((c) => c.dataset.filter === category) ?? chips[0];
     const id = chip.dataset.filter ?? 'all';
     chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
 
+    // Favorites works like a category, using the starred ids. Unstarring while it shows leaves
+    // the row in place, so the star does not vanish under the pointer; it goes on the next choice.
+    const favorites = getFavorites();
     let shown = 0;
     rows.forEach((row) => {
-      row.hidden = id !== 'all' && row.dataset.category !== id;
+      row.hidden =
+        id === 'favorites' ? !favorites.includes(row.dataset.item ?? '') : id !== 'all' && row.dataset.category !== id;
       if (!row.hidden) shown++;
     });
+    if (favoritesEmpty) favoritesEmpty.hidden = !(id === 'favorites' && shown === 0);
     sections.forEach((s) => {
       s.hidden = !s.querySelector('.row:not([hidden])');
     });
@@ -92,5 +110,7 @@ const count = (id: string) => work.filter((w) => w.category === id).length;
   }
 
   chips.forEach((chip) => chip.addEventListener('click', () => apply(chip.dataset.filter ?? 'all', true)));
+  // The bottom bar's jump button asks for this when the current item is filtered out.
+  document.addEventListener('filter:reset', () => apply('all', true));
   apply(new URLSearchParams(location.search).get('category') ?? 'all', false);
 </script>

@@ -17,7 +17,7 @@ const { id, title, range, filterable } = Astro.props;
   aria-labelledby={id}
   data-filter-section={filterable ? '' : undefined}
 >
-  <div class="grid gap-1 pb-6 md:grid-cols-[3rem_1fr_1.75rem] md:items-baseline md:gap-x-2">
+  <div class="grid gap-1 pb-6 md:grid-cols-[3rem_1fr_2.75rem] md:items-baseline md:gap-x-2">
     <!-- "01–06" is wider than 3rem at the rows' inset, so it sits nearer the edge -->
     <p class="num small muted whitespace-nowrap font-medium md:pl-2">{range}</p>
     <h2 class="h2" id={id}>{title}</h2>
