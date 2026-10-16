@@ -83,6 +83,31 @@
   color-scheme: dark;
 }
 
+/* ---------- Accent: red (the default) or teal ---------- */
+/* Each site picks one accent with <html data-accent="teal">; no attribute means red. Only the
+   four accent tokens change; paper, ink and the dark bars stay the same. Each value passes the
+   same contrast checks as the red it replaces (see tokens.json). */
+:root[data-accent="teal"] {
+  --accent: #0f8f8c;       /* large shapes and the focus ring (3.5:1 on paper) */
+  --accent-ink: #ffffff;   /* text on a teal fill (6.3:1 on accent-text) */
+  --accent-text: #0b6b69;  /* small teal text on cream (5.6:1) */
+  --accent-bright: #3fc9c4;/* small teal text on dark surfaces (9.5:1) */
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-accent="teal"]:not([data-theme="light"]) {
+    --accent: #3fc9c4;
+    --accent-ink: #0c0c0c;
+    --accent-text: #3fc9c4;
+    --accent-bright: #3fc9c4;
+  }
+}
+:root[data-accent="teal"][data-theme="dark"] {
+  --accent: #3fc9c4;
+  --accent-ink: #0c0c0c;
+  --accent-text: #3fc9c4;
+  --accent-bright: #3fc9c4;
+}
+
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { background: var(--paper); }

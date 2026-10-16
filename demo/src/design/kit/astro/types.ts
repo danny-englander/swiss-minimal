@@ -2,7 +2,7 @@
 export interface MenuItem {
   label: string;
   href?: string;
-  /** Marks the page you are on (underlined in red). */
+  /** Marks the page you are on (underlined in the accent). */
   current?: boolean;
   /** Start this accordion open. */
   open?: boolean;
