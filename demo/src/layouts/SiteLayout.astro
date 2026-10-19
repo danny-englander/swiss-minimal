@@ -51,13 +51,23 @@ const tabs = [
   <DrawerButton slot="topbar" label="Recent pages">Recent</DrawerButton>
 
   <form slot="contact" class="max-w-xl border-t-2 border-current pt-3" data-contact-form>
-    <p class="label mb-6 font-bold text-accent-bright">Contact</p>
+    <p class="label mb-2 font-bold text-accent-bright">Contact</p>
+    <p class="small mb-6 text-bar-ink/85"><span class="required-mark"></span>Required</p>
     <label class="field-label" for="contact-name">Your name</label>
     <input class="field mb-7" id="contact-name" name="name" autocomplete="name" placeholder="Jane Doe" required />
     <label class="field-label" for="contact-email">Email</label>
     <input class="field mb-7" id="contact-email" name="email" type="email" autocomplete="email" placeholder="jane@example.com" required />
+    <label class="field-label" for="contact-topic">Topic</label>
+    <div class="select-wrap mb-7">
+      <select class="field select" id="contact-topic" name="topic">
+        <option>General</option>
+        <option>A project</option>
+        <option>The design kit</option>
+      </select>
+    </div>
     <label class="field-label" for="contact-message">Message</label>
-    <textarea class="field mb-7 min-h-24 resize-y" id="contact-message" name="message" rows="3"></textarea>
+    <textarea class="field mb-5 min-h-24 resize-y" id="contact-message" name="message" rows="3"></textarea>
+    <label class="choice mb-7"><input class="switch" type="checkbox" role="switch" name="copy" /> Send me a copy</label>
     <button class="btn" type="submit">Send</button>
   </form>
 

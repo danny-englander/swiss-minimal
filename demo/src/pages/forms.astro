@@ -1,0 +1,66 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageTitle from '../design/kit/astro/PageTitle.astro';
+---
+
+<SiteLayout title="Forms" description="Form controls in the Swiss Minimal kit: fields, a select, radios and switches.">
+  <PageTitle title="Forms" />
+
+  <form class="max-w-xl pb-16" data-settings-form>
+    <section class="mb-14 border-t-2 border-ink pt-3" aria-labelledby="forms-details">
+      <h2 class="h2 mb-3" id="forms-details">Details</h2>
+      <p class="small muted mb-8"><span class="required-mark"></span>Required</p>
+      <label class="field-label" for="forms-name">Your name</label>
+      <input class="field mb-7" id="forms-name" name="name" autocomplete="name" placeholder="Jane Doe" required />
+      <label class="field-label" for="forms-topic">Topic</label>
+      <div class="select-wrap mb-7">
+        <select class="field select" id="forms-topic" name="topic" required>
+          <option value="">Choose a topic</option>
+          <option>Writing</option>
+          <option>Design &amp; code</option>
+          <option>Tools</option>
+        </select>
+      </div>
+      <label class="field-label" for="forms-region">Region</label>
+      <div class="select-wrap">
+        <select class="field select" id="forms-region" name="region" disabled>
+          <option>Europe (only one for now)</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="mb-14 border-t-2 border-ink pt-3" aria-labelledby="forms-delivery">
+      <h2 class="h2 mb-8" id="forms-delivery">Delivery</h2>
+      <fieldset class="choice-group mb-8">
+        <legend class="field-label">How often</legend>
+        <label class="choice"><input class="radio" type="radio" name="often" value="daily" required /> Every day</label>
+        <label class="choice"><input class="radio" type="radio" name="often" value="weekly" checked /> Once a week</label>
+        <label class="choice"><input class="radio" type="radio" name="often" value="monthly" /> Once a month</label>
+        <label class="choice"><input class="radio" type="radio" name="often" value="hourly" disabled /> Every hour (paused)</label>
+      </fieldset>
+      <fieldset class="choice-group choice-group--row">
+        <legend class="field-label">Format</legend>
+        <label class="choice"><input class="radio" type="radio" name="format" value="email" checked /> Email</label>
+        <label class="choice"><input class="radio" type="radio" name="format" value="rss" /> RSS</label>
+      </fieldset>
+    </section>
+
+    <section class="mb-10 border-t-2 border-ink pt-3" aria-labelledby="forms-settings">
+      <h2 class="h2 mb-8" id="forms-settings">Settings</h2>
+      <label class="choice"><input class="switch" type="checkbox" role="switch" name="updates" checked /> Email me when something is added</label>
+      <label class="choice"><input class="switch" type="checkbox" role="switch" name="digest" /> Send a monthly digest</label>
+      <label class="choice"><input class="switch" type="checkbox" role="switch" name="beta" disabled /> Try new features early (closed)</label>
+    </section>
+
+    <button class="btn" type="submit">Save</button>
+  </form>
+</SiteLayout>
+
+<script>
+  // No backend: confirm with the layout's toast.
+  const form = document.querySelector<HTMLFormElement>('[data-settings-form]');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    document.dispatchEvent(new CustomEvent('toast', { detail: 'Settings saved.' }));
+  });
+</script>

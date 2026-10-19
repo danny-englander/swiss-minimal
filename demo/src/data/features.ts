@@ -7,6 +7,16 @@ import type { Feature } from '../design/kit/astro/types';
  */
 export const features: Feature[] = [
   {
+    date: '2026-10-19',
+    title: 'Form controls',
+    body: 'Switches, radio buttons and a select list, on the Forms page and in the Contact tab.',
+  },
+  {
+    date: '2026-10-19',
+    title: 'Page titles',
+    body: 'Pages without a hero open with one big title across the page, as on Work and Forms.',
+  },
+  {
     date: '2026-10-16',
     title: 'Features',
     body: 'This list. A red dot on the menu button means something new has arrived since you last looked.',

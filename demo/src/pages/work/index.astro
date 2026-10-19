@@ -2,6 +2,7 @@
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import Row from '../../components/Row.astro';
 import Section from '../../components/Section.astro';
+import PageTitle from '../../design/kit/astro/PageTitle.astro';
 import { categories, work } from '../../data/work';
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -15,9 +16,7 @@ const count = (id: string) => work.filter((w) => w.category === id).length;
 ---
 
 <SiteLayout title="Work" description="Selected work, filterable by category.">
-  <header class="pt-12 pb-8">
-    <h1 class="h2">All work</h1>
-  </header>
+  <PageTitle title="All work" tone="bar" />
 
   <details class="page-acc mb-10">
     <summary>
