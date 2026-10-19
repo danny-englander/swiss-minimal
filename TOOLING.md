@@ -1,6 +1,6 @@
 # Tooling recipes
 
-Two setups that came from Dial Hopping and suit any site built on this kit: accessibility tests that run against the built site, and a release script that tags each release with the date. These are recipes to copy, not kit code.
+Two setups that came from Dial Hopping and suit any site built on this kit: accessibility tests that run against the built site, and a release script that tags each release with the date. These are recipes to copy, not kit code. Between them sits the manual checklist, for what the tests can't see.
 
 ## Accessibility tests: Playwright and axe
 
@@ -101,6 +101,31 @@ axe finds missing names, bad contrast and broken ARIA. It can't tell whether thi
 - **No sideways scroll:** at a 375px viewport, a scrolling list of icon rows has `scrollWidth <= clientWidth` (the demo's `tests/drawer.spec.ts`).
 
 Write them with Playwright's role locators (`page.getByRole('tab', { name: /Contact/ })`), so a test also proves the accessible name is right.
+
+## Manual checks
+
+What the automated tests can't see. Run through it in a real browser at about 390px and 1280px wide, in light and dark, before a release or after restyling a site. Skip the lines for components the site doesn't use.
+
+- [ ] Menu button opens the panel; the top bar turns dark with it; the page behind doesn't scroll.
+- [ ] Focus moves into the panel on open and back to the menu button on close. Tab can't reach the page behind.
+- [ ] Escape closes it. Clicking an in-page `#` link in the menu closes it.
+- [ ] Panel tabs: every tab is a Tab stop; arrows, Home and End move; a tab's `#id` in the URL opens it; Back closes the panel.
+- [ ] "New" dot: none on a first visit; shows for a returning visitor; opening its tab clears it.
+- [ ] Hover labels show under the top-bar buttons after a pause (not on a phone); the last one stays on screen.
+- [ ] Drawer: page stays clickable but doesn't scroll; a click outside closes it and still works; the menu and drawer close each other; the round arrow shows while the list overflows.
+- [ ] Icon actions: icons are one color and turn the accent on hover; each says what it does (hover label and screen reader); removing a row moves focus to the next row's remove button.
+- [ ] Favorites: the star never opens its row; the Favorites filter shows only starred items.
+- [ ] Jump: scroll the current item away (or filter it out) and the triangle in the bottom bar brings it back and focuses it.
+- [ ] Accordions: only one open per level; nested level works; plus becomes minus.
+- [ ] Current page is underlined in the accent in the menu.
+- [ ] With `data-accent="teal"`, every accent mark turns teal in light and dark, and nothing else changes.
+- [ ] Theme toggle switches and remembers; reloading in dark shows no flash of light.
+- [ ] Filters: hide/show, keep numbers, status line updates, URL updates and is read on load, live region announces.
+- [ ] Forms: switches and radios work from the keyboard and show the accent when on; required fields show ⁕; a form that submits confirms with a toast above any bottom bar.
+- [ ] Page title: one `h1`, and a long title wraps instead of scrolling the page sideways on a phone.
+- [ ] A long title in a bottom bar scrolls three rounds, then rests with an ellipsis.
+- [ ] With Reduce Motion on (macOS: System Settings > Accessibility > Display), nothing slides or loops.
+- [ ] `npm run build` passes with no errors or warnings.
 
 ## Releases: date tags and notes from the features list
 
