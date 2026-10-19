@@ -29,7 +29,7 @@ export const features: Feature[] = [
   {
     date: '2026-10-16',
     title: 'Recently viewed',
-    body: 'The Recent button lists the pages you have opened here. It stays on this device.',
+    body: 'The Recent button lists the pages you have opened here, with links to share or look each one up on Bluesky, Instagram and YouTube. It stays on this device.',
   },
   {
     date: '2026-10-16',

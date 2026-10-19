@@ -29,3 +29,38 @@ test.describe('on a phone', () => {
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
   });
 });
+
+test('the drawer reaches down to the bottom bar, like the menu', async ({ page }) => {
+  await page.goto('/about');
+  await page.locator('[data-drawer-button]').click();
+  const drawer = page.locator('section[data-drawer]');
+  await expect(drawer).toHaveAttribute('data-open', 'true');
+  const drawerBox = await drawer.boundingBox();
+  const barBox = await page.locator('[data-jump-bar]').boundingBox();
+  expect(Math.round(drawerBox!.y + drawerBox!.height)).toBe(Math.round(barBox!.y));
+});
+
+test('each recent row links out to Bluesky, Instagram and YouTube', async ({ page }) => {
+  await page.goto('/about');
+  await page.locator('[data-drawer-button]').click();
+  const row = page.locator('[data-drawer-list] .drawer-item').first();
+  await expect(row.getByRole('link', { name: 'Share on Bluesky: About (opens in a new tab)' })).toBeVisible();
+  await expect(row.getByRole('link', { name: 'Search on Instagram: About (opens in a new tab)' })).toHaveAttribute(
+    'href',
+    'https://www.instagram.com/explore/tags/about/',
+  );
+  await expect(row.getByRole('link', { name: 'Search on YouTube: About (opens in a new tab)' })).toHaveAttribute(
+    'href',
+    'https://www.youtube.com/results?search_query=About',
+  );
+});
+
+test('tabbing past the last row closes the drawer, so focus is never hidden behind it', async ({ page }) => {
+  await page.goto('/about');
+  await page.locator('[data-drawer-button]').click();
+  const drawer = page.locator('section[data-drawer]');
+  await expect(drawer).toHaveAttribute('data-open', 'true');
+  await drawer.locator('.icon-btn--remove').last().focus();
+  await page.keyboard.press('Tab');
+  await expect(drawer).toHaveAttribute('data-open', 'false');
+});

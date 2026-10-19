@@ -1,7 +1,7 @@
 ---
 // "Recent pages": the kit's Drawer, filled in the browser with the pages opened on this
 // device, newest first. Shows the drawer, its "more below" arrow, the closing note, and
-// IconActions: a brand mark, an action icon and a remove button per row.
+// IconActions: three brand marks, an action icon and a remove button per row.
 import Drawer from '../design/kit/astro/Drawer.astro';
 import IconTemplates from '../design/kit/astro/IconTemplates.astro';
 ---
@@ -10,6 +10,8 @@ import IconTemplates from '../design/kit/astro/IconTemplates.astro';
 <IconTemplates
   icons={{
     bluesky: 'simple-icons:bluesky',
+    instagram: 'simple-icons:instagram',
+    youtube: 'simple-icons:youtube',
     copy: 'material-symbols:content-copy-outline',
     remove: 'material-symbols:cancel-outline',
   }}
@@ -85,10 +87,26 @@ import IconTemplates from '../design/kit/astro/IconTemplates.astro';
         // part before the colon ("Share on Bluesky").
         const url = new URL(v.path, location.origin).href;
         const actions = el('p', 'icon-row');
-        const share = iconControl('a', 'bluesky', `Share on Bluesky: ${v.title} (opens in a new tab)`) as HTMLAnchorElement;
-        share.href = `https://bsky.app/intent/compose?text=${encodeURIComponent(`${v.title} ${url}`)}`;
-        share.target = '_blank';
-        share.rel = 'noopener noreferrer';
+        const external = (icon: string, action: string, href: string) => {
+          const a = iconControl('a', icon, `${action}: ${v.title} (opens in a new tab)`) as HTMLAnchorElement;
+          a.href = href;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          return a;
+        };
+        const share = external(
+          'bluesky',
+          'Share on Bluesky',
+          `https://bsky.app/intent/compose?text=${encodeURIComponent(`${v.title} ${url}`)}`,
+        );
+        // Instagram has no web search or share link that works signed out; its hashtag page does.
+        const tag = v.title.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const instagram = external('instagram', 'Search on Instagram', `https://www.instagram.com/explore/tags/${tag}/`);
+        const youtube = external(
+          'youtube',
+          'Search on YouTube',
+          `https://www.youtube.com/results?search_query=${encodeURIComponent(v.title)}`,
+        );
         const copy = iconControl('button', 'copy', `Copy link: ${v.title}`);
         copy.addEventListener('click', async () => {
           try {
@@ -98,7 +116,7 @@ import IconTemplates from '../design/kit/astro/IconTemplates.astro';
             toast('Couldn’t copy. Select the address instead.');
           }
         });
-        actions.append(share, copy);
+        actions.append(share, instagram, youtube, copy);
         body.append(actions);
 
         // Circled X at the end of the row. The row disappears with focus on it, so pass focus
