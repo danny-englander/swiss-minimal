@@ -8,6 +8,11 @@ import type { Feature } from '../design/kit/astro/types';
 export const features: Feature[] = [
   {
     date: '2026-10-19',
+    title: 'Red or teal',
+    body: 'A site picks one accent, red or teal. The gear on the right edge previews both.',
+  },
+  {
+    date: '2026-10-19',
     title: 'Form controls',
     body: 'Switches, radio buttons and a select list, on the Forms page and in the Contact tab.',
   },
