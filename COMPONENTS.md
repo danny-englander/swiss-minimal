@@ -137,6 +137,60 @@ An underline-only text field in large type: no box, no radius, a 2px `currentCol
 
 **Don't** add borders around the input or a background fill.
 
+**Required fields** get the font's own flower asterisk (⁕, U+2055) in the accent after the label: `accent-text` on the page, `accent-bright` on dark. There is no markup to add. Put `required` on the field and the mark appears on the label just before it, on the label before a `select-wrap` that holds one, and on a `choice-group`'s legend when one of its radios is required. For a label the CSS can't reach, add `data-required`. Screen readers skip the mark, because the field's own `required` already says it. Say once what the mark means, at the top of the form: `<p class="small muted"><span class="required-mark"></span>Required</p>`. Mark the required fields, not the optional ones, and leave the mark off a form where every field is required.
+
+## Select
+
+A `Field` that picks one item from a list: the same underline and type, with a chevron at its end drawn from two 2px borders.
+
+**Markup.**
+
+```html
+<label class="field-label" for="topic">Topic</label>
+<div class="select-wrap"><select class="field select" id="topic">…</select></div>
+```
+
+- The chevron sits on `.select-wrap`, since a `<select>` can't hold a pseudo-element. Put spacing utilities on the wrapper (`class="select-wrap mb-7"`), not the select.
+- The open list is the browser's own, always `ink` on `paper`, so it reads even when the field sits on a dark panel.
+- For "nothing chosen yet", make the first option an empty-valued prompt ("Choose a topic"). For two to four choices, use radios instead: they show every option at once.
+- `:disabled` drops to 60% with a not-allowed cursor.
+
+## Switch
+
+An on/off control for a setting that takes effect as a yes or no: a square track with a square thumb that slides right as the track fills.
+
+**Markup.** `<label class="choice"><input class="switch" type="checkbox" role="switch" name="updates"> Email me when something is added</label>`
+
+- **A real checkbox** with `role="switch"`: Space toggles it, it submits with a form, and screen readers say "on" / "off". No script.
+- **On is the accent.** Off is a `currentColor` outline with a solid thumb on the left. On fills the track with `accent-text` and an `accent-ink` thumb; inside a panel or drawer, `accent-bright` with a `bar` thumb. It follows the site's accent, red or teal. The colors come from `--choice-on` and `--choice-thumb` on `.choice`.
+- The whole `.choice` label is the target, at least 2.75rem tall. The thumb slides in 200ms; not under Reduce Motion.
+- In Windows High Contrast, on fills with the system highlight color.
+- The label says what "on" means ("Send a monthly digest"), never "Enable" or "On/Off".
+
+**Don't** use it for a choice that only applies on submit when a plain yes/no question reads better, or add text inside the track.
+
+## Radio
+
+One choice from a short list, all options visible: a 2px ring with a dot that grows in the middle when chosen. The one round control: the circle is the convention that tells a radio apart from a check, so it is the fourth curve the system allows.
+
+**Markup.**
+
+```html
+<fieldset class="choice-group">
+  <legend class="field-label">How often</legend>
+  <label class="choice"><input class="radio" type="radio" name="often" value="daily"> Every day</label>
+  <label class="choice"><input class="radio" type="radio" name="often" value="weekly" checked> Once a week</label>
+</fieldset>
+```
+
+- Native radios: the arrow keys move the choice, and the group is one Tab stop. No script.
+- Stacked by default; add `choice-group--row` to set two or three short options side by side (they wrap on a phone).
+- The legend uses the `field-label` style, so a group reads like the fields around it.
+- A `currentColor` ring while unchosen (`ink` on the page, `bar-ink` on dark). The chosen one's ring and dot turn the accent: `accent-text` on the page, `accent-bright` on dark. Two to five options; more belong in a `Select`.
+- A disabled option (`disabled`) and its label drop to 60%.
+
+**Don't** start a group with nothing chosen unless "no answer" is valid, or use radios for on/off (that is a `Switch`).
+
 ## FilterChips
 
 A row of outlined buttons that narrows a list to one category. One choice at a time; the pressed one fills with `ink`.
@@ -411,3 +465,17 @@ The top of a page: the name in `display`, a `lead` line, and an optional caption
 
   Use `title="About"` instead of the slot for a one-line name, and `layout="split" | "wide"` to override the shape.
 - The hero image loads eagerly with high priority; it is the one image on a page that is not lazy.
+
+## PageTitle
+
+A title banner in place of a hero, for pages that need a name but not an introduction (a list, a form, a settings page): one `h1` across the full width of `.page`.
+
+**Markup.** `<header class="page-title"><h1 class="page-title-text">All work</h1></header>`. Add `page-title--bar` to set it on a dark `bar` block with `bar-ink` text.
+
+- Bold, tight, `clamp(3rem, 9vw, 7.5rem)`: smaller than `display`, still the biggest thing on the page. A long word wraps instead of pushing the page sideways.
+- Space like a hero's: `space-12` above, a little less below (more from 768px). No rule under it; the section below starts with its own 2px rule.
+- The bar version spans the container, not the window, and keeps a margin above and below so it reads as a block on the page.
+- One per page, and only on pages without a `Hero`.
+- **In Astro,** `kit/astro/PageTitle.astro`: `<PageTitle title="All work" />`, or `tone="bar"` for the dark block. Put rich text in the default slot instead of `title`.
+
+**Do.** Keep it to a few words. **Don't.** Add a lead line or an image to it; that is a `Hero`.

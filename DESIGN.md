@@ -9,7 +9,7 @@ This folder is the standalone kit, built for **Astro with Tailwind v4** (no Reac
 - `kit/tailwind.css`: the entry point for a Tailwind site. Imports Tailwind, loads `theme.css` into the `components` layer and maps the tokens to utilities. See "With Tailwind v4".
 - `kit/theme.css`: every token (light and dark), the base styles and every component class, in plain CSS. It also works on its own, without Tailwind. Dark mode follows the system unless `<html data-theme="light|dark">` is set.
 - `kit/panel.js`: the slide-down panel's behavior, tabs included. Plain JavaScript, no dependencies, like the other scripts: `new-dot.js` (the "new" dot), `drawer.js` (the second, non-modal panel), `jump.js` (jump to the current item), `favorites.js` (favorite stars) and `icon-controls.js` (icon buttons for rows built in the browser).
-- `kit/astro/`: BaseLayout, Hero, MenuButton, MenuPanel, MenuItems, ThemeToggle, Drawer, DrawerButton, FavoriteButton, FeaturesList, IconTemplates (needs `astro-icon`) and the types (`MenuItem`, `PanelTab`, `NewDot`, `Feature`). They use Tailwind utilities for layout and the kit classes for components.
+- `kit/astro/`: BaseLayout, Hero, PageTitle, MenuButton, MenuPanel, MenuItems, ThemeToggle, Drawer, DrawerButton, FavoriteButton, FeaturesList, IconTemplates (needs `astro-icon`) and the types (`MenuItem`, `PanelTab`, `NewDot`, `Feature`). They use Tailwind utilities for layout and the kit classes for components.
 - `kit/example.html`: a one-page demo using only `theme.css`. Open it to see what "correct" looks like.
 - `fonts/OverusedGrotesk-VF.woff2` and `fonts/LICENSE.txt` (SIL OFL 1.1). Keep the license beside the font.
 - `tokens.json`: the token values as data. If a value in `theme.css` ever differs, `tokens.json` wins.
@@ -25,11 +25,11 @@ Put this in `<head>` before first paint so a saved theme does not flash:
 ## Principles
 
 - **Type does the work.** Big bold headings, small quiet labels, nothing decorative.
-- **Flat.** No shadows, gradients, rounded corners or glass in the interface. The UI draws only three curves: the spinner, the "new" dot and the drawer's round "more below" arrow, all small marks that must read as different from the square controls around them. (One exception: a scrolling title fades at its edges; that fade hides text, it is not decoration.) Images are content and keep their own color and shapes; see Images.
+- **Flat.** No shadows, gradients, rounded corners or glass in the interface. The UI draws only four curves: the spinner, the "new" dot, the drawer's round "more below" arrow and the radio button, all small marks that must read as different from the square controls around them. (One exception: a scrolling title fades at its edges; that fade hides text, it is not decoration.) Images are content and keep their own color and shapes; see Images.
 - **One typeface, two weights.** Overused Grotesk at 700 (headings, names) and 500 (small labels). Body copy is 400. Never a third weight.
 - **Thick rule, thin rule.** A 2px `ink` rule starts each section and ends the top bar. Rows are separated by a 1px `rule`.
 - **One grid.** Section headings, list rows and descriptions share the same columns, so a range label sits over the numbers, the title over the names and the blurb over the descriptions.
-- **Color is rare.** `accent` marks the one thing that matters on a screen: the primary action, the active item, the activity indicator.
+- **Color is rare.** `accent` marks the one thing that matters on a screen: the primary action, the active item, the activity indicator, a chosen radio or a switch that is on.
 
 ## Content and voice
 
@@ -78,7 +78,8 @@ One family, `--font-sans` (Overused Grotesk, falling back to Helvetica Neue, Hel
 - List rows: 1px `rule` bottom border, `space-4` vertical padding. The row number sits `space-4` in from the left (1.25rem from 768px) so it stays clear of the active row's 6px edge.
 - Mobile first. Rows stack on phones and become a column grid from 768px.
 - If the site has a fixed bottom bar, set `bar-h` to its height and reserve that space at the bottom of the page (`BaseLayout`'s `barHeight` prop does both). Without one, `--bar-h` is `0rem`.
-- Everything is square: `radius-none`. `radius-round` is for three marks only: the spinner, the "new" dot (`.new-dot`) and the drawer's "more below" arrow (`.drawer-more`).
+- A page that needs a name but no hero opens with a `PageTitle`: one big `h1` across the width of `.page`, on the paper or on a `bar` block.
+- Everything is square: `radius-none`. `radius-round` is for four marks only: the spinner, the "new" dot (`.new-dot`), the drawer's "more below" arrow (`.drawer-more`) and the radio button (`.radio`). The switch stays square.
 
 ## Iconography
 
@@ -133,7 +134,7 @@ Photos, artwork, screenshots and product shots are welcome. The test is whether 
 
 ## Components
 
-Every component is a plain CSS class in `kit/theme.css` (loaded through `kit/tailwind.css`); there is no JavaScript bundle, only a few small plain scripts for the pieces that need behavior. In short: **Top bar** (`.topbar`), **Outlined button** (`.topbar-btn`, `.burger`), **Hover label** (`data-tip`), **Filled button** (`.btn`), **Slide-down panel** (`.panel`, with `kit/panel.js`), **Menu** (`.menu-list`, `.acc`, `.submenu`), **Panel tabs** (`.panel-tabs`, `.panel-tab`), **"New" dot** (`.new-dot`, with `kit/new-dot.js`), **Field** (`.field`), **Filter buttons** (`.chip`), **Favorite star** (`.fav-btn`, with `kit/favorites.js`), **Page accordion** (`.page-acc`), **List row** (`.row`), **Jump to current** (`.jump-btn`, with `kit/jump.js`), **Scrolling title** (`.marquee`), **Toast** (`.toast`), **Drawer** (`.drawer`, with `kit/drawer.js`), **Icon actions** (`.icon-row`, `.icon-btn`, with `kit/icon-controls.js`), **Closing note** (`.closing-note`), **Dated list** (`.dated-list`), **Activity indicators** (`.eq`, `.spinner`), **Image** (`.media`, `.figure`), **Hero** (`.hero`, `.hero--split`, `.hero--wide`).
+Every component is a plain CSS class in `kit/theme.css` (loaded through `kit/tailwind.css`); there is no JavaScript bundle, only a few small plain scripts for the pieces that need behavior. In short: **Top bar** (`.topbar`), **Outlined button** (`.topbar-btn`, `.burger`), **Hover label** (`data-tip`), **Filled button** (`.btn`), **Slide-down panel** (`.panel`, with `kit/panel.js`), **Menu** (`.menu-list`, `.acc`, `.submenu`), **Panel tabs** (`.panel-tabs`, `.panel-tab`), **"New" dot** (`.new-dot`, with `kit/new-dot.js`), **Field** (`.field`), **Select** (`.select-wrap`, `.select`), **Switch** (`.choice`, `.switch`), **Radio** (`.choice-group`, `.radio`), **Filter buttons** (`.chip`), **Favorite star** (`.fav-btn`, with `kit/favorites.js`), **Page accordion** (`.page-acc`), **List row** (`.row`), **Jump to current** (`.jump-btn`, with `kit/jump.js`), **Scrolling title** (`.marquee`), **Toast** (`.toast`), **Drawer** (`.drawer`, with `kit/drawer.js`), **Icon actions** (`.icon-row`, `.icon-btn`, with `kit/icon-controls.js`), **Closing note** (`.closing-note`), **Dated list** (`.dated-list`), **Activity indicators** (`.eq`, `.spinner`), **Image** (`.media`, `.figure`), **Hero** (`.hero`, `.hero--split`, `.hero--wide`), **Page title** (`.page-title`, `.page-title--bar`).
 
 ## With Tailwind v4
 

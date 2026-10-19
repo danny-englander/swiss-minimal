@@ -7,7 +7,7 @@ This is a test bed, not a real product. Keep the content neutral and short.
 ## Read first
 
 1. `DESIGN.md`: the brand book (principles, colors, type, layout, motion, accessibility, the "Do not" list). Follow it exactly.
-2. `COMPONENTS.md`: markup and rules for each of the 23 components.
+2. `COMPONENTS.md`: markup and rules for each of the 27 components.
 3. `kit/example.html`: open it in a browser. This is what "correct" looks like.
 
 ## What's in this folder
@@ -29,7 +29,7 @@ Swiss-minimal/
     favorites.js    favorite stars, saved on the device
     icon-controls.js  icon-only buttons for rows built in the browser
     example.html    one-page demo (theme.css only, no Tailwind)
-    astro/          BaseLayout, Hero, MenuButton, MenuPanel, MenuItems, ThemeToggle,
+    astro/          BaseLayout, Hero, PageTitle, MenuButton, MenuPanel, MenuItems, ThemeToggle,
                     Drawer, DrawerButton, FavoriteButton, FeaturesList, IconTemplates, types.ts
   demo/             (you create this: the Astro site)
 ```
