@@ -1,0 +1,13 @@
+---
+// A title banner in place of a hero: one h1 across the width of the page.
+// `tone="bar"` sets it on a dark block. Pass `title`, or put rich text in the default slot.
+interface Props {
+  title?: string;
+  tone?: 'paper' | 'bar';
+}
+const { title, tone = 'paper' } = Astro.props;
+---
+
+<header class:list={['page-title', tone === 'bar' && 'page-title--bar']}>
+  <h1 class="page-title-text">{Astro.slots.has('default') ? <slot /> : title}</h1>
+</header>

@@ -316,6 +316,28 @@ html[data-drawer-open] .topbar { --tb-bg: var(--bar); --tb-fg: var(--bar-ink); }
   .hero--split .display { font-size: clamp(3.5rem, 8vw, 8rem); }  /* half the width, so a smaller hero title */
 }
 
+/* ---------- Page title: a title banner in place of a hero ---------- */
+/* One h1 across the width of .page, for pages that need a name but not a hero. Smaller than
+   `display`, still the biggest thing on the page. .page-title--bar sets it on a dark block. */
+.page-title { padding: 3rem 0 2.5rem; }
+.page-title-text {
+  margin: 0;
+  font-size: clamp(3rem, 9vw, 7.5rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  overflow-wrap: break-word;     /* a long word wraps instead of pushing the page sideways */
+}
+.page-title--bar {
+  margin: 2rem 0 3rem;
+  padding: 2.5rem var(--gutter) 2rem;
+  background: var(--bar); color: var(--bar-ink);
+}
+@media (min-width: 768px) {
+  .page-title { padding: 5rem 0 3.5rem; }
+  .page-title--bar { margin: 3rem 0 4rem; padding: 4rem 2.5rem 3rem; }
+}
+
 /* ---------- Images (see "Images" in DESIGN.md) ---------- */
 /* A plain rectangle: no radius, border or shadow. Fills with `rule` until it loads.
    Give the <img> width and height, or a ratio class to crop it to a fixed shape. */
@@ -569,7 +591,8 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 .submenu .acc-body { padding-bottom: 0.25rem; }
 
 /* ---------- Form fields: underline only, no boxes ---------- */
-.field-label { display: block; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
+/* Dimmed by color, not opacity, so the required mark after it keeps its full accent. */
+.field-label { display: block; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, currentColor 85%, transparent); }
 .field {
   display: block; width: 100%;
   margin-top: 0.25rem; padding: 0.6rem 0;
@@ -579,6 +602,99 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
   outline-offset: 4px;
 }
 .field::placeholder { color: currentColor; opacity: 0.45; }
+
+/* Required: the font's own flower asterisk (⁕, U+2055) in the accent, after the label of a
+   required field. No markup: it appears when the label is followed by a :required field (or a
+   select-wrap holding one), or on a choice-group's legend when one of its inputs is required.
+   Add data-required to a label the selectors can't reach. Screen readers skip the mark (the
+   empty alt text after the slash); the field's own `required` is what they announce.
+   .required-mark puts the same mark in running text, for the "⁕ Required" note atop a form. */
+.field-label:is(:has(+ :required), :has(+ .select-wrap > :required), [data-required])::after,
+.choice-group:has(:required) > legend::after,
+.required-mark::before {
+  content: "\2055" / "";
+  color: var(--required-ink, var(--accent-text));
+  font-size: 1.2em; font-weight: 700; line-height: 0;
+  letter-spacing: 0;
+}
+.field-label:is(:has(+ :required), :has(+ .select-wrap > :required), [data-required])::after,
+.choice-group:has(:required) > legend::after { margin-left: 0.35em; }
+.required-mark::before { margin-right: 0.35em; }
+.panel, .drawer { --required-ink: var(--accent-bright); }
+
+/* Select: the same underline field with a chevron drawn from two borders (no icon). The chevron
+   sits on a wrapper, since a <select> can't hold a pseudo-element.
+   Markup: <div class="select-wrap"><select class="field select">…</select></div> */
+.select-wrap { position: relative; margin-top: 0.25rem; }
+.select-wrap > .field { margin-top: 0; }
+.select-wrap::after {
+  content: ""; position: absolute; right: 0.375rem; top: 50%;
+  width: 0.625rem; height: 0.625rem;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: translateY(-75%) rotate(45deg);
+  pointer-events: none;
+}
+.select { appearance: none; padding-right: 2.25rem; text-overflow: ellipsis; cursor: pointer; }
+.select option { color: var(--ink); background: var(--paper); }  /* the native list is always on the page's ground */
+.select:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Choices: a switch for on/off and radios for one of several, each in a <label class="choice">.
+   Off is drawn in the text's color; on turns the accent (accent-text on the page, accent-bright
+   on dark), so what is chosen stands out. The switch is square like every control; the radio is
+   round, the convention that tells it apart from a check. Group radios in
+   <fieldset class="choice-group"> with a <legend>. */
+.choice {
+  --choice-on: var(--accent-text);      /* ring, dot and filled track when chosen */
+  --choice-thumb: var(--accent-ink);    /* the thumb on a filled track */
+  display: flex; align-items: center; gap: 0.75rem;
+  min-height: 2.75rem;
+  font-size: 1rem; line-height: 1.3;
+  cursor: pointer;
+}
+.panel .choice, .drawer .choice { --choice-on: var(--accent-bright); --choice-thumb: var(--bar); }
+.choice:has(> :disabled) { opacity: 0.6; cursor: not-allowed; }
+.choice-group { min-width: 0; margin: 0; padding: 0; border: 0; }
+.choice-group > legend { padding: 0; margin-bottom: 0.25rem; }
+.choice-group--row { display: flex; flex-wrap: wrap; column-gap: 2rem; }
+.choice-group--row > legend { float: left; width: 100%; }  /* lets the radios flow beside each other */
+
+.switch, .radio {
+  appearance: none; flex: none; position: relative;
+  margin: 0; border: 2px solid currentColor;
+  background: transparent; color: inherit;
+  cursor: inherit;
+}
+.switch {                        /* a square track; the square thumb slides right and the track fills */
+  width: 2.75rem; height: 1.5rem;
+  transition: background-color 150ms, border-color 150ms;
+}
+.switch::before {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 1rem; height: 1rem;
+  background: currentColor;
+  transition: transform 200ms var(--ease-out), background-color 150ms;
+}
+.switch:checked { background: var(--choice-on); border-color: var(--choice-on); }
+.switch:checked::before { background: var(--choice-thumb); transform: translateX(1.25rem); }
+.radio {                         /* a ring; a dot grows in the middle when chosen */
+  display: inline-grid; place-content: center;
+  width: 1.375rem; height: 1.375rem; border-radius: 9999px;
+  transition: border-color 150ms;
+}
+.radio::before {
+  content: ""; width: 0.625rem; height: 0.625rem; border-radius: 9999px;
+  background: var(--choice-on);
+  transform: scale(0);
+  transition: transform 150ms var(--ease-out);
+}
+.radio:checked { border-color: var(--choice-on); }
+.radio:checked::before { transform: scale(1); }
+@media (forced-colors: active) {
+  .switch::before, .radio::before { background: CanvasText; }
+  .radio:checked { border-color: Highlight; }
+  .switch:checked { background: Highlight; border-color: Highlight; }
+  .switch:checked::before { background: Canvas; }
+}
 
 /* ---------- Toast ---------- */
 .toast {
