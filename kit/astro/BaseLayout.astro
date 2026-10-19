@@ -26,6 +26,11 @@ interface Props {
   newDot?: NewDot;
   /** Small text at the left of the top bar. */
   tagline?: string;
+  /**
+   * Where the tagline links: the home page. Defaults to "/" when there is a menu or panel
+   * (so the site has more than one page), and no link otherwise. `false` never links.
+   */
+  home?: string | false;
   /** Height of a fixed bottom bar, if the site has one (e.g. "5rem"). The panel and toast stop above it. */
   barHeight?: string;
   /** The site's one accent color. Red by default. */
@@ -38,10 +43,14 @@ const {
   panelTabs = [],
   newDot,
   tagline = '',
+  home,
   barHeight = '0rem',
   accent = 'red',
 } = Astro.props;
 const hasPanel = menu.length > 0 || panelTabs.length > 0;
+const homeHref = home ?? (hasPanel ? '/' : false);
+const trim = (path: string) => path.replace(/\/$/, '') || '/';
+const onHome = homeHref !== false && trim(Astro.url.pathname) === trim(homeHref);
 // Pass each tab's slot on to the panel.
 const tabContent = await Promise.all(
   panelTabs.map((t) => (Astro.slots.has(t.id) ? Astro.slots.render(t.id) : Promise.resolve(''))),
@@ -71,7 +80,17 @@ const tabContent = await Promise.all(
     <div class="topbar">
       <div class="page">
         <div class="flex items-center justify-between border-b-2 border-current py-3">
-          <p class="text-sm font-medium">{tagline}</p>
+          <p class="text-sm font-medium">
+            {
+              homeHref !== false && tagline ? (
+                <a class="topbar-home" href={homeHref} aria-current={onHome ? 'page' : undefined}>
+                  {tagline}
+                </a>
+              ) : (
+                tagline
+              )
+            }
+          </p>
           <div class="flex items-center gap-2">
             <slot name="topbar" />
             {hasPanel && <MenuButton newDot={Boolean(newDot)} />}

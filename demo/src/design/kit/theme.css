@@ -192,6 +192,10 @@ a.link:hover { color: var(--accent-text); }
 }
 html[data-menu="open"] .topbar,
 html[data-drawer-open] .topbar { --tb-bg: var(--bar); --tb-fg: var(--bar-ink); }
+/* The site name at the left of the top bar, as a link home: plain text that underlines on hover,
+   in the bar's own color so it reads on paper and on the dark bar alike. */
+.topbar-home { color: inherit; text-decoration: none; }
+.topbar-home:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .topbar-btn {                    /* outlined, inverts on hover */
   position: relative;            /* anchors its hover label and "new" dot */
   border: 1px solid currentColor;
