@@ -1,5 +1,7 @@
 # Swiss Minimal
 
+![The demo's home page in dark mode: "Swiss Minimal" in large bold type beside an abstract composition of black, grey and red shapes](docs/home-dark.webp)
+
 A Swiss / Bauhaus design kit for Astro and Tailwind v4: type-led, flat color, thick rules, one typeface.
 
 Each site picks one accent: red (the default) or teal, with `<BaseLayout accent="teal">` or `<html data-accent="teal">`. See Color in [`DESIGN.md`](DESIGN.md). In the demo, the gear on the right edge previews both.
