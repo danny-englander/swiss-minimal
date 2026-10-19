@@ -455,7 +455,10 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
   transform: translate(-50%, 0.5rem);
   transition: opacity 200ms, transform 200ms var(--ease-out), visibility 0s linear 200ms;
 }
-.topbar-btn[data-drawer-button][aria-expanded="true"] { background: var(--tb-fg); color: var(--tb-bg); }
+/* The open drawer's button turns the accent, outline and text, so it reads as "on" and ties to
+   the drawer's accent heading. The top bar is dark while it is open, hence accent-bright. */
+.topbar-btn[data-drawer-button][aria-expanded="true"] { color: var(--accent-bright); }
+.topbar-btn[data-drawer-button][aria-expanded="true"]:hover { background: var(--accent-bright); color: var(--tb-bg); }
 
 /* ---------- Icon actions: icon-only links and buttons in a row (see Iconography in DESIGN.md) ---------- */
 /* One color: the text's own (bar-ink on dark, ink on the page), turning accent-bright (dark) or

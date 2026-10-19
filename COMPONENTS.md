@@ -333,7 +333,7 @@ Load `kit/drawer.js`. In Astro, `<DrawerButton slot="topbar" label="Recent pages
 - **Full height, like the panel.** It reaches from the top down to the bottom bar (`bar-h`, or the bottom of the screen without one), so the menu and the drawer open the same way.
 - **Only the list scrolls.** The page is locked (`<html data-drawer-open>`, which also turns the top bar dark) and the heading and closing note stay put.
 - **Closes** on its button, Escape, `drawer:close`, a click outside, or keyboard focus moving outside it (Tab past the last row would otherwise land on the page hidden behind it). Opening it sends `menu:close`, and opening the menu sends `drawer:close`: one at a time.
-- **Focus** goes to the heading on open (retried under Reduce Motion) and back to the button when closed by the button or Escape. The open button stays filled.
+- **Focus** goes to the heading on open (retried under Reduce Motion) and back to the button when closed by the button or Escape. While it is open, its button's outline and text turn `accent-bright` (red or teal, whichever the site uses), matching the drawer's heading; hovering fills it with the accent.
 - **"More below" arrow.** A 2.75rem round `accent` button centered over the bottom of the list, shown while the list overflows and has not been scrolled. It scrolls most of a screen; from the keyboard it also moves focus to the first row that comes into view, since it is about to disappear. No shadow. Rows can be added and removed from a script; it re-checks on its own.
 - Rows: `drawer-title` (1.125rem, 500) over `drawer-meta` (14px, 75%), with 1px rules at 25% of `bar-ink` between them. Set text from data with `textContent`, never as HTML.
 - Slides in 450ms; not under Reduce Motion.
