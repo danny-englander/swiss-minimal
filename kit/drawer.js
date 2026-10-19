@@ -71,10 +71,12 @@
       if (list) list.scrollTo({ top: 0 });
       updateMore();
       // As in the menu: with Reduce Motion on, the first focus() can be refused for a moment.
+      // Retry only while focus is still outside, so a move the visitor makes inside it stands.
       var tries = 0;
       (function moveFocusIn() {
-        if (heading) heading.focus({ preventScroll: true });
-        if (open && heading && document.activeElement !== heading && tries++ < 20) setTimeout(moveFocusIn, 25);
+        if (!open || !heading || drawer.contains(document.activeElement)) return;
+        heading.focus({ preventScroll: true });
+        if (!drawer.contains(document.activeElement) && tries++ < 20) setTimeout(moveFocusIn, 25);
       })();
     } else {
       drawer.setAttribute('inert', '');
