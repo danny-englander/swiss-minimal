@@ -21,6 +21,8 @@
    - Closes on its button, Escape, 'drawer:close', or a pointer press anywhere outside it.
      That press still does what it was aimed at, and focus stays where it lands. Elements
      marked data-drawer-keep (a bottom bar, the toast) are left out, so they stay usable.
+   - Also closes when keyboard focus moves outside it (Tab past its last row), since it
+     covers the page down to the bottom bar and focus there would be hidden behind it.
    - Opening it dispatches 'menu:close'; the menu panel dispatches 'drawer:close' when it
      opens. Only one is open at a time.
    - Moves focus to the heading on open (retried for a moment under Reduce Motion) and back
@@ -85,13 +87,15 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && open) setOpen(false, true); });
   // The menu sends this when it opens; it moves focus itself, so do not take it back.
   document.addEventListener('drawer:close', function () { setOpen(false, false); });
-  document.addEventListener('pointerdown', function (e) {
+  function closeIfOutside(e) {
     if (!open) return;
     var target = e.target;
     if (drawer.contains(target) || button.contains(target)) return;
     if (target.closest && target.closest('[data-drawer-keep]')) return;
     setOpen(false, false);
-  });
+  }
+  document.addEventListener('pointerdown', closeIfOutside);
+  document.addEventListener('focusin', closeIfOutside);
 
   if (list) {
     list.addEventListener('scroll', updateMore, { passive: true });
