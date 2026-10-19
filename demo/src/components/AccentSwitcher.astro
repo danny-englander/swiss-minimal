@@ -63,7 +63,7 @@ const accents = [
     else if (returnFocus) toggle.focus();
   }
 
-  toggle?.addEventListener('click', () => setOpen(panel?.hidden ?? false));
+  toggle?.addEventListener('click', () => setOpen(panel?.hidden === true));
 
   for (const o of options) {
     o.addEventListener('click', () => {
