@@ -305,7 +305,7 @@ A short confirmation on a `bar` block with a 6px `accent-bright` left edge, bott
 
 ## Drawer
 
-A second, smaller slide-down panel for a list the visitor dips into while using the page (recently played, recently viewed, saved items). Same `bar` surface as the panel, but it doesn't take over the page.
+A second slide-down panel for a list the visitor dips into while using the page (recently played, recently viewed, saved items). Same `bar` surface and the same height as the panel, but lighter: no tabs, and the page behind it isn't made inert.
 
 **Markup.** A top-bar button and a `<section>` outside `[data-panel-page]`:
 
@@ -330,8 +330,9 @@ A second, smaller slide-down panel for a list the visitor dips into while using 
 Load `kit/drawer.js`. In Astro, `<DrawerButton slot="topbar" label="Recent pages">Recent</DrawerButton>` and `<Drawer slot="overlays" title="Recent pages">` in `BaseLayout` write it all.
 
 - **Non-modal.** The page is not made inert, and there is no `aria-modal`. A click or tap anywhere outside closes it and still does what it was aimed at (tap an item on the page: the drawer closes and the item opens). Focus stays where the click put it. Mark things that should stay usable with it open, such as a bottom bar or the toast, `data-drawer-keep`.
-- **Only the list scrolls.** The page is locked (`<html data-drawer-open>`, which also turns the top bar dark) and the heading and closing note stay put. At most 70% of the screen (`70svh`), so some of the page always shows below; a 2px `accent` rule marks its bottom edge.
-- **Closes** on its button, Escape, `drawer:close`, or a click outside. Opening it sends `menu:close`, and opening the menu sends `drawer:close`: one at a time.
+- **Full height, like the panel.** It reaches from the top down to the bottom bar (`bar-h`, or the bottom of the screen without one), so the menu and the drawer open the same way.
+- **Only the list scrolls.** The page is locked (`<html data-drawer-open>`, which also turns the top bar dark) and the heading and closing note stay put.
+- **Closes** on its button, Escape, `drawer:close`, a click outside, or keyboard focus moving outside it (Tab past the last row would otherwise land on the page hidden behind it). Opening it sends `menu:close`, and opening the menu sends `drawer:close`: one at a time.
 - **Focus** goes to the heading on open (retried under Reduce Motion) and back to the button when closed by the button or Escape. The open button stays filled.
 - **"More below" arrow.** A 2.75rem round `accent` button centered over the bottom of the list, shown while the list overflows and has not been scrolled. It scrolls most of a screen; from the keyboard it also moves focus to the first row that comes into view, since it is about to disappear. No shadow. Rows can be added and removed from a script; it re-checks on its own.
 - Rows: `drawer-title` (1.125rem, 500) over `drawer-meta` (14px, 75%), with 1px rules at 25% of `bar-ink` between them. Set text from data with `textContent`, never as HTML.
