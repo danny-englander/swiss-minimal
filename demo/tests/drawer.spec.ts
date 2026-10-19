@@ -35,9 +35,14 @@ test('the drawer reaches down to the bottom bar, like the menu', async ({ page }
   await page.locator('[data-drawer-button]').click();
   const drawer = page.locator('section[data-drawer]');
   await expect(drawer).toHaveAttribute('data-open', 'true');
-  const drawerBox = await drawer.boundingBox();
   const barBox = await page.locator('[data-jump-bar]').boundingBox();
-  expect(Math.round(drawerBox!.y + drawerBox!.height)).toBe(Math.round(barBox!.y));
+  // Poll: the attribute is set as the slide starts, so the first measurement can catch it mid-way.
+  await expect
+    .poll(async () => {
+      const box = await drawer.boundingBox();
+      return box ? Math.round(box.y + box.height) : 0;
+    })
+    .toBe(Math.round(barBox!.y));
 });
 
 test('each recent row links out to Bluesky, Instagram and YouTube', async ({ page }) => {
