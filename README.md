@@ -31,3 +31,17 @@ cd demo
 npx playwright install chromium
 npm test
 ```
+
+## Releases
+
+Each release is a date tag on main (`v2026.10.19`, or `v2026.10.19.2` for a second that day) with a GitHub Release whose notes come from the demo's Features list (`demo/src/data/features.ts`). From `demo/`:
+
+```bash
+npm run release -- --dry-run
+```
+
+```bash
+npm run release
+```
+
+The dry run shows the tag and notes and changes nothing. The real run asks first, then runs the tests, pushes main, pushes the tag and publishes the release. It only runs on a clean, up-to-date main, and stops if a new feature isn't dated today. Before releasing something a visitor would notice, add it at the top of `features.ts`. The script is Dial Hopping's, adapted; see "Releases" in [`TOOLING.md`](TOOLING.md).

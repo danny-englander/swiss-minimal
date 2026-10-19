@@ -8,6 +8,10 @@ astro dev --background
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
+## Pushing to main
+
+Push with `npm run release` rather than `git push`. It runs the tests, pushes, tags the push with today's date and publishes a GitHub Release whose notes come from `src/data/features.ts`. Preview first with `npm run release -- --dry-run`. The owner approves each release.
+
 ## Documentation
 
 Full documentation: https://docs.astro.build

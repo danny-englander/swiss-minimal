@@ -104,7 +104,7 @@ Write them with Playwright's role locators (`page.getByRole('tab', { name: /Cont
 
 ## Releases: date tags and notes from the features list
 
-Dial Hopping's `npm run release` (`scripts/release.ts`) turns "push to main" into a named release with notes, in one step. It fits any site whose host builds on every push (Netlify, Vercel, Cloudflare Pages), where every push already is a release.
+Dial Hopping's `npm run release` (`scripts/release.ts`) turns "push to main" into a named release with notes, in one step. It fits any site whose host builds on every push (Netlify, Vercel, Cloudflare Pages), where every push already is a release. This repository uses it too: `demo/scripts/release.ts` is the same script with the stations part dropped, reading `demo/src/data/features.ts` from the repository root.
 
 ### What it does
 
