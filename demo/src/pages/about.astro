@@ -1,6 +1,7 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import Hero from '../design/kit/astro/Hero.astro';
+import Ellipse from '../design/kit/astro/Ellipse.astro';
 import landscape from '../assets/landscape.jpg';
 ---
 
@@ -35,6 +36,18 @@ import landscape from '../assets/landscape.jpg';
     </p>
     <pre class="mb-5" tabindex="0"><code>@import "../design/kit/tailwind.css";
 /* site-only CSS below */</code></pre>
+    <p>
+      Short codes go in an oval, like the sticker on the back of a Swiss car: plain or solid, in the size of the
+      text around them.
+    </p>
+    <div class="mb-5 flex flex-wrap items-center gap-4">
+      <Ellipse code="CH" label="Switzerland" class="text-5xl" />
+      <Ellipse code="CH" label="Switzerland" solid class="text-5xl" />
+      <Ellipse code="DE" label="German" class="text-2xl" />
+      <Ellipse code="FR" label="French" class="text-2xl" />
+      <Ellipse code="NL" label="Netherlands" solid />
+      <Ellipse code="USA" label="United States" />
+    </div>
     <p class="small muted">
       Set in Overused Grotesk, released under the SIL Open Font License 1.1.
     </p>

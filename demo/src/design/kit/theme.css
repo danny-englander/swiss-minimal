@@ -527,6 +527,27 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 }
 .panel .closing-note, .drawer .closing-note { --note-ink: var(--bar-ink); }
 
+/* ---------- Ellipse: an oval code badge, like the "CH" on the back of a Swiss car ---------- */
+/* Sized in em, so it scales with the text it sits in (text-4xl makes a big one). 1 to 3
+   letters. Paper with ink letters by default, so it flips with the theme; --solid fills it
+   with ink. On a bar surface it takes the bar's colors. */
+.ellipse {
+  --el-bg: var(--paper);
+  --el-fg: var(--ink);
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 2em; min-width: 3em; padding: 0 0.7em;
+  border: max(2px, 0.07em) solid var(--el-fg);
+  border-radius: 50%;            /* a true ellipse at any width */
+  background: var(--el-bg);
+  color: var(--el-fg);
+  font-weight: 700; line-height: 1; letter-spacing: 0.04em; text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.ellipse--solid { --el-bg: var(--ink); --el-fg: var(--paper); }
+.panel .ellipse, .drawer .ellipse, .page-title--bar .ellipse { --el-bg: var(--bar); --el-fg: var(--bar-ink); }
+.panel .ellipse--solid, .drawer .ellipse--solid, .page-title--bar .ellipse--solid { --el-bg: var(--bar-ink); --el-fg: var(--bar); }
+
 /* ---------- Dated list: what changed and when, newest first ---------- */
 /* A 2px rule on top, thin rules between. Date over the text on phones, beside it from 640px. */
 .dated-list {
