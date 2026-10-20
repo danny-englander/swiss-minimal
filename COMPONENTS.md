@@ -473,7 +473,7 @@ The top of a page: the name in `display`, a `lead` line, and an optional caption
 
 A title banner in place of a hero, for pages that need a name but not an introduction (a list, a form, a settings page): one `h1` across the full width of `.page`.
 
-**Markup.** `<header class="page-title"><h1 class="page-title-text">All work</h1></header>`. Add `page-title--bar` to set it on a dark `bar` block with `bar-ink` text.
+**Markup.** `<header class="page-title"><h1 class="page-title-text">All work</h1></header>`. Add `page-title--bar` to set it on a dark `bar` block with `bar-ink` text and an 8px `accent` rule along its bottom edge (plain `accent`, since it is a large shape; red or teal with the site).
 
 - Bold, tight, `clamp(3rem, 9vw, 7.5rem)`: smaller than `display`, still the biggest thing on the page. A long word wraps instead of pushing the page sideways.
 - Space like a hero's: `space-12` above, a little less below (more from 768px). No rule under it; the section below starts with its own 2px rule.

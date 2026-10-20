@@ -322,7 +322,8 @@ html[data-drawer-open] .topbar { --tb-bg: var(--bar); --tb-fg: var(--bar-ink); }
 
 /* ---------- Page title: a title banner in place of a hero ---------- */
 /* One h1 across the width of .page, for pages that need a name but not a hero. Smaller than
-   `display`, still the biggest thing on the page. .page-title--bar sets it on a dark block. */
+   `display`, still the biggest thing on the page. .page-title--bar sets it on a dark block with
+   an 8px accent rule along its bottom: a large shape, so plain `accent`. */
 .page-title { padding: 3rem 0 2.5rem; }
 .page-title-text {
   margin: 0;
@@ -335,6 +336,7 @@ html[data-drawer-open] .topbar { --tb-bg: var(--bar); --tb-fg: var(--bar-ink); }
 .page-title--bar {
   margin: 2rem 0 3rem;
   padding: 2.5rem var(--gutter) 2rem;
+  border-bottom: 8px solid var(--accent);
   background: var(--bar); color: var(--bar-ink);
 }
 @media (min-width: 768px) {
