@@ -400,6 +400,19 @@ In Astro, `<FeaturesList features={features} />`, with the data in a typed file 
 - **Format dates in UTC.** They are plain days, so `toLocaleDateString(…, { timeZone: 'UTC' })`; otherwise a visitor west of UTC sees the day before.
 - One entry per thing a visitor would notice, dated the day it went live; when a feature grows, edit its line rather than adding one. The newest date also drives `NewDot`.
 
+## CodeBlock
+
+A block of code, commands or program output in Source Code Pro: square, with a thin `rule` border on the paper, or a dark block for terminal output and logs.
+
+**Markup.** `<pre tabindex="0"><code>…</code></pre>`. For output, add `pre--bar`: `<pre class="pre--bar" tabindex="0">`. Inside either, wrap a command line in `<span class="pre-cmd">` and an error line in `<span class="pre-err">`.
+
+- **Plain** is a 1px `rule` border and `space-4` padding, no tint behind it. **`.pre--bar`** is `bar` with `bar-ink` text in both themes, like the panel, the drawer and the toast, so output reads as a separate surface from the page.
+- **Lines.** `.pre-cmd` is bold (700, one of the kit's two weights). `.pre-err` is the accent: `accent-text` on the paper, `accent-bright` on `.pre--bar`. Don't color anything else.
+- **Scrolling.** Long lines scroll sideways rather than wrapping. Give the block `tabindex="0"` so the keyboard can scroll it. A block that grows, like live output, takes its own `max-height` from the site and scrolls down too.
+- Inline code, keys and sample output are plain `<code>`, `<kbd>` and `<samp>`; see Type in `DESIGN.md`.
+
+**Don't.** Add syntax colors, line numbers drawn as decoration, a rounded box or a tint behind code on the paper.
+
 ## Ellipse
 
 An oval badge holding a short code, like the "CH" sticker on the back of a Swiss car: bold capitals inside a thin oval rule.
