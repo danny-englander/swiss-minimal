@@ -12,6 +12,11 @@ export const features: Feature[] = [
     body: 'Code, commands and keys are set in Source Code Pro, the same on every device. See the About page.',
   },
   {
+    date: '2026-10-20',
+    title: 'Larger site name',
+    body: 'The site name at the top left of the bar, the link home, is now 16px, the size of body text.',
+  },
+  {
     date: '2026-10-19',
     title: 'Red or teal',
     body: 'A site picks one accent, red or teal. The gear on the right edge previews both.',
