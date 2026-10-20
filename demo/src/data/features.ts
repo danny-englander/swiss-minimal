@@ -8,6 +8,11 @@ import type { Feature } from '../design/kit/astro/types';
 export const features: Feature[] = [
   {
     date: '2026-10-20',
+    title: 'Oval badges',
+    body: 'Short codes like CH sit in an oval, like the sticker on a Swiss car, plain or solid, in light and dark. See the About page.',
+  },
+  {
+    date: '2026-10-20',
     title: 'Code',
     body: 'Code, commands and keys are set in Source Code Pro, the same on every device. See the About page.',
   },
