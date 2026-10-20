@@ -193,6 +193,12 @@ pre {                            /* a block of code: square, a thin rule round i
   tab-size: 2;
 }
 pre code { font-size: inherit; } /* code inside pre doesn't shrink twice */
+pre .pre-cmd { font-weight: 700; }             /* a command line in output, e.g. "$ npm test" */
+pre .pre-err { color: var(--accent-text); }    /* an error line */
+/* Terminal output and logs: a dark block in both themes, like the panel and the toast.
+   Markup: <pre class="pre--bar" tabindex="0">. Errors there use accent-bright. */
+pre.pre--bar { border-color: var(--bar); background: var(--bar); color: var(--bar-ink); }
+.pre--bar .pre-err { color: var(--accent-bright); }
 kbd {                            /* a key: outlined like the top-bar buttons */
   padding: 0 0.3em;
   border: 1px solid currentColor;
