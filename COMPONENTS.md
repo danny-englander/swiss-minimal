@@ -6,11 +6,11 @@ Markup and rules for each component. All classes live in `kit/theme.css`, which 
 
 A sticky bar on `paper` that holds the site name, the menu button and the theme toggle, and ends in a 2px `ink` rule.
 
-**Markup.** `<div class="topbar"><div class="page">` then a flex row with `border-bottom: 2px solid currentColor; padding: 0.75rem 0`. Left: the site name in `small` at weight 500. Right: a `.burger` and a `.topbar-btn--text` theme toggle, `space-2` apart.
+**Markup.** `<div class="topbar"><div class="page">` then a flex row with `border-bottom: 2px solid currentColor; padding: 0.75rem 0`. Left: the site name at body size (1rem, 16px) and weight 500. Right: a `.burger` and a `.topbar-btn--text` theme toggle, `space-2` apart.
 
 **Behavior.** It is `position: sticky; top: 0; z-index: 50`. While the slide-down panel is open (`<html data-menu="open">`) it flips to `bar` / `bar-ink` so bar and panel read as one black block, and it stays above the panel (z-index 50 over 30) so the burger-turned-X stays reachable.
 
-**Home link.** On a site with more than one page, the name links to the home page: `<a class="topbar-home" href="/">Site name</a>` inside the `small` text. It is plain text in the bar's color, underlined on hover, and carries `aria-current="page"` on the home page itself. `BaseLayout` does this whenever it has a menu; pass `home="/en/"` for another home, or `home={false}` to leave the name unlinked. A one-page site keeps the name as plain text.
+**Home link.** On a site with more than one page, the name links to the home page: `<a class="topbar-home" href="/">Site name</a>` inside that text. It is plain text in the bar's color, underlined on hover, and carries `aria-current="page"` on the home page itself. `BaseLayout` does this whenever it has a menu; pass `home="/en/"` for another home, or `home={false}` to leave the name unlinked. A one-page site keeps the name as plain text.
 
 **Do.** Keep it to a name and two or three outlined buttons. **Don't.** Add a logo image, a shadow or a second rule.
 
