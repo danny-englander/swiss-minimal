@@ -15,7 +15,7 @@ for (const path of PAGES) {
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', url);
     await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', await page.title());
     await expect(page.locator('meta[property="og:description"]')).toHaveAttribute('content', /\S/);
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `${SITE}/share-light.png`);
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `${SITE}/share-dark.png`);
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
   });
 }

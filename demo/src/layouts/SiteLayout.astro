@@ -22,7 +22,7 @@ const {
 const pageTitle = `${title} · Swiss Minimal`;
 // Share tags need full URLs, so they are built on `site` in astro.config.mjs.
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const shareImage = new URL('/share-light.png', Astro.site);
+const shareImage = new URL('/share-dark.png', Astro.site);
 const nowReading =
   'Field notes: twelve months of small projects set in a single typeface, and what that taught me about restraint';
 const tabs = [
@@ -50,8 +50,8 @@ const tabs = [
   <Fragment slot="head">
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <!-- Share previews. A preview can't follow the reader's theme, so it uses the light card,
-         the kit's default; public/share-dark.png is the same card in dark. -->
+    <!-- Share previews. A preview can't follow the reader's theme, so it uses the dark card;
+         public/share-light.png is the same card in light. -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Swiss Minimal" />
     <meta property="og:title" content={pageTitle} />
