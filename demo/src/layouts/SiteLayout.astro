@@ -15,7 +15,14 @@ interface Props {
   title: string;
   description?: string;
 }
-const { title, description } = Astro.props;
+const {
+  title,
+  description = 'A Swiss / Bauhaus design kit for Astro and Tailwind v4: type-led, flat color, thick rules, one typeface.',
+} = Astro.props;
+const pageTitle = `${title} · Swiss Minimal`;
+// Share tags need full URLs, so they are built on `site` in astro.config.mjs.
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const shareImage = new URL('/share-light.png', Astro.site);
 const nowReading =
   'Field notes: twelve months of small projects set in a single typeface, and what that taught me about restraint';
 const tabs = [
@@ -26,7 +33,7 @@ const tabs = [
 ---
 
 <BaseLayout
-  title={`${title} · Swiss Minimal`}
+  title={pageTitle}
   description={description}
   menu={menuFor(Astro.url.pathname)}
   panelTabs={tabs}
@@ -40,6 +47,23 @@ const tabs = [
   tagline="Swiss Minimal demo"
   barHeight="5rem"
 >
+  <Fragment slot="head">
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <!-- Share previews. A preview can't follow the reader's theme, so it uses the light card,
+         the kit's default; public/share-dark.png is the same card in dark. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Swiss Minimal" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Swiss Minimal, in large bold type beside an abstract composition of black, grey and red shapes" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </Fragment>
+
   <script is:inline slot="head">
     // Demo only: apply the accent picked in the gear switcher before first paint.
     try {
