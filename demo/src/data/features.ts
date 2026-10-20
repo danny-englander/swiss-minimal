@@ -7,6 +7,11 @@ import type { Feature } from '../design/kit/astro/types';
  */
 export const features: Feature[] = [
   {
+    date: '2026-10-20',
+    title: 'Code',
+    body: 'Code, commands and keys are set in Source Code Pro, the same on every device. See the About page.',
+  },
+  {
     date: '2026-10-19',
     title: 'Red or teal',
     body: 'A site picks one accent, red or teal. The gear on the right edge previews both.',
