@@ -14,7 +14,7 @@ export const features: Feature[] = [
   {
     date: '2026-10-20',
     title: 'Code',
-    body: 'Code, commands and keys are set in Source Code Pro, the same on every device. See the About page.',
+    body: 'Code, commands and keys are set in Source Code Pro, the same on every device, and terminal output sits on a dark block. See the About page.',
   },
   {
     date: '2026-10-20',
