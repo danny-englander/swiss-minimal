@@ -12,6 +12,7 @@
 
 @theme inline {
   --font-sans: "Overused Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "Source Code Pro", ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
