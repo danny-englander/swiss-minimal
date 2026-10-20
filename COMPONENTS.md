@@ -400,6 +400,20 @@ In Astro, `<FeaturesList features={features} />`, with the data in a typed file 
 - **Format dates in UTC.** They are plain days, so `toLocaleDateString(…, { timeZone: 'UTC' })`; otherwise a visitor west of UTC sees the day before.
 - One entry per thing a visitor would notice, dated the day it went live; when a feature grows, edit its line rather than adding one. The newest date also drives `NewDot`.
 
+## Ellipse
+
+An oval badge holding a short code, like the "CH" sticker on the back of a Swiss car: bold capitals inside a thin oval rule.
+
+**Markup.** `<span class="ellipse" title="Switzerland"><span aria-hidden="true">CH</span><span class="sr-only">Switzerland</span></span>`. In Astro, `<Ellipse code="CH" label="Switzerland" />`; add `solid` for the filled version.
+
+- **Shape.** 2em tall, at least 3em wide, `border-radius: 50%`, so it stays a true ellipse when a third letter widens it. The border is 2px, or 0.07em on a big one, so it keeps its weight as it scales.
+- **Type.** 700, uppercase, 0.04em tracking, in the font size of the text around it. Size it with a text utility: `text-base` beside body text, `text-4xl` or more as a mark on its own. Never under 0.875rem.
+- **Light and dark.** The default is `paper` with `ink` letters and rule, the plain sticker; `.ellipse--solid` is `ink` with `paper` letters. Both follow the theme with no extra classes: the default is a cream oval with black letters in light and a black oval with cream letters in dark, and on a `bar` surface (panel, drawer, `page-title--bar`) they take `bar` and `bar-ink`.
+- **Saying it.** Pass `label` with what the code stands for. Screen readers then hear "Switzerland", not "C H", and the label shows as a tooltip. Leave it off only when the code is already spelled out beside the badge.
+- 1 to 3 letters or digits. Country codes, a language (DE, FR), a short grade or version.
+
+**Don't.** Put a sentence or an icon in it, color it with the accent, or use it as a button. It is a label, not a control.
+
 ## ActivityIndicators
 
 Two small moving marks: the equalizer (`.eq`, three `accent` bars) says "this is live / playing now"; the spinner (`.spinner`, a 2px `currentColor` ring with one side open) says "loading".
