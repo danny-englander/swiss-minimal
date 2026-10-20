@@ -1,0 +1,107 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Hero from '../design/kit/astro/Hero.astro';
+
+// What a visitor might ask for, and the kit components an agent reaches for.
+const requests = [
+  { ask: 'A list of past projects I can filter by type', gets: 'Numbered list rows, with filter chips folded in an accordion' },
+  { ask: 'Let visitors save the ones they like', gets: 'A favorite star on each row, and a Favorites filter' },
+  { ask: 'A contact form', gets: 'Underlined fields, a select, a switch and one filled Send button' },
+  { ask: 'A home page with our artwork', gets: 'A hero, with the image beside the title or under it, by its shape' },
+  { ask: 'A list of what changed and when', gets: 'A dated list, newest first' },
+  { ask: 'Show our install steps', gets: 'A code block, with commands in bold' },
+];
+
+const repo = 'https://github.com/danny-englander/swiss-minimal';
+const doc = (file: string) => `${repo}/blob/main/${file}`;
+
+// A starting AGENTS.md for a site built on the kit. Kept short: it points at the kit's own docs.
+const siteAgents = `# Notes for AI agents
+
+This site uses the Swiss Minimal design kit: src/design/kit,
+with its fonts in src/design/fonts. Before changing a page, read
+the kit's rules and component guide:
+
+- ${doc('DESIGN.md')}
+- ${doc('COMPONENTS.md')}
+
+- Build pages on BaseLayout, and open each with a Hero or a PageTitle.
+- Page layout is Tailwind utilities; components are kit classes.
+- Colors only through the token utilities (text-muted, bg-bar,
+  text-accent-text), never Tailwind's palette.
+- Check each change against the "Do not" list in DESIGN.md.
+- Don't edit src/design/. A fix there belongs in the kit's repository.
+- Run the axe tests before calling a change done.`;
+
+const newSitePrompt = `Start a new Astro site with the Swiss Minimal design kit.
+Follow "Starting a new site with the kit" in
+${doc('AGENTS.md')}
+Pages: Home, Work, About and Contact. Accent: teal.
+Add an AGENTS.md for the site that points at the kit's docs.`;
+
+const restylePrompt = `Restyle this site with the Swiss Minimal design kit.
+Follow "Restyling an existing site with the kit" in
+${doc('AGENTS.md')}
+Start with the survey, and show me the map of our pages to kit
+components before you change anything.`;
+---
+
+<SiteLayout title="Agents" description="How to build or restyle a site with the Swiss Minimal kit using an AI coding agent.">
+  <Hero title="Agents" lead="You don't need to learn the kit's markup. Say what the site should do, and an AI coding agent picks the components, writes the code and checks it against the rules." />
+
+  <article class="max-w-2xl pb-16">
+    <section class="mb-14 border-t-2 border-ink pt-3 [&>p]:mb-5" aria-labelledby="agents-ask">
+      <h2 class="h2 mb-6" id="agents-ask">Ask in plain words</h2>
+      <p>Describe pages the way you would to a designer. The agent knows which component fits each request, and how each one is built:</p>
+      <dl class="mb-5 border-t border-rule">
+        {
+          requests.map((r) => (
+            <div class="grid gap-1 border-b border-rule py-4 sm:grid-cols-[1fr_1fr] sm:gap-6">
+              <dt class="font-bold">{r.ask}</dt>
+              <dd class="muted">{r.gets}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p>To see each one before you ask, open <a class="link" href="/components">Components</a>.</p>
+    </section>
+
+    <section class="mb-14 border-t-2 border-ink pt-3 [&>p]:mb-5" aria-labelledby="agents-file">
+      <h2 class="h2 mb-6" id="agents-file">The agents file</h2>
+      <p>Coding agents such as Claude Code, Codex and Cursor look for a file called <code>AGENTS.md</code> in the folder they work in, and read it before they start. Claude Code reads the same notes as <code>CLAUDE.md</code>. The kit's repository has both, with the same text.</p>
+      <p>It covers the three jobs people bring: changing the kit, starting a new site with it, and restyling a site that already exists. For each, it lists the steps in order and the files to read first: <a class="link" href={doc('DESIGN.md')}>DESIGN.md</a> for the rules and its "Do not" list, <a class="link" href={doc('COMPONENTS.md')}>COMPONENTS.md</a> for each component's markup, and <a class="link" href={doc('tokens.json')}>tokens.json</a> for every color and size.</p>
+      <p>Read it yourself first: <a class="link" href={doc('AGENTS.md')}>AGENTS.md on GitHub</a>.</p>
+    </section>
+
+    <section class="mb-14 border-t-2 border-ink pt-3 [&>p]:mb-5" aria-labelledby="agents-new">
+      <h2 class="h2 mb-6" id="agents-new">Start a new site</h2>
+      <p>One request is enough. Name the pages and the accent, and point the agent at the kit:</p>
+      <pre class="mb-5" tabindex="0"><code>{newSitePrompt}</code></pre>
+      <p>The agent sets up an Astro site with Tailwind, copies the kit into it, builds each page from the components and adds the accessibility tests. It leaves the kit's own files untouched, so a newer kit can be dropped in later.</p>
+    </section>
+
+    <section class="mb-14 border-t-2 border-ink pt-3 [&>p]:mb-5" aria-labelledby="agents-site-file">
+      <h2 class="h2 mb-6" id="agents-site-file">Give your site its own file</h2>
+      <p>The kit's <code>AGENTS.md</code> stays in the kit's repository. Your site needs its own, so the next agent that opens the project, next week or next year, knows the rules without being told. This is enough to start, and it grows with your own notes:</p>
+      <pre class="mb-5" tabindex="0"><code>{siteAgents}</code></pre>
+      <p>Save it as <code>AGENTS.md</code> at the top of the project. If you use Claude Code, save a copy as <code>CLAUDE.md</code> too, or a <code>CLAUDE.md</code> that only says <code>@AGENTS.md</code>.</p>
+    </section>
+
+    <section class="mb-14 border-t-2 border-ink pt-3 [&>p]:mb-5" aria-labelledby="agents-restyle">
+      <h2 class="h2 mb-6" id="agents-restyle">Restyle an existing site</h2>
+      <p>Restyling is mostly removing: the kit only works when it is the site's only visual system. So the agent starts by looking, not changing. It notes how the site loads its CSS, how dark mode works and which pieces each page uses, then maps each piece to a kit component and lists the ones with no match.</p>
+      <pre class="mb-5" tabindex="0"><code>{restylePrompt}</code></pre>
+      <p>Once you agree the map, it moves one kind of page at a time and commits after each, so any problem traces back to one step. It leaves your copy, URLs and features as they are, and asks you where content and a rule disagree. The site doesn't have to be built with Astro or Tailwind; the agent works out how to load the kit either way.</p>
+    </section>
+
+    <section class="mb-14 border-t-2 border-ink pt-3 [&>p]:mb-5" aria-labelledby="agents-llms">
+      <h2 class="h2 mb-6" id="agents-llms">For agents on the web</h2>
+      <p>An agent that reads this site instead of the repository can start at <a class="link" href="/llms.txt">/llms.txt</a>. It is a short plain-text index, in the <a class="link" href="https://llmstxt.org/">llms.txt</a> format, that says what the kit is and links to the same docs as plain Markdown, plus the pages of this demo.</p>
+    </section>
+
+    <section class="border-t-2 border-ink pt-3 [&>p]:mb-5" aria-labelledby="agents-check">
+      <h2 class="h2 mb-6" id="agents-check">Check the result</h2>
+      <p>An agent's work passes when it follows the rules, not just when it builds. Look at each page at phone and desktop widths, in light and dark, against the "Do not" list in <a class="link" href={doc('DESIGN.md')}>DESIGN.md</a>. The axe tests in <a class="link" href={doc('TOOLING.md')}>TOOLING.md</a> catch contrast and labelling problems in both themes. The <a class="link" href="/components">Components</a> page shows what each piece should look like.</p>
+    </section>
+  </article>
+</SiteLayout>

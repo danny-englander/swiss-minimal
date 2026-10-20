@@ -8,7 +8,7 @@ import AxeBuilder from '@axe-core/playwright';
 const THEMES = ['light', 'dark'] as const;
 // The demo is red; teal is checked by setting <html data-accent="teal">, as a teal site would.
 const ACCENTS = ['red', 'teal'] as const;
-const PAGES = ['/', '/work', '/work/field-notes', '/about', '/forms', '/components'];
+const PAGES = ['/', '/work', '/work/field-notes', '/about', '/forms', '/components', '/agents'];
 const TABS = ['menu', 'contact', 'features'];
 
 /** Wait for any running CSS animation or transition to finish. */

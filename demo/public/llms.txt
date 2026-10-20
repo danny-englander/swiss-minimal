@@ -1,0 +1,36 @@
+# Swiss Minimal
+
+> A Swiss / Bauhaus design kit for Astro and Tailwind v4: type-led, flat color, thick rules and one typeface (Overused Grotesk) on a cream page, with black ink and one accent, red or teal.
+
+The kit is plain CSS (`kit/theme.css`, loaded through `kit/tailwind.css` on a Tailwind v4 site), a few small plain scripts and some Astro components. A site without Tailwind or Astro can link `theme.css` as a stylesheet and copy the components' markup. To use it, copy `kit/` and `fonts/` from the repository into a project's `src/design/`, side by side.
+
+Agents: start with AGENTS.md. It covers the three tasks people bring, which are changing the kit, starting a new site with it and restyling an existing site, and says which other files to read for each one. Every token value is in tokens.json; if theme.css disagrees, tokens.json wins.
+
+## Docs
+
+- [AGENTS.md](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/AGENTS.md): Notes for AI agents: working on the kit, starting a new site with it, restyling an existing site. Start here.
+- [DESIGN.md](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/DESIGN.md): The rules: color, type, layout, iconography, images, motion, accessibility, the Tailwind setup and the "Do not" list.
+- [COMPONENTS.md](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/COMPONENTS.md): Markup, behavior and do's and don'ts for each component.
+- [tokens.json](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/tokens.json): Every token value, light and dark, for both accents, with a note on what each is for.
+- [TOOLING.md](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/TOOLING.md): Accessibility tests with Playwright and axe, a manual checklist, and date-tagged releases.
+
+## Kit
+
+- [kit/tailwind.css](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/kit/tailwind.css): The entry point for a Tailwind v4 site. Imports Tailwind, loads theme.css and maps the tokens to utilities.
+- [kit/theme.css](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/kit/theme.css): Every token, the base styles and every component class, in plain CSS.
+- [kit/astro/](https://github.com/danny-englander/swiss-minimal/tree/main/kit/astro): Astro components: BaseLayout, Hero, PageTitle, Ellipse, the menu, drawer and theme toggle, and their types.
+- [kit/example.html](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/kit/example.html): A one-page demo using only theme.css.
+
+## Demo
+
+- [Components](https://swissminimal.ch/components): Every component in the kit on one page.
+- [Agents](https://swissminimal.ch/agents): How to build or restyle a site with the kit using an AI coding agent.
+- [Forms](https://swissminimal.ch/forms): Fields, a select, radios and switches in a working form.
+
+## Optional
+
+- [README](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/README.md): What is in the repository, and how to run, test and release the demo.
+- [Repository](https://github.com/danny-englander/swiss-minimal): The source, including the demo site in demo/.
+- [Home](https://swissminimal.ch/): The demo's home page, with a split hero and list rows.
+- [Work](https://swissminimal.ch/work): A filterable list with favorites and a dark page title.
+- [About](https://swissminimal.ch/about): Running text, code blocks and oval badges.
