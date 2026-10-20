@@ -11,7 +11,7 @@ Each site picks one accent: red (the default) or teal, with `<BaseLayout accent=
 - [`TOOLING.md`](TOOLING.md): recipes for accessibility tests (Playwright and axe) and date-tagged releases, and a manual checklist.
 - [`AGENTS.md`](AGENTS.md): notes for AI agents (also `CLAUDE.md`): working on this repository, starting a new site with the kit, and restyling an existing one.
 - [`kit/`](kit): `tailwind.css`, `theme.css`, small plain scripts (`panel.js`, `new-dot.js`, `drawer.js`, `jump.js`, `favorites.js`, `icon-controls.js`) and the Astro components.
-- [`fonts/`](fonts): Overused Grotesk (SIL OFL 1.1).
+- [`fonts/`](fonts): Overused Grotesk, and Source Code Pro for code (both SIL OFL 1.1).
 - [`demo/`](demo): a small Astro site that uses every component.
 
 ## Run the demo

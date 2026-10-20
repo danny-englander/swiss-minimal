@@ -11,7 +11,7 @@ This folder is the standalone kit, built for **Astro with Tailwind v4** (no Reac
 - `kit/panel.js`: the slide-down panel's behavior, tabs included. Plain JavaScript, no dependencies, like the other scripts: `new-dot.js` (the "new" dot), `drawer.js` (the second, non-modal panel), `jump.js` (jump to the current item), `favorites.js` (favorite stars) and `icon-controls.js` (icon buttons for rows built in the browser).
 - `kit/astro/`: BaseLayout, Hero, PageTitle, MenuButton, MenuPanel, MenuItems, ThemeToggle, Drawer, DrawerButton, FavoriteButton, FeaturesList, IconTemplates (needs `astro-icon`) and the types (`MenuItem`, `PanelTab`, `NewDot`, `Feature`). They use Tailwind utilities for layout and the kit classes for components.
 - `kit/example.html`: a one-page demo using only `theme.css`. Open it to see what "correct" looks like.
-- `fonts/OverusedGrotesk-VF.woff2` and `fonts/LICENSE.txt` (SIL OFL 1.1). Keep the license beside the font.
+- `fonts/OverusedGrotesk-VF.woff2` and `fonts/LICENSE.txt`, and `fonts/SourceCodePro-VF.woff2` (for code) and `fonts/SourceCodePro-LICENSE.txt`, all SIL OFL 1.1. Keep each license beside its font.
 - `tokens.json`: the token values as data. If a value in `theme.css` ever differs, `tokens.json` wins.
 
 Put this in `<head>` before first paint so a saved theme does not flash:
@@ -26,7 +26,7 @@ Put this in `<head>` before first paint so a saved theme does not flash:
 
 - **Type does the work.** Big bold headings, small quiet labels, nothing decorative.
 - **Flat.** No shadows, gradients, rounded corners or glass in the interface. The UI draws only four curves: the spinner, the "new" dot, the drawer's round "more below" arrow and the radio button, all small marks that must read as different from the square controls around them. (One exception: a scrolling title fades at its edges; that fade hides text, it is not decoration.) Images are content and keep their own color and shapes; see Images.
-- **One typeface, two weights.** Overused Grotesk at 700 (headings, names) and 500 (small labels). Body copy is 400. Never a third weight.
+- **One typeface, two weights.** Overused Grotesk at 700 (headings, names) and 500 (small labels). Body copy is 400. Never a third weight. The one exception is code, which is set in Source Code Pro (see Type).
 - **Thick rule, thin rule.** A 2px `ink` rule starts each section and ends the top bar. Rows are separated by a 1px `rule`.
 - **One grid.** Section headings, list rows and descriptions share the same columns, so a range label sits over the numbers, the title over the names and the blurb over the descriptions.
 - **Color is rare.** `accent` marks the one thing that matters on a screen: the primary action, the active item, the activity indicator, a chosen radio or a switch that is on.
@@ -53,7 +53,7 @@ Light is the default. Dark keeps the same roles.
 
 ## Type
 
-One family, `--font-sans` (Overused Grotesk, falling back to Helvetica Neue, Helvetica, Arial).
+One family, `--font-sans` (Overused Grotesk, falling back to Helvetica Neue, Helvetica, Arial). Code is the only exception: `code`, `pre`, `kbd` and `samp` use `--font-mono`: Source Code Pro at 400, falling back to the system's monospace (`ui-monospace`, SF Mono, Menlo, Consolas, Liberation Mono). It is not preloaded, so a page with no code never downloads it.
 
 | Style | Use |
 | --- | --- |
@@ -64,11 +64,13 @@ One family, `--font-sans` (Overused Grotesk, falling back to Helvetica Neue, Hel
 | `body` | Body copy, 1rem / 1.5 |
 | `small` | Meta, sublines, counts, 0.875rem |
 | `label` | 1 to 2 words, uppercase, 500, 0.08em |
+| `code` | Code, file names, commands, keys: `--font-mono` at 0.9375em of the text around it, never under 0.875rem |
 
 - **14px is the floor.** Nothing is smaller.
 - Add `.num` (tabular numerals) to any number that lines up in a column.
 - Headings are tight, names slightly open. Never track body text.
 - Long labels that would otherwise be caps take `.prose-sentence`.
+- Code is plain HTML, no class: inline `<code>` sits in the line with no tint behind it; a `<pre>` block is square with a 1px `rule` border and `space-4` padding, and scrolls sideways rather than wrapping (give a long one `tabindex="0"` so the keyboard can scroll it); `<kbd>` is outlined in `currentColor`, like the top-bar buttons. Monospace never goes beyond code: not for labels, numbers or headings.
 
 ## Layout
 
@@ -166,6 +168,7 @@ This is the default setup, and how Dial Hopping is built.
 ```css
 @theme inline {
   --font-sans: "Overused Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "Source Code Pro", ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
@@ -188,6 +191,7 @@ This is the default setup, and how Dial Hopping is built.
 - Add shadows, gradients, rounded corners or boxes around inputs.
 - Use images as filler or background, round or frame them, or set text straight on them.
 - Use a third weight, or text under 14px.
+- Use a monospace (or any second family) for anything but code, or tint the background behind code.
 - Use plain `accent` for small text.
 - Use all caps for more than a couple of words.
 - Let text keep moving forever, or move at all with Reduce Motion on.
@@ -197,3 +201,5 @@ This is the default setup, and how Dial Hopping is built.
 ## License
 
 Overused Grotesk by Bao Nguyen (RandomMaerks), SIL Open Font License 1.1: https://github.com/RandomMaerks/Overused-Grotesk. Free on any site as long as `fonts/LICENSE.txt` stays with it.
+
+Source Code Pro by Paul D. Hunt for Adobe, SIL Open Font License 1.1: https://github.com/adobe-fonts/source-code-pro. Free on any site as long as `fonts/SourceCodePro-LICENSE.txt` stays with it.
