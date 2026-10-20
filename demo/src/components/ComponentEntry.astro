@@ -1,0 +1,33 @@
+---
+// One component on the Components page, inside a Section: its number, name, kit classes and a
+// line on what it is for, then the live component from the default slot.
+// Phones and tablets: everything stacks in the name column.
+// From 1024px: number, text and the component side by side.
+interface Props {
+  num: number;
+  name: string;
+  /** The kit classes or attribute, e.g. ".btn". */
+  classes?: string;
+}
+const { num, name, classes } = Astro.props;
+---
+
+<li
+  class="grid gap-y-4 border-b border-rule py-8 md:grid-cols-[3rem_1fr] md:gap-x-2 lg:grid-cols-[3rem_minmax(0,2fr)_minmax(0,3fr)]"
+>
+  <!-- md:pl-5 lines the number up with the ListRow numbers on the other pages -->
+  <span class="num small muted font-medium md:pl-5">{String(num).padStart(2, '0')}</span>
+  <div class="md:col-start-2">
+    <h3 class="title">{name}</h3>
+    {classes && <p class="muted mt-1"><code>{classes}</code></p>}
+    <p class="mt-3 max-w-md"><slot name="about" /></p>
+  </div>
+  <!-- The column gap stays the section header's, so the names line up under its h2 -->
+  {
+    Astro.slots.has('default') && (
+      <div class="min-w-0 md:col-start-2 lg:col-start-3 lg:pl-6">
+        <slot />
+      </div>
+    )
+  }
+</li>

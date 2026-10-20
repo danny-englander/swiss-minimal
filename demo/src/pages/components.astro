@@ -1,0 +1,302 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Section from '../components/Section.astro';
+import Row from '../components/Row.astro';
+import ComponentEntry from '../components/ComponentEntry.astro';
+import Hero from '../design/kit/astro/Hero.astro';
+import Ellipse from '../design/kit/astro/Ellipse.astro';
+import FavoriteButton from '../design/kit/astro/FavoriteButton.astro';
+import FeaturesList from '../design/kit/astro/FeaturesList.astro';
+import MenuItems from '../design/kit/astro/MenuItems.astro';
+import type { MenuItem } from '../design/kit/astro/types';
+import { features } from '../data/features';
+import hero from '../assets/hero.jpg';
+
+// A menu like the panel's, two levels deep, for the Menu entry.
+const sampleMenu: MenuItem[] = [
+  { label: 'Home', href: '/' },
+  {
+    label: 'Work',
+    children: [
+      { label: 'All work', href: '/work' },
+      { label: 'Projects', children: [{ label: 'Field notes', href: '/work/field-notes' }] },
+    ],
+  },
+  { label: 'About', href: '/about' },
+];
+
+const chips = [
+  { id: 'all', label: 'All', count: 6 },
+  { id: 'writing', label: 'Writing', count: 3 },
+  { id: 'tools', label: 'Tools', count: 2 },
+  { id: 'type', label: 'Type', count: 1 },
+];
+---
+
+<SiteLayout title="Components" description="Every component in the Swiss Minimal kit on one page.">
+  <Hero lead="Every component in the kit on one page, in the order of the component guide. The ones that frame the page are listed at the end.">
+    <!-- At the display minimum (64px) the word is wider than a 375px phone, so it may break here. -->
+    <Fragment slot="title">Compo&shy;nents</Fragment>
+  </Hero>
+
+  <!-- Outlined buttons take their colors from the top bar; off the bar they need the same two. -->
+  <div class="[--tb-bg:var(--paper)] [--tb-fg:var(--ink)]">
+    <Section id="buttons" title="Buttons" range="01–03">
+      <ComponentEntry num={1} name="Button" classes=".btn">
+        <Fragment slot="about">The one filled button, for the single main action of a view. Hover brightens it.</Fragment>
+        <button class="btn" type="button" data-toast-text="Sent.">Send</button>
+      </ComponentEntry>
+      <ComponentEntry num={2} name="Outlined button" classes=".topbar-btn, .topbar-btn--text">
+        <Fragment slot="about">The quiet button: a 1px outline that fills on hover. The top bar uses it for Recent, the menu and the theme.</Fragment>
+        <button class="topbar-btn topbar-btn--text" type="button" data-copy="/components">Copy link</button>
+      </ComponentEntry>
+      <ComponentEntry num={3} name="Hover label" classes="data-tip">
+        <Fragment slot="about">A short label under an outlined button saying what it does. Hover or tab to it.</Fragment>
+        <button class="topbar-btn topbar-btn--text" type="button" data-tip="Print page" data-print>Print</button>
+      </ComponentEntry>
+    </Section>
+  </div>
+
+  <Section id="forms" title="Forms" range="04–07">
+    <ComponentEntry num={4} name="Field" classes=".field, .field-label">
+      <Fragment slot="about">An underline in large type, no box. A required field gets the flower mark after its label.</Fragment>
+      <div class="max-w-md">
+        <p class="small muted mb-6"><span class="required-mark"></span>Required</p>
+        <label class="field-label" for="cmp-name">Your name</label>
+        <input class="field" id="cmp-name" name="name" autocomplete="name" placeholder="Jane Doe" required />
+      </div>
+    </ComponentEntry>
+    <ComponentEntry num={5} name="Select" classes=".select-wrap, .select">
+      <Fragment slot="about">A field that picks one item from a list, with a chevron at its end.</Fragment>
+      <div class="max-w-md">
+        <label class="field-label" for="cmp-topic">Topic</label>
+        <div class="select-wrap">
+          <select class="field select" id="cmp-topic" name="topic">
+            <option value="">Choose a topic</option>
+            <option>Writing</option>
+            <option>Design &amp; code</option>
+            <option>Tools</option>
+          </select>
+        </div>
+      </div>
+    </ComponentEntry>
+    <ComponentEntry num={6} name="Switch" classes=".choice, .switch">
+      <Fragment slot="about">On or off for a setting. On fills with the accent.</Fragment>
+      <label class="choice"><input class="switch" type="checkbox" role="switch" name="updates" checked /> Email me when something is added</label>
+      <label class="choice"><input class="switch" type="checkbox" role="switch" name="digest" /> Send a monthly digest</label>
+    </ComponentEntry>
+    <ComponentEntry num={7} name="Radio" classes=".choice-group, .radio">
+      <Fragment slot="about">One choice from two to five, all in view. The arrow keys move the choice.</Fragment>
+      <fieldset class="choice-group choice-group--row">
+        <legend class="field-label">Format</legend>
+        <label class="choice"><input class="radio" type="radio" name="format" value="email" checked /> Email</label>
+        <label class="choice"><input class="radio" type="radio" name="format" value="rss" /> RSS</label>
+        <label class="choice"><input class="radio" type="radio" name="format" value="print" disabled /> Print (paused)</label>
+      </fieldset>
+    </ComponentEntry>
+  </Section>
+
+  <Section id="lists" title="Lists" range="08–13">
+    <ComponentEntry num={8} name="List row" classes=".row">
+      <Fragment slot="about">Numbered rows that fill on hover. The active one stays filled, with an edge on its left.</Fragment>
+      <ul class="border-t border-rule">
+        <Row num={1} title="One typeface" meta="Weights 400, 500 and 700 only" />
+        <Row num={2} title="Flat color" meta="Cream, ink and one accent" active>
+          <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+        </Row>
+        <Row num={3} title="Thick rules" meta="A 2px line opens every section" />
+      </ul>
+    </ComponentEntry>
+    <ComponentEntry num={9} name="Filter chips" classes=".chip-group, .chip">
+      <Fragment slot="about">Outlined buttons that narrow a list to one category. The pressed one fills.</Fragment>
+      <div class="chip-group" role="group" aria-label="Category" data-demo-chips>
+        {
+          chips.map((c, i) => (
+            <button type="button" class="chip" data-label={c.label} aria-pressed={i === 0 ? 'true' : 'false'}>
+              {c.label} <span class="chip-count">{c.count}</span>
+            </button>
+          ))
+        }
+      </div>
+    </ComponentEntry>
+    <ComponentEntry num={10} name="Favorite star" classes=".fav-btn">
+      <Fragment slot="about">Saves an item on this device. This star and the one beside Field notes on the Work page are the same.</Fragment>
+      <p class="flex items-center gap-2"><FavoriteButton id="field-notes" name="Field notes" /> Field notes</p>
+    </ComponentEntry>
+    <ComponentEntry num={11} name="Page accordion" classes=".page-acc">
+      <Fragment slot="about">Folds a filter row away, with a line saying what it shows. Open it and pick a chip.</Fragment>
+      <details class="page-acc">
+        <summary>
+          <span>
+            <span class="page-acc-title">Filter by category</span>
+            <span class="page-acc-status" data-demo-status>All items</span>
+          </span>
+          <span class="acc-icon" aria-hidden="true"><i></i><i></i></span>
+        </summary>
+        <div class="page-acc-body chip-group" role="group" aria-label="Category" data-demo-chips>
+          {
+            chips.map((c, i) => (
+              <button type="button" class="chip" data-label={c.label} aria-pressed={i === 0 ? 'true' : 'false'}>
+                {c.label} <span class="chip-count">{c.count}</span>
+              </button>
+            ))
+          }
+        </div>
+      </details>
+    </ComponentEntry>
+    <ComponentEntry num={12} name="Dated list" classes=".dated-list">
+      <Fragment slot="about">What a site can do and when each part arrived, newest first. These are the latest three.</Fragment>
+      <FeaturesList features={features.slice(0, 3)} level="h4" />
+    </ComponentEntry>
+    <ComponentEntry num={13} name="Closing note" classes=".closing-note">
+      <Fragment slot="about">A bold rule that ends a list, over one quiet line about it.</Fragment>
+      <p class="closing-note max-w-md">Kept on this device only.</p>
+    </ComponentEntry>
+  </Section>
+
+  <Section id="text" title="Text and images" range="14–16">
+    <ComponentEntry num={14} name="Code block" classes="pre, .pre--bar">
+      <Fragment slot="about">Code in Source Code Pro. Terminal output and logs go on the dark block, the same in both themes.</Fragment>
+      <pre class="mb-4" tabindex="0"><code>@import "../design/kit/tailwind.css";</code></pre>
+      <pre class="pre--bar" tabindex="0"><code><span class="pre-cmd">$ npm test</span>
+52 passed (15.7s)
+<span class="pre-err">1 failed: tests/forms.spec.ts</span></code></pre>
+    </ComponentEntry>
+    <ComponentEntry num={15} name="Oval badge" classes=".ellipse, .ellipse--solid">
+      <Fragment slot="about">Abbreviations in an oval, after international car decals. Plain or solid, at any text size.</Fragment>
+      <div class="flex flex-wrap items-center gap-4">
+        <Ellipse code="CH" label="Switzerland" class="text-4xl" />
+        <Ellipse code="CH" label="Switzerland" solid class="text-4xl" />
+        <Ellipse code="DE" label="German" class="text-xl" />
+        <Ellipse code="USA" label="United States" />
+      </div>
+    </ComponentEntry>
+    <ComponentEntry num={16} name="Image" classes=".media, .figure">
+      <Fragment slot="about">A plain rectangle on the grid, cropped to a fixed shape, with the caption below.</Fragment>
+      <figure class="figure max-w-md">
+        <Image
+          class="media media--4x3"
+          src={hero}
+          alt="Abstract composition of black, grey and red circles and rectangles divided by black rules"
+          widths={[480, 800]}
+          sizes="(min-width: 1024px) 28rem, 100vw"
+          loading="lazy"
+        />
+        <figcaption>The home page artwork, cropped to 4:3.</figcaption>
+      </figure>
+    </ComponentEntry>
+  </Section>
+
+  <div class="[--tb-bg:var(--paper)] [--tb-fg:var(--ink)]">
+    <Section id="feedback" title="Feedback" range="17–19">
+      <ComponentEntry num={17} name="Toast" classes=".toast">
+        <Fragment slot="about">A one-line confirmation at the bottom left, gone after a few seconds.</Fragment>
+        <button class="topbar-btn topbar-btn--text" type="button" data-toast-text="Settings saved.">Show toast</button>
+      </ComponentEntry>
+      <ComponentEntry num={18} name="Activity indicators" classes=".eq, .spinner">
+        <Fragment slot="about">The equalizer marks what is playing now; the spinner says something is loading.</Fragment>
+        <div class="flex items-center gap-8">
+          <p class="flex items-center gap-3"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span> Now playing</p>
+          <span class="spinner" role="status" aria-label="Loading"></span>
+        </div>
+      </ComponentEntry>
+      <ComponentEntry num={19} name="Icon actions" classes=".icon-row, .icon-btn">
+        <Fragment slot="about">Icon-only links and buttons under a list item, one color, the accent on hover.</Fragment>
+        <a class="title block underline-offset-4 hover:underline" href="/work">Work</a>
+        <p class="icon-row">
+          <a
+            class="icon-btn"
+            href="https://bsky.app/intent/compose?text=Swiss%20Minimal"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on Bluesky: Work (opens in a new tab)"
+            title="Share on Bluesky"><Icon name="simple-icons:bluesky" class="icon" aria-hidden="true" /></a
+          >
+          <button class="icon-btn" type="button" data-copy="/work" aria-label="Copy link: Work" title="Copy link">
+            <Icon name="material-symbols:content-copy-outline" class="icon" aria-hidden="true" />
+          </button>
+        </p>
+      </ComponentEntry>
+    </Section>
+  </div>
+
+  <Section id="titles" title="Titles and menus" range="20–21">
+    <ComponentEntry num={20} name="Page title" classes=".page-title, .page-title--bar">
+      <Fragment slot="about">One big title in place of a hero, as on <a class="link" href="/forms">Forms</a>. The dark version, on <a class="link" href="/work">Work</a>, ends in a thick accent rule.</Fragment>
+      <!-- A page has one h1, so these copies set the title in a p; the spacing utilities tighten them to fit the column. -->
+      <div class="page-title py-0"><p class="page-title-text">All work</p></div>
+      <div class="page-title page-title--bar mt-8 mb-0"><p class="page-title-text">All work</p></div>
+    </ComponentEntry>
+    <ComponentEntry num={21} name="Menu" classes=".menu-list, .acc, .submenu">
+      <Fragment slot="about">The big lines in the panel. An item with sub-items opens as an accordion, with a plus that turns to a minus. Open Work, then Projects.</Fragment>
+      <div class="bg-bar p-6 text-bar-ink">
+        <MenuItems items={sampleMenu} group="sample-menu" />
+      </div>
+    </ComponentEntry>
+  </Section>
+
+  <Section id="frame" title="Page frame" range="22–29">
+    <ComponentEntry num={22} name="Top bar" classes=".topbar">
+      <Fragment slot="about">The bar at the top of this page, with the site name and the outlined buttons.</Fragment>
+    </ComponentEntry>
+    <ComponentEntry num={23} name="Slide-down panel" classes=".panel">
+      <Fragment slot="about">The dark block behind the menu button. <a class="link" href="#menu">Open it</a>.</Fragment>
+    </ComponentEntry>
+    <ComponentEntry num={24} name="Panel tabs" classes=".panel-tabs, .panel-tab">
+      <Fragment slot="about">Menu, Contact and Features across the top of the panel. <a class="link" href="#contact">Open Contact</a>.</Fragment>
+    </ComponentEntry>
+    <ComponentEntry num={25} name="New dot" classes=".new-dot">
+      <Fragment slot="about">The dot on the menu button when something was added since your last visit.</Fragment>
+    </ComponentEntry>
+    <ComponentEntry num={26} name="Drawer" classes=".drawer">
+      <Fragment slot="about">The Recent button in the top bar: the pages you have opened here.</Fragment>
+    </ComponentEntry>
+    <ComponentEntry num={27} name="Jump to current" classes=".jump-btn">
+      <Fragment slot="about">The triangle in the bottom bar on the <a class="link" href="/work">Work page</a> once Field notes scrolls out of view.</Fragment>
+    </ComponentEntry>
+    <ComponentEntry num={28} name="Scrolling title" classes=".marquee">
+      <Fragment slot="about">The long title in the bottom bar. It scrolls three times, then rests.</Fragment>
+    </ComponentEntry>
+    <ComponentEntry num={29} name="Hero" classes=".hero">
+      <Fragment slot="about">The top of this page. <a class="link" href="/">Home</a> has the square image beside it, <a class="link" href="/about">About</a> the wide one under it.</Fragment>
+    </ComponentEntry>
+  </Section>
+</SiteLayout>
+
+<script>
+  const toast = (text: string) => document.dispatchEvent(new CustomEvent('toast', { detail: text }));
+
+  document.querySelectorAll<HTMLElement>('[data-toast-text]').forEach((button) => {
+    button.addEventListener('click', () => toast(button.dataset.toastText ?? ''));
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(new URL(button.dataset.copy ?? '/', location.origin).href);
+        toast('Link copied.');
+      } catch {
+        toast('Couldn’t copy. Select the address instead.');
+      }
+    });
+  });
+
+  document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+
+  // The chips only show their pressed state here; there is no list to filter. In the
+  // accordion, the status line follows the choice, as it does on the Work page.
+  document.querySelectorAll<HTMLElement>('[data-demo-chips]').forEach((group) => {
+    const buttons = [...group.querySelectorAll<HTMLButtonElement>('.chip')];
+    const status = group.closest('details')?.querySelector<HTMLElement>('[data-demo-status]');
+    buttons.forEach((chip) =>
+      chip.addEventListener('click', () => {
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === chip)));
+        const label = chip.dataset.label;
+        const count = Number(chip.querySelector('.chip-count')?.textContent);
+        if (status) status.textContent = label === 'All' ? 'All items' : `${label} · ${count} ${count === 1 ? 'item' : 'items'}`;
+      }),
+    );
+  });
+</script>
