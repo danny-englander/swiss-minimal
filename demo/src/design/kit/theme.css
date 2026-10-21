@@ -477,7 +477,7 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 .drawer-meta { margin-top: 0.25rem; font-size: 0.875rem; color: color-mix(in srgb, var(--bar-ink) 75%, transparent); }
 /* Round "more below" arrow over the bottom of the list, like a chat app's jump-to-new button.
    Shows while the list overflows and has not been scrolled; fades once it is. Round and flat:
-   one of the two documented round shapes besides the spinner, and no shadow. */
+   one of the kit's few round marks (see Layout in DESIGN.md), and no shadow. */
 .drawer-more {
   position: absolute; bottom: 0.75rem; left: 50%;
   display: inline-flex; align-items: center; justify-content: center;
@@ -553,6 +553,26 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 .ellipse--solid { --el-bg: var(--ink); --el-fg: var(--paper); }
 .panel .ellipse, .drawer .ellipse, .page-title--bar .ellipse { --el-bg: var(--bar); --el-fg: var(--bar-ink); }
 .panel .ellipse--solid, .drawer .ellipse--solid, .page-title--bar .ellipse--solid { --el-bg: var(--bar-ink); --el-fg: var(--bar); }
+
+/* ---------- Number circle: a .num set in a circle, outlined or solid ---------- */
+/* One or two digits. Sized in em like the ellipse, so it follows the text around it. Drawn in
+   currentColor, so it takes the color of whatever it sits in, muted text, a filled row or a
+   bar; --solid fills with that color and cuts the digits out in the surface's own color.
+   Markup: <span class="num-circle"><span>02</span></span>; the inner span carries the cut. */
+.num-circle {
+  --nc-cut: var(--paper);
+  display: inline-flex; flex: none; align-items: center; justify-content: center;
+  width: 2.25em; height: 2.25em;
+  border: max(1px, 0.06em) solid currentColor;
+  border-radius: 50%;
+  font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+}
+.num-circle--solid { background: currentColor; }
+.num-circle--solid > * { color: var(--nc-cut); }
+.panel .num-circle, .drawer .num-circle, .page-title--bar .num-circle { --nc-cut: var(--bar); }
+.row:hover .num-circle { --nc-cut: var(--row-hover-bg); }
+.row[data-active="true"] .num-circle { --nc-cut: var(--row-active-bg); }
 
 /* ---------- Dated list: what changed and when, newest first ---------- */
 /* A 2px rule on top, thin rules between. Date over the text on phones, beside it from 640px. */

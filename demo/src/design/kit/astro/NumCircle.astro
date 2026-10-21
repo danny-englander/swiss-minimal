@@ -1,0 +1,14 @@
+---
+// A number in a circle (NumberCircle in COMPONENTS.md): outlined, or `solid`. One or two
+// digits; a number is padded to two ("02"). It takes the color and size of the text around it,
+// so put `muted` or a text utility on it, or on its parent.
+interface Props {
+  value: number | string;
+  solid?: boolean;
+  class?: string;
+}
+const { value, solid = false, class: className } = Astro.props;
+const digits = typeof value === 'number' ? String(value).padStart(2, '0') : value;
+---
+
+<span class:list={['num-circle', solid && 'num-circle--solid', className]}><span>{digits}</span></span>
