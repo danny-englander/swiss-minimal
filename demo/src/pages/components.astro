@@ -7,6 +7,7 @@ import Row from '../components/Row.astro';
 import ComponentEntry from '../components/ComponentEntry.astro';
 import Hero from '../design/kit/astro/Hero.astro';
 import Ellipse from '../design/kit/astro/Ellipse.astro';
+import NumCircle from '../design/kit/astro/NumCircle.astro';
 import FavoriteButton from '../design/kit/astro/FavoriteButton.astro';
 import FeaturesList from '../design/kit/astro/FeaturesList.astro';
 import MenuItems from '../design/kit/astro/MenuItems.astro';
@@ -169,7 +170,7 @@ const chips = [
     </ComponentEntry>
   </Section>
 
-  <Section id="text" title="Text and images" range="14–16">
+  <Section id="text" title="Text and images" range="14–17">
     <ComponentEntry num={14} name="Code block" classes="pre, .pre--bar">
       <Fragment slot="about">Code in Source Code Pro. Terminal output and logs go on the dark block, the same in both themes.</Fragment>
       <pre class="mb-4" tabindex="0"><code>@import "../design/kit/tailwind.css";</code></pre>
@@ -190,7 +191,24 @@ const chips = [
         }
       </ul>
     </ComponentEntry>
-    <ComponentEntry num={16} name="Image" classes=".media, .figure">
+    <ComponentEntry num={16} name="Number circle" classes=".num-circle, .num-circle--solid">
+      <Fragment slot="about">A number in a circle, outlined or solid, for steps or for list rows. It takes the color and size of the text around it.</Fragment>
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-4 text-2xl">
+        <p class="flex items-center gap-2"><NumCircle value={1} /> <NumCircle value={2} /> <NumCircle value={3} /></p>
+        <p class="flex items-center gap-2"><NumCircle value={1} solid /> <NumCircle value={2} solid /> <NumCircle value={3} solid /></p>
+      </div>
+      <ul class="mt-8 border-t border-rule [&>li:last-child]:border-b-0">
+        <Row num={1} title="Copy the kit" meta="kit/ and fonts/, side by side in src/design/" numStyle="circle" />
+        <Row num={2} title="Import the stylesheet" meta="One global stylesheet, starting with tailwind.css" numStyle="circle" active />
+        <Row num={3} title="Build on BaseLayout" meta="A Hero or a PageTitle on every page" numStyle="circle" />
+      </ul>
+      <ul class="mt-8 border-t border-rule [&>li:last-child]:border-b-0">
+        <Row num={1} title="Copy the kit" meta="kit/ and fonts/, side by side in src/design/" numStyle="solid" />
+        <Row num={2} title="Import the stylesheet" meta="One global stylesheet, starting with tailwind.css" numStyle="solid" active />
+        <Row num={3} title="Build on BaseLayout" meta="A Hero or a PageTitle on every page" numStyle="solid" />
+      </ul>
+    </ComponentEntry>
+    <ComponentEntry num={17} name="Image" classes=".media, .figure">
       <Fragment slot="about">A plain rectangle on the grid, cropped to a fixed shape, with the caption below.</Fragment>
       <figure class="figure max-w-md">
         <Image
@@ -207,19 +225,19 @@ const chips = [
   </Section>
 
   <div class="[--tb-bg:var(--paper)] [--tb-fg:var(--ink)]">
-    <Section id="feedback" title="Feedback" range="17–19">
-      <ComponentEntry num={17} name="Toast" classes=".toast">
+    <Section id="feedback" title="Feedback" range="18–20">
+      <ComponentEntry num={18} name="Toast" classes=".toast">
         <Fragment slot="about">A one-line confirmation at the bottom left, gone after a few seconds.</Fragment>
         <button class="topbar-btn topbar-btn--text" type="button" data-toast-text="Settings saved.">Show toast</button>
       </ComponentEntry>
-      <ComponentEntry num={18} name="Activity indicators" classes=".eq, .spinner">
+      <ComponentEntry num={19} name="Activity indicators" classes=".eq, .spinner">
         <Fragment slot="about">The equalizer marks what is playing now; the spinner says something is loading.</Fragment>
         <div class="flex items-center gap-8">
           <p class="flex items-center gap-3"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span> Now playing</p>
           <span class="spinner" role="status" aria-label="Loading"></span>
         </div>
       </ComponentEntry>
-      <ComponentEntry num={19} name="Icon actions" classes=".icon-row, .icon-btn">
+      <ComponentEntry num={20} name="Icon actions" classes=".icon-row, .icon-btn">
         <Fragment slot="about">Icon-only links and buttons under a list item, one color, the accent on hover.</Fragment>
         <a class="title block underline-offset-4 hover:underline" href="/work">Work</a>
         <p class="icon-row">
@@ -239,14 +257,14 @@ const chips = [
     </Section>
   </div>
 
-  <Section id="titles" title="Titles and menus" range="20–21">
-    <ComponentEntry num={20} name="Page title" classes=".page-title, .page-title--bar">
+  <Section id="titles" title="Titles and menus" range="21–22">
+    <ComponentEntry num={21} name="Page title" classes=".page-title, .page-title--bar">
       <Fragment slot="about">One big title in place of a hero, as on <a class="link" href="/forms">Forms</a>. The dark version, on <a class="link" href="/work">Work</a>, ends in a thick accent rule.</Fragment>
       <!-- A page has one h1, so these copies set the title in a p; the spacing utilities tighten them to fit the column. -->
       <div class="page-title py-0"><p class="page-title-text">All work</p></div>
       <div class="page-title page-title--bar mt-8 mb-0"><p class="page-title-text">All work</p></div>
     </ComponentEntry>
-    <ComponentEntry num={21} name="Menu" classes=".menu-list, .acc, .submenu">
+    <ComponentEntry num={22} name="Menu" classes=".menu-list, .acc, .submenu">
       <Fragment slot="about">The big lines in the panel. An item with sub-items opens as an accordion, with a plus that turns to a minus. Open Work, then Projects.</Fragment>
       <div class="bg-bar p-6 text-bar-ink">
         <MenuItems items={sampleMenu} group="sample-menu" />
@@ -254,29 +272,29 @@ const chips = [
     </ComponentEntry>
   </Section>
 
-  <Section id="frame" title="Page frame" range="22–29">
-    <ComponentEntry num={22} name="Top bar" classes=".topbar">
+  <Section id="frame" title="Page frame" range="23–30">
+    <ComponentEntry num={23} name="Top bar" classes=".topbar">
       <Fragment slot="about">The bar at the top of this page, with the site name and the outlined buttons.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={23} name="Slide-down panel" classes=".panel">
+    <ComponentEntry num={24} name="Slide-down panel" classes=".panel">
       <Fragment slot="about">The dark block behind the menu button. <a class="link" href="#menu">Open it</a>.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={24} name="Panel tabs" classes=".panel-tabs, .panel-tab">
+    <ComponentEntry num={25} name="Panel tabs" classes=".panel-tabs, .panel-tab">
       <Fragment slot="about">Menu, Contact and Features across the top of the panel. <a class="link" href="#contact">Open Contact</a>.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={25} name="New dot" classes=".new-dot">
+    <ComponentEntry num={26} name="New dot" classes=".new-dot">
       <Fragment slot="about">The dot on the menu button when something was added since your last visit.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={26} name="Drawer" classes=".drawer">
+    <ComponentEntry num={27} name="Drawer" classes=".drawer">
       <Fragment slot="about">The Recent button in the top bar: the pages you have opened here.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={27} name="Jump to current" classes=".jump-btn">
+    <ComponentEntry num={28} name="Jump to current" classes=".jump-btn">
       <Fragment slot="about">The triangle in the bottom bar on the <a class="link" href="/work">Work page</a> once Field notes scrolls out of view.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={28} name="Scrolling title" classes=".marquee">
+    <ComponentEntry num={29} name="Scrolling title" classes=".marquee">
       <Fragment slot="about">The long title in the bottom bar. It scrolls three times, then rests.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={29} name="Hero" classes=".hero">
+    <ComponentEntry num={30} name="Hero" classes=".hero">
       <Fragment slot="about">The top of this page. <a class="link" href="/">Home</a> has the square image beside it, <a class="link" href="/about">About</a> the wide one under it.</Fragment>
     </ComponentEntry>
   </Section>

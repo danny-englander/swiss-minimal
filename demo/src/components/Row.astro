@@ -3,7 +3,9 @@
 // Phones: number and end slot share the first line, the name stacks under them.
 // From 768px: one line on the section's grid (number, name, end slot).
 // With `favorite`, a star sits in the end slot, beside the title link rather than inside it.
+// `numStyle` sets the number in a circle, outlined or solid (NumberCircle in COMPONENTS.md).
 import FavoriteButton from '../design/kit/astro/FavoriteButton.astro';
+import NumCircle from '../design/kit/astro/NumCircle.astro';
 
 interface Props {
   num: number;
@@ -15,8 +17,9 @@ interface Props {
   /** A stable id for the item; needed for `favorite` and to find the row from a script. */
   id?: string;
   favorite?: boolean;
+  numStyle?: 'plain' | 'circle' | 'solid';
 }
-const { num, title, meta, href, active, category, id, favorite } = Astro.props;
+const { num, title, meta, href, active, category, id, favorite, numStyle = 'plain' } = Astro.props;
 ---
 
 <li
@@ -26,8 +29,16 @@ const { num, title, meta, href, active, category, id, favorite } = Astro.props;
   data-category={category}
   data-item={id}
 >
-  <!-- md:pl-5 keeps the number clear of the active row's 6px edge -->
-  <span class="num small muted col-start-1 row-start-1 font-medium md:pl-5">{String(num).padStart(2, '0')}</span>
+  <!-- md:pl-5 keeps the number clear of the active row's 6px edge; a circle is wider, so it
+       sits nearer, at the range label's inset, and keeps a gap before the name -->
+  <span
+    class:list={[
+      'num small muted col-start-1 row-start-1 font-medium',
+      numStyle === 'plain' ? 'md:pl-5' : 'md:pl-2',
+    ]}
+  >
+    {numStyle === 'plain' ? String(num).padStart(2, '0') : <NumCircle value={num} solid={numStyle === 'solid'} />}
+  </span>
   <span class="col-span-2 row-start-2 md:col-span-1 md:col-start-2 md:row-start-1">
     {
       href ? (
