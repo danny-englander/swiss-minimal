@@ -969,6 +969,57 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 }
 .toast[data-show="true"] { opacity: 1; transform: none; }
 
+/* ---------- Dialog: the browser's own <dialog>, opened with showModal() ---------- */
+/* A square panel with a 2px rule in the text's color, on the page's ground, over a flat dark
+   backdrop (no blur). A bold title, a close X drawn from two bars, the body, and a row of
+   actions. The browser does the rest: the page behind is inert, Escape closes it, focus goes
+   to [autofocus] and back to the opener. It fades and rises in, and fades out (not with
+   Reduce Motion). Markup and behavior: COMPONENTS.md (Dialog) and kit/dialog.js. */
+.dialog {
+  --dlg-fg: var(--ink); --dlg-bg: var(--paper);
+  width: min(34rem, calc(100vw - 2 * var(--gutter)));
+  max-width: none; max-height: calc(100dvh - 2 * var(--gutter));
+  margin: auto; padding: 0;
+  border: 2px solid var(--dlg-fg); border-radius: 0;
+  background: var(--dlg-bg); color: var(--dlg-fg);
+  box-shadow: none;
+  overflow: auto; overscroll-behavior: contain;
+  opacity: 0; transform: translateY(1rem);
+  transition: opacity 250ms var(--ease-out), transform 250ms var(--ease-out),
+    overlay 250ms allow-discrete, display 250ms allow-discrete;
+}
+.dialog[open] { opacity: 1; transform: none; }
+@starting-style { .dialog[open] { opacity: 0; transform: translateY(1rem); } }
+.dialog::backdrop {
+  background: color-mix(in srgb, var(--bar) 75%, transparent);
+  opacity: 0;
+  transition: opacity 250ms, overlay 250ms allow-discrete, display 250ms allow-discrete;
+}
+.dialog[open]::backdrop { opacity: 1; }
+@starting-style { .dialog[open]::backdrop { opacity: 0; } }
+html:has(.dialog:modal) { overflow: hidden; }   /* the page doesn't scroll behind it */
+
+.dialog-form { display: grid; gap: 1.5rem; padding: 1.5rem; }
+@media (min-width: 640px) { .dialog-form { padding: 2rem; } }
+.dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.dialog-title { margin: 0; font-size: 1.75rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+.dialog-close {                  /* an X from two bars, like the burger turned X: no icon */
+  position: relative; flex: none;
+  width: 2.75rem; height: 2.75rem; margin: -0.5rem -0.75rem 0 0;
+  border: 0; padding: 0; background: transparent; color: inherit;
+  transition: color 150ms;
+}
+.dialog-close i {
+  position: absolute; left: 50%; top: 50%;
+  width: 18px; height: 2px; margin: -1px 0 0 -9px;
+  background: currentColor;
+}
+.dialog-close i:nth-child(1) { transform: rotate(45deg); }
+.dialog-close i:nth-child(2) { transform: rotate(-45deg); }
+.dialog-close:hover { color: var(--accent-text); }
+.dialog-body > * + * { margin-top: 1rem; }
+.dialog-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
 /* ---------- Little motion pieces ---------- */
 .eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
 .eq i { width: 3px; height: 4px; background: var(--accent); animation: eq 900ms ease-in-out infinite; }

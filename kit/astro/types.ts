@@ -38,4 +38,9 @@ export interface Feature {
   title: string;
   /** One or two plain sentences. */
   body: string;
+  /**
+   * Specific points for release notes, one sentence each: what it does, where to see it, what
+   * a site needs to do. The Features list on the page shows only the body.
+   */
+  details?: string[];
 }

@@ -1,0 +1,44 @@
+---
+// A modal dialog on the browser's own <dialog> (Dialog in COMPONENTS.md). Open it from a button:
+//   <button type="button" class="btn-outline" commandfor="confirm" command="show-modal">Delete…</button>
+// The default slot is the body; the "actions" slot holds buttons, each with a `value`. They sit
+// in a <form method="dialog">, so any of them closes the dialog and its value becomes
+// dialog.returnValue. Put `autofocus` on the safest one. Escape and a click outside close it
+// too, returning "" (or "close" from the X).
+interface Props {
+  id: string;
+  title: string;
+  /** The close button's name. */
+  closeLabel?: string;
+  /** Close on a click outside, as well as Escape. Default true. */
+  lightDismiss?: boolean;
+  class?: string;
+}
+const { id, title, closeLabel = 'Close', lightDismiss = true, class: className } = Astro.props;
+---
+
+<dialog
+  class:list={['dialog', className]}
+  id={id}
+  aria-labelledby={`${id}-title`}
+  closedby={lightDismiss ? 'any' : 'closerequest'}
+>
+  <form method="dialog" class="dialog-form">
+    <div class="dialog-head">
+      <h2 class="dialog-title" id={`${id}-title`}>{title}</h2>
+      <button class="dialog-close" value="close" aria-label={closeLabel} title={closeLabel}><i></i><i></i></button>
+    </div>
+    <div class="dialog-body"><slot /></div>
+    {
+      Astro.slots.has('actions') && (
+        <div class="dialog-actions">
+          <slot name="actions" />
+        </div>
+      )
+    }
+  </form>
+</dialog>
+
+<script>
+  import '../dialog.js';
+</script>
