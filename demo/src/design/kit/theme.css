@@ -91,27 +91,27 @@
   color-scheme: dark;
 }
 
-/* ---------- Accent: vermilion (the default) or teal ---------- */
+/* ---------- Accent: vermilion (the default) or verdigris ---------- */
 /* Each site names its one accent on <html>: data-accent="vermilion" (a red leaning toward
-   orange, the values in :root above, also used when the attribute is missing) or "teal" (below).
-   BaseLayout sets it. Only the four accent tokens change; paper, ink and the dark bars stay
+   orange, the values in :root above, also used when the attribute is missing) or "verdigris"
+   (below: the blue-green patina of old copper). BaseLayout sets it. Only the four accent tokens change; paper, ink and the dark bars stay
    the same. Each value passes the same contrast checks as the vermilion it replaces (see
    tokens.json). */
-:root[data-accent="teal"] {
+:root[data-accent="verdigris"] {
   --accent: #0f8f8c;       /* large shapes and the focus ring (3.5:1 on paper) */
-  --accent-ink: #ffffff;   /* text on a teal fill (6.3:1 on accent-text) */
-  --accent-text: #0b6b69;  /* small teal text on cream (5.6:1) */
-  --accent-bright: #3fc9c4;/* small teal text on dark surfaces (9.5:1) */
+  --accent-ink: #ffffff;   /* text on a verdigris fill (6.3:1 on accent-text) */
+  --accent-text: #0b6b69;  /* small verdigris text on cream (5.6:1) */
+  --accent-bright: #3fc9c4;/* small verdigris text on dark surfaces (9.5:1) */
 }
 @media (prefers-color-scheme: dark) {
-  :root[data-accent="teal"]:not([data-theme="light"]) {
+  :root[data-accent="verdigris"]:not([data-theme="light"]) {
     --accent: #3fc9c4;
     --accent-ink: #0c0c0c;
     --accent-text: #3fc9c4;
     --accent-bright: #3fc9c4;
   }
 }
-:root[data-accent="teal"][data-theme="dark"] {
+:root[data-accent="verdigris"][data-theme="dark"] {
   --accent: #3fc9c4;
   --accent-ink: #0c0c0c;
   --accent-text: #3fc9c4;
