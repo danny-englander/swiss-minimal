@@ -427,6 +427,20 @@ An oval badge holding a short code, like the "CH" sticker on the back of a Swiss
 
 **Don't.** Put a sentence or an icon in it, color it with the accent, or use it as a button. It is a label, not a control.
 
+## NumberCircle
+
+A number set in a circle, for when a number should read as a mark of its own: the steps of a how-to, or a list row's number set apart from its name. Outlined, or solid.
+
+**Markup.** `<span class="num-circle"><span>02</span></span>`; add `num-circle--solid` to fill it. The inner span is needed: it carries the cut-out color of the solid version. In Astro, `<NumCircle value={2} />` (a number is padded to "02"), with `solid` for the filled one.
+
+- **Shape.** A 2.25em circle (`radius-round`, at 50%) with a 1px rule, or 0.06em on a big one. Weight 500, tabular numerals.
+- **Color.** All `currentColor`, so it takes the color of the text it sits in: put `muted` on it beside a row's name, leave it `ink` as a step marker. The solid version fills with that color and cuts the digits out in the surface's own: `paper` on the page, `bar` in the panel, drawer and `page-title--bar`, the row's fill when a `ListRow` is hovered or active.
+- **Size.** Like the `Ellipse`, it takes its text's size: `small` in a list row, a text utility (`text-2xl`) for a step marker on its own. Never under 0.875rem.
+- **One or two digits.** It is a circle, not a pill: a three-digit number would crowd it. Past 99, use a plain `.num`.
+- Use one style per list: all outlined or all solid. The solid one is not a "current" marker; the active row already has its fill and edge.
+
+**Don't.** Put letters in it (that is an `Ellipse`), color it with the accent, or make it a button.
+
 ## ActivityIndicators
 
 Two small moving marks: the equalizer (`.eq`, three `accent` bars) says "this is live / playing now"; the spinner (`.spinner`, a 2px `currentColor` ring with one side open) says "loading".
@@ -434,7 +448,7 @@ Two small moving marks: the equalizer (`.eq`, three `accent` bars) says "this is
 **Markup.** `<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>` and `<span class="spinner" role="status" aria-label="Loading"></span>`.
 
 - The equalizer marks the one active item in a list (put it in the row's end slot). It is decorative: pair it with text or `aria-current` for screen readers.
-- The spinner is one of only three round shapes in the system (`radius-round`), with the `NewDot` and the drawer's "more below" arrow.
+- The spinner is one of the few round marks in the system (`radius-round`); Layout in `DESIGN.md` lists them all.
 - Both stop under Reduce Motion (the equalizer rests at 10px bars).
 
 ## Image
