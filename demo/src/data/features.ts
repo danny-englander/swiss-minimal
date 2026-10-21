@@ -8,6 +8,11 @@ import type { Feature } from '../design/kit/astro/types';
 export const features: Feature[] = [
   {
     date: '2026-10-21',
+    title: 'Footer',
+    body: 'Every page now ends with a footer: the site name and its pages, side by side from tablet width. The dark bar along the bottom is optional, and stays on Work and Components.',
+  },
+  {
+    date: '2026-10-21',
     title: 'Number circles',
     body: 'A number can sit in a circle, outlined or solid, for the steps of a how-to or the numbers in a list. See the Components page.',
   },

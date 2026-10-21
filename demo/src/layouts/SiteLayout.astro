@@ -1,10 +1,12 @@
 ---
 // The demo's page shell: the kit's BaseLayout with a tabbed panel (Menu, Contact, Features),
-// the "new" dot, a Recent drawer, a fixed bottom bar with a scrolling title and a
-// jump-to-current button, and the toast.
+// the "new" dot, a Recent drawer, the footer and the toast. With `bottomBar`, a page also gets
+// the fixed bottom bar, with a scrolling title and a jump-to-current button.
 import BaseLayout from '../design/kit/astro/BaseLayout.astro';
+import BottomBar from '../design/kit/astro/BottomBar.astro';
 import DrawerButton from '../design/kit/astro/DrawerButton.astro';
 import FeaturesList from '../design/kit/astro/FeaturesList.astro';
+import Footer from '../design/kit/astro/Footer.astro';
 import RecentDrawer from '../components/RecentDrawer.astro';
 import AccentSwitcher from '../components/AccentSwitcher.astro';
 import { menuFor } from '../data/menu';
@@ -14,11 +16,17 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  /** Show the fixed bottom bar ("Now" and a scrolling title). */
+  bottomBar?: boolean;
 }
 const {
   title,
   description = 'A Swiss / Bauhaus design kit for Astro and Tailwind v4: type-led, flat color, thick rules, one typeface.',
+  bottomBar = false,
 } = Astro.props;
+const menu = menuFor(Astro.url.pathname);
+// The footer lists the menu's pages, plus Contact, which opens the panel's Contact tab.
+const footerLinks = [...menu, { label: 'Contact', href: '#contact' }];
 const pageTitle = `${title} · Swiss Minimal`;
 // Share tags need full URLs, so they are built on `site` in astro.config.mjs.
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -35,7 +43,7 @@ const tabs = [
 <BaseLayout
   title={pageTitle}
   description={description}
-  menu={menuFor(Astro.url.pathname)}
+  menu={menu}
   panelTabs={tabs}
   newDot={{
     latest: latestFeatureDate,
@@ -45,7 +53,7 @@ const tabs = [
     returning: ['theme', 'favorites'],
   }}
   tagline="Swiss Minimal demo"
-  barHeight="5rem"
+  barHeight={bottomBar ? '5rem' : undefined}
 >
   <Fragment slot="head">
     <link rel="canonical" href={canonical} />
@@ -117,56 +125,29 @@ const tabs = [
 
   <RecentDrawer slot="overlays" />
 
+  {
+    bottomBar && (
+      <BottomBar
+        slot="overlays"
+        label="Now"
+        title={nowReading}
+        jump={{ target: '[data-item="field-notes"]', name: 'Field notes' }}
+      />
+    )
+  }
+
   <slot />
 
-  <AccentSwitcher />
+  <Footer name="Swiss Minimal" description="A Swiss / Bauhaus design kit for Astro and Tailwind v4." links={footerLinks}>
+    <Fragment slot="note">Designed by Danny Englander with Claude Code. Open to pull requests on <a href="https://github.com/danny-englander/swiss-minimal">GitHub</a>.</Fragment>
+  </Footer>
 
-  <div class="fixed inset-x-0 bottom-0 z-40 h-(--bar-h) bg-bar text-bar-ink" data-jump-bar data-drawer-keep>
-    <div class="page flex h-full items-center gap-4">
-      <p class="label flex flex-none items-center gap-2 font-bold text-accent-bright">
-        Now
-        <button type="button" class="jump-btn" data-jump data-jump-target='[data-item="field-notes"]' data-jump-name="Field notes" hidden>
-          <span aria-hidden="true" data-jump-glyph>▲</span>
-        </button>
-      </p>
-      <span class="marquee min-w-0 flex-1 text-lg font-medium" title={nowReading} data-marquee>
-        <span>{nowReading}</span>
-      </span>
-    </div>
-  </div>
+  <AccentSwitcher />
 
   <div class="toast" role="status" data-toast data-drawer-keep></div>
 </BaseLayout>
 
 <script>
-  import '../design/kit/jump.js';
-
-  // Marquee: from COMPONENTS.md. Three rounds, then rest with an ellipsis. Never with Reduce Motion.
-  function scrollTitle(el: HTMLElement) {
-    const distance = el.scrollWidth - el.clientWidth;
-    if (distance <= 4 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const pause = 2000;
-    const slide = Math.max(1500, (distance / 50) * 1000);
-    const total = 2 * pause + 2 * slide;
-    const end = `translateX(-${distance}px)`;
-    el.dataset.scrolling = '';
-    const inner = el.firstElementChild as HTMLElement;
-    inner.animate(
-      [
-        { transform: 'none', offset: 0 },
-        { transform: 'none', offset: pause / total, easing: 'ease-in-out' },
-        { transform: end, offset: (pause + slide) / total },
-        { transform: end, offset: (2 * pause + slide) / total, easing: 'ease-in-out' },
-        { transform: 'none', offset: 1 },
-      ],
-      { duration: total, iterations: 3 },
-    ).onfinish = () => {
-      delete el.dataset.scrolling;
-    };
-  }
-  const marquee = document.querySelector<HTMLElement>('[data-marquee]');
-  if (marquee) document.fonts.ready.then(() => scrollTitle(marquee));
-
   // Toast: any script can show one with
   //   document.dispatchEvent(new CustomEvent('toast', { detail: 'Saved.' }))
   const toast = document.querySelector<HTMLElement>('[data-toast]');

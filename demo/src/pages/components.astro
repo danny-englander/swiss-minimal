@@ -8,6 +8,7 @@ import ComponentEntry from '../components/ComponentEntry.astro';
 import Hero from '../design/kit/astro/Hero.astro';
 import Ellipse from '../design/kit/astro/Ellipse.astro';
 import NumCircle from '../design/kit/astro/NumCircle.astro';
+import Footer from '../design/kit/astro/Footer.astro';
 import FavoriteButton from '../design/kit/astro/FavoriteButton.astro';
 import FeaturesList from '../design/kit/astro/FeaturesList.astro';
 import MenuItems from '../design/kit/astro/MenuItems.astro';
@@ -45,7 +46,7 @@ const chips = [
 ];
 ---
 
-<SiteLayout title="Components" description="Every component in the Swiss Minimal kit on one page.">
+<SiteLayout title="Components" description="Every component in the Swiss Minimal kit on one page." bottomBar>
   <Hero lead="Every component in the kit on one page, in the order of the component guide. The ones that frame the page are listed at the end.">
     <!-- At the display minimum (64px) the word is wider than a 375px phone, so it may break here. -->
     <Fragment slot="title">Compo&shy;nents</Fragment>
@@ -257,7 +258,7 @@ const chips = [
     </Section>
   </div>
 
-  <Section id="titles" title="Titles and menus" range="21–22">
+  <Section id="titles" title="Titles, menus and footers" range="21–23">
     <ComponentEntry num={21} name="Page title" classes=".page-title, .page-title--bar">
       <Fragment slot="about">One big title in place of a hero, as on <a class="link" href="/forms">Forms</a>. The dark version, on <a class="link" href="/work">Work</a>, ends in a thick accent rule.</Fragment>
       <!-- A page has one h1, so these copies set the title in a p; the spacing utilities tighten them to fit the column. -->
@@ -270,29 +271,36 @@ const chips = [
         <MenuItems items={sampleMenu} group="sample-menu" />
       </div>
     </ComponentEntry>
+    <ComponentEntry num={23} name="Footer" classes=".site-footer, .site-footer--bar">
+      <Fragment slot="about">The traditional footer, as at the end of every page here: the name and a note on the left, the site's links on the right. It stacks on a phone. Plain, or on a dark block.</Fragment>
+      <!-- Samples inside the entry are not the page's footer, so each names its links apart. -->
+      <Footer name="Swiss Minimal" description="A design kit for type-led sites." links={sampleMenu} label="Sample footer links" class="mt-0 pb-0">
+        <Fragment slot="note">© 2026 Swiss Minimal.</Fragment>
+      </Footer>
+      <Footer name="Swiss Minimal" description="A design kit for type-led sites." links={sampleMenu} label="Sample dark footer links" tone="bar" class="mt-8">
+        <Fragment slot="note">© 2026 Swiss Minimal.</Fragment>
+      </Footer>
+    </ComponentEntry>
   </Section>
 
-  <Section id="frame" title="Page frame" range="23–30">
-    <ComponentEntry num={23} name="Top bar" classes=".topbar">
+  <Section id="frame" title="Page frame" range="24–30">
+    <ComponentEntry num={24} name="Top bar" classes=".topbar">
       <Fragment slot="about">The bar at the top of this page, with the site name and the outlined buttons.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={24} name="Slide-down panel" classes=".panel">
+    <ComponentEntry num={25} name="Slide-down panel" classes=".panel">
       <Fragment slot="about">The dark block behind the menu button. <a class="link" href="#menu">Open it</a>.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={25} name="Panel tabs" classes=".panel-tabs, .panel-tab">
+    <ComponentEntry num={26} name="Panel tabs" classes=".panel-tabs, .panel-tab">
       <Fragment slot="about">Menu, Contact and Features across the top of the panel. <a class="link" href="#contact">Open Contact</a>.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={26} name="New dot" classes=".new-dot">
+    <ComponentEntry num={27} name="New dot" classes=".new-dot">
       <Fragment slot="about">The dot on the menu button when something was added since your last visit.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={27} name="Drawer" classes=".drawer">
+    <ComponentEntry num={28} name="Drawer" classes=".drawer">
       <Fragment slot="about">The Recent button in the top bar: the pages you have opened here.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={28} name="Jump to current" classes=".jump-btn">
-      <Fragment slot="about">The triangle in the bottom bar on the <a class="link" href="/work">Work page</a> once Field notes scrolls out of view.</Fragment>
-    </ComponentEntry>
-    <ComponentEntry num={29} name="Scrolling title" classes=".marquee">
-      <Fragment slot="about">The long title in the bottom bar. It scrolls three times, then rests.</Fragment>
+    <ComponentEntry num={29} name="Bottom bar" classes=".bottom-bar, .marquee, .jump-btn">
+      <Fragment slot="about">The dark bar fixed along the bottom of this page, and of <a class="link" href="/work">Work</a>. A page opts in. Its title scrolls three times when it is too long, then rests; on Work, its triangle brings Field notes back into view.</Fragment>
     </ComponentEntry>
     <ComponentEntry num={30} name="Hero" classes=".hero">
       <Fragment slot="about">The top of this page. <a class="link" href="/">Home</a> has the square image beside it, <a class="link" href="/about">About</a> the wide one under it.</Fragment>

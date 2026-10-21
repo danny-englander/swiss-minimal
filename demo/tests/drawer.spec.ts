@@ -31,7 +31,8 @@ test.describe('on a phone', () => {
 });
 
 test('the drawer reaches down to the bottom bar, like the menu', async ({ page }) => {
-  await page.goto('/about');
+  // Work has the bottom bar.
+  await page.goto('/work');
   await page.locator('[data-drawer-button]').click();
   const drawer = page.locator('section[data-drawer]');
   await expect(drawer).toHaveAttribute('data-open', 'true');
@@ -43,6 +44,20 @@ test('the drawer reaches down to the bottom bar, like the menu', async ({ page }
       return box ? Math.round(box.y + box.height) : 0;
     })
     .toBe(Math.round(barBox!.y));
+});
+
+test('without a bottom bar, the drawer reaches the bottom of the screen', async ({ page }) => {
+  await page.goto('/about');
+  await page.locator('[data-drawer-button]').click();
+  const drawer = page.locator('section[data-drawer]');
+  await expect(drawer).toHaveAttribute('data-open', 'true');
+  const height = page.viewportSize()!.height;
+  await expect
+    .poll(async () => {
+      const box = await drawer.boundingBox();
+      return box ? Math.round(box.y + box.height) : 0;
+    })
+    .toBe(height);
 });
 
 test('each recent row links out to Bluesky, Instagram and YouTube', async ({ page }) => {
