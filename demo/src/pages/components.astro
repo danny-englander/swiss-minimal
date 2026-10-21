@@ -14,6 +14,15 @@ import type { MenuItem } from '../design/kit/astro/types';
 import { features } from '../data/features';
 import hero from '../assets/hero.jpg';
 
+// The oval badge at each size, largest first. Its size is its text's, set by a text utility.
+const badgeSizes = [
+  { code: 'CH', label: 'Switzerland', size: 'text-4xl' },
+  { code: 'CH', label: 'Switzerland', size: 'text-4xl', solid: true },
+  { code: 'DE', label: 'German', size: 'text-xl' },
+  { code: 'USA', label: 'United States', size: 'text-base' },
+  { code: 'NL', label: 'Netherlands', size: 'text-sm', solid: true },
+];
+
 // A menu like the panel's, two levels deep, for the Menu entry.
 const sampleMenu: MenuItem[] = [
   { label: 'Home', href: '/' },
@@ -168,14 +177,18 @@ const chips = [
 52 passed (15.7s)
 <span class="pre-err">1 failed: tests/forms.spec.ts</span></code></pre>
     </ComponentEntry>
-    <ComponentEntry num={15} name="Oval badge" classes=".ellipse, .ellipse--solid">
-      <Fragment slot="about">Abbreviations in an oval, after international car decals. Plain or solid, at any text size.</Fragment>
-      <div class="flex flex-wrap items-center gap-4">
-        <Ellipse code="CH" label="Switzerland" class="text-4xl" />
-        <Ellipse code="CH" label="Switzerland" solid class="text-4xl" />
-        <Ellipse code="DE" label="German" class="text-xl" />
-        <Ellipse code="USA" label="United States" />
-      </div>
+    <ComponentEntry num={15} name="Oval badge" classes=".ellipse, .ellipse--solid, text-sm to text-4xl">
+      <Fragment slot="about">Abbreviations in an oval, after international car decals. Plain or solid. It takes the size of its text, so a text utility sizes it, never below <code>text-sm</code>.</Fragment>
+      <ul class="flex flex-wrap items-end gap-x-6 gap-y-4">
+        {
+          badgeSizes.map((b) => (
+            <li class="flex flex-col items-center gap-2">
+              <Ellipse code={b.code} label={b.label} solid={b.solid} class={b.size} />
+              <code class="small muted">{b.size}</code>
+            </li>
+          ))
+        }
+      </ul>
     </ComponentEntry>
     <ComponentEntry num={16} name="Image" classes=".media, .figure">
       <Fragment slot="about">A plain rectangle on the grid, cropped to a fixed shape, with the caption below.</Fragment>
