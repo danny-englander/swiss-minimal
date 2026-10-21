@@ -12,6 +12,7 @@ import Footer from '../design/kit/astro/Footer.astro';
 import FilePicker from '../design/kit/astro/FilePicker.astro';
 import SummaryList from '../design/kit/astro/SummaryList.astro';
 import OutputPanel from '../design/kit/astro/OutputPanel.astro';
+import Dialog from '../design/kit/astro/Dialog.astro';
 import FavoriteButton from '../design/kit/astro/FavoriteButton.astro';
 import FeaturesList from '../design/kit/astro/FeaturesList.astro';
 import MenuItems from '../design/kit/astro/MenuItems.astro';
@@ -273,11 +274,22 @@ const chips = [
   </Section>
 
   <div class="[--tb-bg:var(--paper)] [--tb-fg:var(--ink)]">
-    <Section id="feedback" title="Feedback" range="22–25">
+    <Section id="feedback" title="Feedback" range="22–26">
       <ComponentEntry num={n()} name="Output panel" classes=".output, .output-log">
         <Fragment slot="about">A task's live output: a status beside the heading, a spinner while it runs, and the log in a dark block that scrolls. See it run on <a class="link" href="/forms">Forms</a>.</Fragment>
         <!-- Inside an entry, so its heading is an h4 under the entry's h3. -->
         <OutputPanel id="cmp-output" title="Output" status="Finished" headingLevel="h4" height="9rem"><span class="pre-cmd">$ export 2026-10-01 2026-10-15</span>{'\n'}Saved exports/2026-10-01-item-01.jpg{'\n'}Saved exports/2026-10-01-item-02.jpg{'\n'}Saved exports/2026-10-01-item-03.jpg{'\n'}<span class="pre-err">Skipped notes.txt: not an image</span></OutputPanel>
+      </ComponentEntry>
+      <ComponentEntry num={n()} name="Dialog" classes=".dialog, <dialog>">
+        <Fragment slot="about">The browser's own modal dialog: the page behind goes still, Escape or a click outside closes it, and focus comes back here. For a choice that needs an answer before going on.</Fragment>
+        <button type="button" class="btn-outline" commandfor="cmp-dialog" command="show-modal">Delete export…</button>
+        <Dialog id="cmp-dialog" title="Delete this export?">
+          <p>The 8 files saved on October 1 go with it. This can't be undone.</p>
+          <Fragment slot="actions">
+            <button class="btn" value="delete">Delete</button>
+            <button class="btn-outline" value="cancel" autofocus>Cancel</button>
+          </Fragment>
+        </Dialog>
       </ComponentEntry>
       <ComponentEntry num={n()} name="Toast" classes=".toast">
         <Fragment slot="about">A one-line confirmation at the bottom left, gone after a few seconds.</Fragment>
@@ -310,7 +322,7 @@ const chips = [
     </Section>
   </div>
 
-  <Section id="titles" title="Titles, menus and footers" range="26–28">
+  <Section id="titles" title="Titles, menus and footers" range="27–29">
     <ComponentEntry num={n()} name="Page title" classes=".page-title, .page-title--bar">
       <Fragment slot="about">One big title in place of a hero, as on <a class="link" href="/forms">Forms</a>. The dark version, on <a class="link" href="/work">Work</a>, ends in a thick accent rule.</Fragment>
       <!-- A page has one h1, so these copies set the title in a p; the spacing utilities tighten them to fit the column. -->
@@ -335,7 +347,7 @@ const chips = [
     </ComponentEntry>
   </Section>
 
-  <Section id="frame" title="Page frame" range="29–35">
+  <Section id="frame" title="Page frame" range="30–36">
     <ComponentEntry num={n()} name="Top bar" classes=".topbar">
       <Fragment slot="about">The bar at the top of this page, with the site name and the outlined buttons.</Fragment>
     </ComponentEntry>
@@ -379,6 +391,12 @@ const chips = [
   });
 
   document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+
+  // The dialog's choice comes back as its returnValue when it closes.
+  document.querySelector<HTMLDialogElement>('#cmp-dialog')?.addEventListener('close', (e) => {
+    const choice = (e.currentTarget as HTMLDialogElement).returnValue;
+    toast(choice === 'delete' ? 'Export deleted. (Not really: this is a demo.)' : 'Kept the export.');
+  });
 
   // The chips only show their pressed state here; there is no list to filter. In the
   // accordion, the status line follows the choice, as it does on the Work page.

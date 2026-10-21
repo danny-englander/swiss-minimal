@@ -58,6 +58,9 @@ const sameDay = git('tag', '--list', `${base}*`).split('\n').filter(Boolean);
 const tag = sameDay.length === 0 ? base : `${base}.${sameDay.length + 1}`;
 
 const line = (f: Feature) => `- **${f.title}.** ${f.body}`;
+// The entry's line, then its details as sub-bullets. Only the line is compared with what was
+// published, so details can be added to an entry without it counting as updated.
+const entry = (f: Feature) => [line(f), ...(f.details ?? []).map((d) => `  - ${d}`)].join('\n');
 
 // 3. Features at the last release, read from that version of features.ts.
 async function featuresAt(ref: string): Promise<Feature[]> {
@@ -121,10 +124,10 @@ if (lastTag && wrongDate.length) {
 const commits = git('log', '--no-merges', '--format=- %s (%h)', ...(lastTag ? [`${lastTag}..HEAD`] : ['-n', '30']));
 const sections: string[] = [];
 if (!lastTag) {
-  sections.push(`The first tagged release.\n\n## Features so far\n\n${features.map(line).join('\n')}`);
+  sections.push(`The first tagged release.\n\n## Features so far\n\n${features.map(entry).join('\n')}`);
 } else {
-  if (added.length) sections.push(`## New\n\n${added.map(line).join('\n')}`);
-  if (updated.length) sections.push(`## Updated\n\n${updated.map(line).join('\n')}`);
+  if (added.length) sections.push(`## New\n\n${added.map(entry).join('\n')}`);
+  if (updated.length) sections.push(`## Updated\n\n${updated.map(entry).join('\n')}`);
   if (!added.length && !updated.length) sections.push('Polish and fixes.');
 }
 sections.push(
