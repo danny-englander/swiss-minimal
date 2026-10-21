@@ -284,11 +284,16 @@ An optional dark bar fixed along the bottom of the screen, for something that sh
 ```html
 <div class="bottom-bar" data-jump-bar data-drawer-keep>
   <div class="page">
-    <p class="bottom-bar-label">Now <button class="jump-btn" data-jump …>…</button></p>
-    <span class="marquee" title="Full title" data-marquee><span>Full title</span></span>
+    <p class="bottom-bar-heading">Now playing</p>
+    <div class="bottom-bar-row">
+      <p class="bottom-bar-label">Now <button class="jump-btn" data-jump …>…</button></p>
+      <span class="marquee" title="Full title" data-marquee><span>Full title</span></span>
+    </div>
   </div>
 </div>
 ```
+
+The heading is optional (`heading` in Astro): a quiet 14px line above the row, at 75% of `bar-ink`, that says what the bar is when the label alone doesn't.
 
 Load `kit/jump.js` and `kit/marquee.js`. In Astro, `<BottomBar slot="overlays" label="Now" title="…" jump={{ target: '[data-item="field-notes"]', name: 'Field notes' }} />` in `BaseLayout` writes it and loads both; the default slot adds to the end of the bar.
 
