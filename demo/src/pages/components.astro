@@ -101,7 +101,8 @@ const chips = [
   <Section id="lists" title="Lists" range="08–13">
     <ComponentEntry num={8} name="List row" classes=".row">
       <Fragment slot="about">Numbered rows that fill on hover. The active one stays filled, with an edge on its left.</Fragment>
-      <ul class="border-t border-rule">
+      <!-- The entry's own rule closes the list, so the last row drops its rule rather than double it -->
+      <ul class="border-t border-rule [&>li:last-child]:border-b-0">
         <Row num={1} title="One typeface" meta="Weights 400, 500 and 700 only" />
         <Row num={2} title="Flat color" meta="Cream, ink and one accent" active>
           <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -148,7 +149,10 @@ const chips = [
     </ComponentEntry>
     <ComponentEntry num={12} name="Dated list" classes=".dated-list">
       <Fragment slot="about">What a site can do and when each part arrived, newest first. These are the latest three.</Fragment>
-      <FeaturesList features={features.slice(0, 3)} level="h4" />
+      <!-- As with the list rows: the entry's rule closes the list -->
+      <div class="[&>ol>li:last-child]:border-b-0">
+        <FeaturesList features={features.slice(0, 3)} level="h4" />
+      </div>
     </ComponentEntry>
     <ComponentEntry num={13} name="Closing note" classes=".closing-note">
       <Fragment slot="about">A bold rule that ends a list, over one quiet line about it.</Fragment>
