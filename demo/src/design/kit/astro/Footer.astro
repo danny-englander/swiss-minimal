@@ -1,0 +1,54 @@
+---
+// The traditional footer at the end of the page (Footer in COMPONENTS.md). The site name, a
+// line about the site and a note on the left; links on the right. Stacks on phones, two
+// columns from 768px. Put it last in the page, inside BaseLayout's default slot.
+//
+// `links` takes the same MenuItem[] as the menu: every item with an href is listed, nested ones
+// included, so the footer never needs its own list. The "note" slot holds a credit or a
+// copyright line (links allowed); the default slot adds anything under the links.
+import type { MenuItem } from './types';
+
+interface Props {
+  name: string;
+  description?: string;
+  links?: MenuItem[];
+  /** The links' landmark name. Give each footer on a page its own. */
+  label?: string;
+  tone?: 'paper' | 'bar';
+  /** Utilities for spacing, e.g. "mt-0". */
+  class?: string;
+}
+const { name, description, links = [], label = 'Footer', tone = 'paper', class: className } = Astro.props;
+
+const flatten = (items: MenuItem[]): MenuItem[] =>
+  items.flatMap((item) => [...(item.href ? [item] : []), ...flatten(item.children ?? [])]);
+const flat = flatten(links);
+---
+
+<footer class:list={['site-footer', tone === 'bar' && 'site-footer--bar', className]}>
+  <div class="site-footer-inner">
+    <div>
+      <p class="site-footer-name">{name}</p>
+      {description && <p class="site-footer-text">{description}</p>}
+      {Astro.slots.has('note') && <p class="site-footer-note"><slot name="note" /></p>}
+    </div>
+    {
+      (flat.length > 0 || Astro.slots.has('default')) && (
+        <nav aria-label={label}>
+          {flat.length > 0 && (
+            <ul class="site-footer-links">
+              {flat.map((item) => (
+                <li>
+                  <a href={item.href} aria-current={item.current ? 'page' : undefined}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+          <slot />
+        </nav>
+      )
+    }
+  </div>
+</footer>

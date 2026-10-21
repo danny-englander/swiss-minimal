@@ -593,6 +593,61 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 .dated-list :is(h3, h4) { margin: 0; font-size: 1.125rem; font-weight: 700; line-height: 1.375; }
 .dated-list p { margin: 0.25rem 0 0; line-height: 1.375; }
 
+/* ---------- Bottom bar: an optional bar fixed along the bottom of the screen ---------- */
+/* For something that stays in view while the page scrolls: what is playing or being read
+   now, with a scrolling title and a jump-to-current button. Its height is --bar-h, which the
+   site sets once (BaseLayout's barHeight) so the page, the panel, the drawer and the toast all
+   stop above it. A dark surface in both themes, like the panel. */
+.bottom-bar {
+  position: fixed; inset: auto 0 0 0; z-index: 40;
+  height: var(--bar-h);
+  background: var(--bar); color: var(--bar-ink);
+}
+.bottom-bar > .page { display: flex; align-items: center; gap: 1rem; height: 100%; }
+.bottom-bar-label {              /* "Now": a small label, so bold accent-bright on the bar */
+  display: flex; flex: none; align-items: center; gap: 0.5rem;
+  font-size: 0.875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent-bright);
+}
+.bottom-bar .marquee { flex: 1; min-width: 0; font-size: 1.125rem; font-weight: 500; }
+
+/* ---------- Footer: the traditional one at the end of the page ---------- */
+/* Opens with the 2px rule every section starts with. The site name, a line about the site and
+   a quiet note on the left; the site's links on the right in two short columns. Stacks on
+   phones, two columns from 768px. --bar sets it on a dark block, like page-title--bar. */
+.site-footer {
+  margin-top: 4rem; padding: 0.75rem 0 3rem;
+  border-top: 2px solid currentColor;
+}
+.site-footer--bar {
+  padding: 2rem var(--gutter) 2.5rem;
+  border-top: 0;
+  background: var(--bar); color: var(--bar-ink);
+}
+.site-footer-inner { display: grid; gap: 2.5rem; }
+@media (min-width: 768px) {
+  .site-footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .site-footer--bar { padding: 2.5rem 2.5rem 3rem; }
+}
+.site-footer-name { margin: 0; font-size: 2.25rem; font-weight: 700; line-height: 1; letter-spacing: -0.025em; }
+.site-footer-text { margin: 1rem 0 0; max-width: 28rem; }
+.site-footer-note {              /* dimmed by color, not opacity, as the closing note is */
+  margin: 1.5rem 0 0; max-width: 28rem;
+  font-size: 0.875rem; line-height: 1.375;
+  color: color-mix(in srgb, currentColor 75%, transparent);
+}
+.site-footer-note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.site-footer-links { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 2rem; }
+.site-footer-links li { break-inside: avoid; }
+.site-footer-links a {
+  display: inline-block; padding: 0.375rem 0;
+  color: inherit; font-weight: 500; text-decoration: none;
+}
+.site-footer-links a:hover { color: var(--accent-text); text-decoration: underline; text-underline-offset: 4px; }
+.site-footer-links a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--accent-text); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.site-footer--bar .site-footer-links a:hover { color: var(--accent-bright); }
+.site-footer--bar .site-footer-links a[aria-current="page"] { text-decoration-color: var(--accent-bright); }
+
 /* ---------- Jump to the current item ---------- */
 /* A small solid triangle (the font's own ▲ / ▼) in a bottom bar that shows while the current
    row is off screen, and scrolls it back into view. Behavior: kit/jump.js. */
