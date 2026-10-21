@@ -19,7 +19,7 @@ Read first, whatever the task: [`DESIGN.md`](DESIGN.md) (the rules, and its "Do 
 1. Make an Astro project with Tailwind v4 (`tailwindcss`, `@tailwindcss/vite`), Node 22.12 or later.
 2. Copy `kit/` and `fonts/` into `src/design/`, side by side. The relative paths inside them (font URLs, the layout's font preload, `../panel.js`) depend on that layout.
 3. Make `src/styles/global.css` start with `@import "../design/kit/tailwind.css";` and import it in your layout. Don't import `tailwindcss` or `theme.css` anywhere else.
-4. Build pages on `kit/astro/BaseLayout.astro`: give it a `menu` (`MenuItem[]`, current page marked), an `accent` if not red, and `barHeight` if there is a fixed bottom bar. Open each page with a `Hero` or a `PageTitle`.
+4. Build pages on `kit/astro/BaseLayout.astro`: give it a `menu` (`MenuItem[]`, current page marked), an `accent` if not red, and `barHeight` on pages with a `BottomBar` (it is optional). Open each page with a `Hero` or a `PageTitle`, and end it with a `Footer` given the same `menu`.
 5. Page layout is Tailwind utilities; components are kit classes. Colors only through the token utilities (`text-muted`, `bg-bar`, `text-accent-text`, …), never Tailwind's palette.
 6. Copy the tests from `TOOLING.md`. Don't edit the files in `src/design/`; a fix there belongs back in this repository.
 

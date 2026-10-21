@@ -246,19 +246,16 @@ A section of numbered rows: a 2px `ink` rule, a header on the shared grid, then 
 
 ## JumpToCurrent
 
-A small solid triangle in a fixed bottom bar that appears while the current item's row is off screen, and brings it back: like a player's "show in list".
+A small solid triangle in the `BottomBar` that appears while the current item's row is off screen, and brings it back: like a player's "show in list".
 
-**Markup.**
+**Markup.** Inside the bar's label:
 
 ```html
-<div class="… bg-bar" data-jump-bar>
-  <button type="button" class="jump-btn" data-jump data-jump-target='[data-item="field-notes"]'
-          data-jump-name="Field notes" hidden><span aria-hidden="true" data-jump-glyph>▲</span></button>
-  …
-</div>
+<button type="button" class="jump-btn" data-jump data-jump-target='[data-item="field-notes"]'
+        data-jump-name="Field notes" hidden><span aria-hidden="true" data-jump-glyph>▲</span></button>
 ```
 
-Load `kit/jump.js`. `data-jump-target` is a selector for the current row (default `.row[data-active="true"]`); with no match, the button stays hidden.
+Load `kit/jump.js`; it measures against the nearest `[data-jump-bar]`. In Astro, pass `jump={{ target, name }}` to `BottomBar`. `data-jump-target` is a selector for the current row (default `.row[data-active="true"]`); with no match, the button stays hidden.
 
 - **The font's own glyphs:** ▲ when the row is above or hidden by a filter, ▼ when it is below. 14px, `accent-bright` on the bar, in a 2rem square target.
 - Shows only while the row is off the visible part of the page, between the top bar and the bottom bar (a sliver at the edge doesn't count). Re-checked on scroll, resize and any layout change.
@@ -271,29 +268,67 @@ Load `kit/jump.js`. `data-jump-target` is a selector for the current row (defaul
 
 One line that scrolls when it is too long to fit, the way music players show a long title. At rest it ends in an ellipsis; while moving, its ends fade.
 
-**Markup.** `<span class="marquee" title="Full text"><span>Full text</span></span>`, then call `scrollTitle(el)` (below) when the text is set or changes.
-
-```js
-function scrollTitle(el) {
-  var distance = el.scrollWidth - el.clientWidth;
-  if (distance <= 4 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var pause = 2000, slide = Math.max(1500, (distance / 50) * 1000), total = 2 * pause + 2 * slide;
-  var end = 'translateX(-' + distance + 'px)';
-  el.dataset.scrolling = '';
-  el.firstElementChild.animate([
-    { transform: 'none', offset: 0 },
-    { transform: 'none', offset: pause / total, easing: 'ease-in-out' },
-    { transform: end, offset: (pause + slide) / total },
-    { transform: end, offset: (2 * pause + slide) / total, easing: 'ease-in-out' },
-    { transform: 'none', offset: 1 },
-  ], { duration: total, iterations: 3 }).onfinish = function () { delete el.dataset.scrolling; };
-}
-```
+**Markup.** `<span class="marquee" title="Full text" data-marquee><span>Full text</span></span>`, and load `kit/marquee.js`: it runs every `[data-marquee]` once the fonts have loaded. When the text changes, call `scrollTitle(el)` again (`import { scrollTitle } from '…/kit/marquee.js'`). `BottomBar` does all of this for its title.
 
 - Only when it doesn't fit; short titles never move.
 - Wait 2s, slide at 50px a second, wait 2s, slide back. **Three rounds, then stop** with the ellipsis (WCAG 2.2.2). Restart when the text changes.
 - Never with Reduce Motion. Keep the full text in `title`.
 - The edge fade is the one gradient the system allows.
+
+## BottomBar
+
+An optional dark bar fixed along the bottom of the screen, for something that should stay in view while the page scrolls: what is playing or being read now. A small label, a `Marquee` title and a `JumpToCurrent` button. Pages opt in; most sites, and most pages, don't need one.
+
+**Markup.**
+
+```html
+<div class="bottom-bar" data-jump-bar data-drawer-keep>
+  <div class="page">
+    <p class="bottom-bar-label">Now <button class="jump-btn" data-jump …>…</button></p>
+    <span class="marquee" title="Full title" data-marquee><span>Full title</span></span>
+  </div>
+</div>
+```
+
+Load `kit/jump.js` and `kit/marquee.js`. In Astro, `<BottomBar slot="overlays" label="Now" title="…" jump={{ target: '[data-item="field-notes"]', name: 'Field notes' }} />` in `BaseLayout` writes it and loads both; the default slot adds to the end of the bar.
+
+- **Set the height once.** The bar is `--bar-h` tall, so give `BaseLayout` `barHeight="5rem"` on every page that shows it. The page then keeps that much space at its end, and the panel, the drawer and the toast stop above the bar. A page without the bar leaves `barHeight` out, and nothing is reserved.
+- **Dark in both themes:** `bar` with `bar-ink` text, like the panel. The label is bold `accent-bright`, the title 1.125rem weight 500.
+- `data-drawer-keep` keeps it usable while the drawer is open.
+- With a `Footer` on the same page, the footer ends where the bar begins, so the bar never covers it.
+
+**Don't.** Put navigation or a form in it, or show it on pages where it has nothing current to say.
+
+## Footer
+
+The traditional footer at the end of the page. The site name, a line about the site and a quiet note (a credit, a copyright line) on the left; the site's links on the right, in two short columns. It stacks on phones and splits into two columns from 768px.
+
+**Markup.**
+
+```html
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>
+      <p class="site-footer-name">Site name</p>
+      <p class="site-footer-text">One line about the site.</p>
+      <p class="site-footer-note">© 2026 Site name.</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul class="site-footer-links"><li><a href="/about">About</a></li>…</ul>
+    </nav>
+  </div>
+</footer>
+```
+
+In Astro, `<Footer name="Site name" description="…" links={menu}><Fragment slot="note">© 2026 Site name.</Fragment></Footer>` as the last thing in `BaseLayout`'s default slot. `links` takes the same `MenuItem[]` as the menu, and every item with an `href` is listed, nested ones included, so the footer never keeps its own list; the current page is underlined in the accent. The default slot adds anything under the links.
+
+- **The rule.** It opens with the 2px rule every section starts with, `space-16` below the page above it.
+- **`--bar`** (`tone="bar"`) sets it on a dark `bar` block instead, like `page-title--bar`: for a site whose pages end on a light section and want a firm end.
+- **Type.** The name is bold at 2.25rem; the links are 1rem weight 500, `accent-text` on hover (`accent-bright` on the dark block). The note is 14px, dimmed by color at 75%, not by opacity.
+- **Names.** The links sit in a `nav`; give each footer on a page its own `label` if there is more than one.
+- Keep it to the site's own pages and one or two outside links. It is not a second menu with sections and headings.
+
+**Don't.** Add a logo image, icons beside the links, a newsletter form or a column of social icons. A link to the site's page on a service says its name in text.
 
 ## Toast
 
