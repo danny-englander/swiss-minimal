@@ -547,7 +547,7 @@ The top of a page: the name in `display`, a `lead` line, and an optional caption
   </Hero>
   ```
 
-  Use `title="About"` instead of the slot for a one-line name, and `layout="split" | "wide"` to override the shape.
+  Use `title="About"` instead of the slot for a one-line name, and `layout="split" | "wide"` to override the shape. The default slot adds text under the lead and before the image, such as a second lead paragraph: `<p class="lead hero-lead">…</p>`. Keep it to one or two short paragraphs; longer text belongs on the page below.
 - The hero image loads eagerly with high priority; it is the one image on a page that is not lazy.
 
 ## PageTitle
