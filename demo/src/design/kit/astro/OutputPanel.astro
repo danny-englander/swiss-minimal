@@ -1,0 +1,43 @@
+---
+// A section for a task's live output (OutputPanel in COMPONENTS.md): its heading and status, and
+// the log in a dark block of fixed height that scrolls. The default slot is the log's starting
+// text. Stream into it with kit/output.js (outputLine, outputStatus, outputClear).
+interface Props {
+  id: string;
+  title?: string;
+  status?: string;
+  running?: boolean;
+  /** The heading's level in the page's outline; it looks like an h2 either way. */
+  headingLevel?: 'h2' | 'h3' | 'h4';
+  /** The log's height, e.g. "14rem". Default 20rem. */
+  height?: string;
+  /** Utilities for spacing, e.g. "mb-14". */
+  class?: string;
+}
+const {
+  id,
+  title = 'Output',
+  status = '',
+  running = false,
+  headingLevel: Heading = 'h2',
+  height,
+  class: className,
+} = Astro.props;
+---
+
+<section
+  class:list={['output', className]}
+  aria-labelledby={`${id}-heading`}
+  data-output
+  data-running={running ? '' : undefined}
+  style={height ? `--output-h: ${height}` : undefined}
+>
+  <div class="output-head">
+    <Heading class="h2" id={`${id}-heading`}>{title}</Heading>
+    <p class="output-status">
+      <span class="spinner" aria-hidden="true"></span>
+      <span role="status" data-output-status>{status}</span>
+    </p>
+  </div>
+  <pre class="pre--bar output-log" tabindex="0" aria-label={`${title} log`} data-output-log><code><slot /></code></pre>
+</section>

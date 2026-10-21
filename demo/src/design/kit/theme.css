@@ -199,6 +199,19 @@ pre .pre-err { color: var(--accent-text); }    /* an error line */
    Markup: <pre class="pre--bar" tabindex="0">. Errors there use accent-bright. */
 pre.pre--bar { border-color: var(--bar); background: var(--bar); color: var(--bar-ink); }
 .pre--bar .pre-err { color: var(--accent-bright); }
+/* Output panel: a section for a task's live output. The 2px rule and an h2 like any section,
+   the status at the right of the heading ("Running…" with the spinner, then "Finished"), and the
+   log in a dark block of fixed height that scrolls. Behavior: kit/output.js. */
+.output { border-top: 2px solid currentColor; padding-top: 0.75rem; }
+.output-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 1rem; margin-bottom: 1.5rem; }
+.output-status {
+  display: inline-flex; align-items: center; gap: 0.5rem; margin: 0;
+  font-size: 0.875rem; font-weight: 500;
+  color: color-mix(in srgb, currentColor 75%, transparent);
+}
+.output-status .spinner { display: none; }
+.output[data-running] .output-status .spinner { display: inline-block; }
+.output-log { height: var(--output-h, 20rem); overflow: auto; }
 kbd {                            /* a key: outlined like the top-bar buttons */
   padding: 0 0.3em;
   border: 1px solid currentColor;
@@ -574,6 +587,20 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 .row:hover .num-circle { --nc-cut: var(--row-hover-bg); }
 .row[data-active="true"] .num-circle { --nc-cut: var(--row-active-bg); }
 
+/* ---------- Summary list: a few results, label beside value ---------- */
+/* A <dl> of rows: a small uppercase label and its value, thin rules between. Label over value
+   on phones, a 10rem label column from 640px. For a task's results, a record's details, an
+   order's totals. On dark surfaces the rules follow the bar's ink. */
+.summary-list { --sl-rule: var(--rule); margin: 0; }
+:is(.panel, .drawer, .page-title--bar, .site-footer--bar) .summary-list { --sl-rule: color-mix(in srgb, var(--bar-ink) 25%, transparent); }
+.summary-list > div { display: grid; gap: 0.25rem 2rem; padding: 1rem 0; border-bottom: 1px solid var(--sl-rule); }
+@media (min-width: 640px) { .summary-list > div { grid-template-columns: 10rem 1fr; align-items: baseline; } }
+.summary-list dt {
+  font-size: 0.875rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  color: color-mix(in srgb, currentColor 85%, transparent);
+}
+.summary-list dd { margin: 0; }
+
 /* ---------- Dated list: what changed and when, newest first ---------- */
 /* A 2px rule on top, thin rules between. Date over the text on phones, beside it from 640px. */
 .dated-list {
@@ -754,7 +781,7 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
    Add data-required to a label the selectors can't reach. Screen readers skip the mark (the
    empty alt text after the slash); the field's own `required` is what they announce.
    .required-mark puts the same mark in running text, for the "⁕ Required" note atop a form. */
-.field-label:is(:has(+ :required), :has(+ .select-wrap > :required), [data-required])::after,
+.field-label:is(:has(+ :required), :has(+ .select-wrap > :required), :has(+ .file-pick > :required), [data-required])::after,
 .choice-group:has(:required) > legend::after,
 .required-mark::before {
   content: "\2055" / "";
@@ -762,7 +789,7 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
   font-size: 1.2em; font-weight: 700; line-height: 0;
   letter-spacing: 0;
 }
-.field-label:is(:has(+ :required), :has(+ .select-wrap > :required), [data-required])::after,
+.field-label:is(:has(+ :required), :has(+ .select-wrap > :required), :has(+ .file-pick > :required), [data-required])::after,
 .choice-group:has(:required) > legend::after { margin-left: 0.35em; }
 .required-mark::before { margin-right: 0.35em; }
 .panel, .drawer { --required-ink: var(--accent-bright); }
@@ -782,6 +809,48 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 .select { appearance: none; padding-right: 2.25rem; text-overflow: ellipsis; cursor: pointer; }
 .select option { color: var(--ink); background: var(--paper); }  /* the native list is always on the page's ground */
 .select:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Date and time: the browser's own inputs (date, time, datetime-local, month) as a .field. The
+   picker icon follows color-scheme, so it shows on the dark page and, set here, on dark bars. */
+.field:is([type="date"], [type="time"], [type="datetime-local"], [type="month"]) {
+  font-variant-numeric: tabular-nums;
+  min-height: calc(1.25rem * 1.3 + 1.2rem + 2px);   /* Safari draws an empty one shorter */
+}
+.field::-webkit-calendar-picker-indicator { cursor: pointer; }
+.field::-webkit-datetime-edit { padding: 0; }
+:is(.panel, .drawer, .bottom-bar, .page-title--bar, .site-footer--bar) .field { color-scheme: dark; }
+
+/* Secondary button: outlined, sentence case, for actions beside the one filled .btn (presets,
+   Choose…, Open in Finder). Fills with the text color on hover; takes the bar's colors on dark.
+   Several in a row: <div class="btn-group" role="group" aria-label="…">. */
+.btn-outline {
+  --bo-fg: var(--ink); --bo-bg: var(--paper);
+  display: inline-flex; flex: none; align-items: center; justify-content: center;
+  min-height: 2.75rem; padding: 0.6rem 1.25rem;
+  border: 1px solid var(--bo-fg); background: transparent; color: var(--bo-fg);
+  font: inherit; font-size: 1rem; font-weight: 500; line-height: 1.2; white-space: nowrap;
+  transition: background-color 150ms, color 150ms;
+}
+.btn-outline:hover { background: var(--bo-fg); color: var(--bo-bg); }
+.btn-outline:disabled { opacity: 0.6; cursor: not-allowed; }
+:is(.panel, .drawer, .bottom-bar, .page-title--bar, .site-footer--bar) .btn-outline { --bo-fg: var(--bar-ink); --bo-bg: var(--bar); }
+.btn-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* File picker: a field that shows the chosen file's name, and a Choose… button. The real
+   <input type="file"> stays in the page (visually hidden, still focusable), so the keyboard and
+   screen readers use the browser's own control; the button and field show its focus.
+   Markup and behavior: COMPONENTS.md (FilePicker) and kit/file-pick.js. */
+.file-pick { display: flex; align-items: flex-end; gap: 1rem; margin-top: 0.25rem; }
+.file-pick-name {
+  flex: 1; min-width: 0;
+  padding: 0.6rem 0; border-bottom: 2px solid currentColor;
+  font-size: 1.25rem; line-height: 1.3;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.file-pick-name[data-empty] { color: color-mix(in srgb, currentColor 75%, transparent); }
+.file-pick > .btn-outline { cursor: pointer; }
+.file-pick:has(> input:focus-visible) > .btn-outline { outline: 3px solid var(--accent); outline-offset: 2px; }
+.file-pick:has(> input:disabled) { opacity: 0.6; }
 
 /* Choices: a switch for on/off and radios for one of several, each in a <label class="choice">.
    Off is drawn in the text's color; on turns the accent (accent-text on the page, accent-bright

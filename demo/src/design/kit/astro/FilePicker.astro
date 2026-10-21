@@ -1,0 +1,57 @@
+---
+// A file field with a Choose… button (FilePicker in COMPONENTS.md). The real file input stays in
+// the page, visually hidden, so the browser's own control does the work; kit/file-pick.js shows
+// the chosen file's name in the field. `directory` picks a folder (webkitdirectory, where the
+// browser supports it).
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  accept?: string;
+  multiple?: boolean;
+  directory?: boolean;
+  required?: boolean;
+  disabled?: boolean;
+  /** Shown until something is chosen. */
+  empty?: string;
+  button?: string;
+  /** Utilities for spacing, e.g. "mb-7". */
+  class?: string;
+}
+const {
+  id,
+  name,
+  label,
+  accept,
+  multiple = false,
+  directory = false,
+  required = false,
+  disabled = false,
+  empty = directory ? 'No folder chosen' : 'No file chosen',
+  button = 'Choose…',
+  class: className,
+} = Astro.props;
+---
+
+<label class="field-label" for={id} id={`${id}-label`}>{label}</label>
+<div class:list={['file-pick', className]}>
+  <input
+    class="sr-only"
+    type="file"
+    id={id}
+    name={name}
+    accept={accept}
+    multiple={multiple}
+    {...directory ? { webkitdirectory: '' } : {}}
+    required={required}
+    disabled={disabled}
+    aria-labelledby={`${id}-label ${id}-name`}
+    data-file-pick
+  />
+  <span class="file-pick-name" id={`${id}-name`} data-file-pick-name data-empty>{empty}</span>
+  <label class="btn-outline" for={id} aria-hidden="true">{button}</label>
+</div>
+
+<script>
+  import '../file-pick.js';
+</script>

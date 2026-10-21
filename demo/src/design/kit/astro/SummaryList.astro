@@ -1,0 +1,22 @@
+---
+// A few results, each a label beside its value (SummaryList in COMPONENTS.md). Label over value
+// on phones, side by side from 640px. Values are text; put links or richer content in a <dl
+// class="summary-list"> of your own.
+interface Props {
+  items: { label: string; value: string }[];
+  /** Utilities for spacing, e.g. "mb-8". */
+  class?: string;
+}
+const { items, class: className } = Astro.props;
+---
+
+<dl class:list={['summary-list', className]}>
+  {
+    items.map((item) => (
+      <div>
+        <dt>{item.label}</dt>
+        <dd>{item.value}</dd>
+      </div>
+    ))
+  }
+</dl>
