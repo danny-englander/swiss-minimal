@@ -810,6 +810,43 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 .select option { color: var(--ink); background: var(--paper); }  /* the native list is always on the page's ground */
 .select:disabled { opacity: 0.6; cursor: not-allowed; }
 
+/* Customizable select: where the browser supports appearance: base-select, the open list is
+   drawn in the kit's style too. Still the real <select>, so the keyboard, screen readers, forms
+   and phones work as before; elsewhere the browser's own list shows, as above.
+   The list is square with a 2px rule in the text's color, on the surface it opens from (paper,
+   or the bar inside a panel); the option under the pointer or keyboard fills like a chip, and
+   the chosen one is bold with an accent check. */
+@supports (appearance: base-select) {
+  .select, .select::picker(select) { appearance: base-select; }
+  .select {
+    --sel-bg: var(--paper); --sel-fg: var(--ink); --sel-check: var(--accent-text);
+    display: block;
+  }
+  :is(.panel, .drawer, .bottom-bar, .page-title--bar, .site-footer--bar) .select {
+    --sel-bg: var(--bar); --sel-fg: var(--bar-ink); --sel-check: var(--accent-bright);
+  }
+  .select::picker-icon { display: none; }      /* the wrapper draws the chevron */
+  .select-wrap:has(> .select:open)::after { transform: translateY(-25%) rotate(225deg); }
+  .select::picker(select) {
+    margin: 0.25rem 0; padding: 0.25rem 0;
+    border: 2px solid var(--sel-fg); border-radius: 0;
+    background: var(--sel-bg); color: var(--sel-fg);
+    box-shadow: none;
+    max-height: min(20rem, 60vh);
+  }
+  .select option {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.6rem 1rem;
+    background: transparent; color: inherit;
+    font-size: 1.125rem; line-height: 1.3;
+  }
+  .select option::checkmark { order: 1; margin-left: auto; color: var(--sel-check); font-weight: 700; }
+  .select option:checked { font-weight: 700; }
+  .select option:is(:hover, :focus-visible) { background: var(--sel-fg); color: var(--sel-bg); outline: none; }
+  .select option:is(:hover, :focus-visible)::checkmark { color: inherit; }
+  .select option:disabled { opacity: 0.6; }
+}
+
 /* Date and time: the browser's own inputs (date, time, datetime-local, month) as a .field. The
    picker icon follows color-scheme, so it shows on the dark page and, set here, on dark bars. */
 .field:is([type="date"], [type="time"], [type="datetime-local"], [type="month"]) {
