@@ -293,7 +293,7 @@ An optional dark bar fixed along the bottom of the screen, for something that sh
 </section>
 ```
 
-The heading is optional (`heading` in Astro): a quiet 14px line above the row, at 75% of `bar-ink`, that says what the bar is when the label alone doesn't. It is an `h2`, or an `h3` with `headingLevel="h3"`; the class sets its look either way. With a heading the bar is a `section` named by it, so screen readers list it as a region, as they do the drawer. Without one it is a plain `div`.
+The heading is optional (`heading` in Astro): a line above the row that says what the bar is when the label alone doesn't. It is the largest type in the bar, 1.25rem bold in `bar-ink`, and fits the 5rem bar with the row under it; a shorter bar should leave it out. It is an `h2`, or an `h3` with `headingLevel="h3"`; the class sets its look either way. With a heading the bar is a `section` named by it, so screen readers list it as a region, as they do the drawer. Without one it is a plain `div`.
 
 Load `kit/jump.js` and `kit/marquee.js`. In Astro, `<BottomBar slot="overlays" label="Now" title="…" jump={{ target: '[data-item="field-notes"]', name: 'Field notes' }} />` in `BaseLayout` writes it and loads both; the default slot adds to the end of the bar.
 
