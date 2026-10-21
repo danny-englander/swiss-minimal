@@ -8,6 +8,17 @@ import type { Feature } from '../design/kit/astro/types';
 export const features: Feature[] = [
   {
     date: '2026-10-21',
+    title: 'New accent names',
+    body: 'The two accents have new names and the same colors: vermilion, the orange-leaning red of Swiss posters, and verdigris, the blue-green patina of old copper.',
+    details: [
+      'Red is now vermilion and teal is now verdigris; the colors themselves are unchanged.',
+      'Every page names its accent: `<html data-accent="vermilion">` or `"verdigris"`. `BaseLayout` takes `accent="vermilion"` (the default) or `accent="verdigris"`.',
+      'Sites on the kit: change `red` to `vermilion` and `teal` to `verdigris` wherever an accent is set, then copy the new kit in. The old names no longer work.',
+      'The gear on the right edge of the demo previews both under their new names.',
+    ],
+  },
+  {
+    date: '2026-10-21',
     title: 'Dialog',
     body: 'A modal dialog on the browser’s own <dialog>, square with a thick rule over a flat dark backdrop, for a choice that needs an answer. Try Delete export on the Components page.',
     details: [
@@ -121,11 +132,6 @@ export const features: Feature[] = [
     date: '2026-10-19',
     title: 'Vermilion or verdigris',
     body: 'A site picks one accent, vermilion or verdigris. The gear on the right edge previews both.',
-    details: [
-      'The accents have new names, and the same colors: red is now vermilion, the orange-leaning red of Swiss posters, and teal is now verdigris, the blue-green patina of old copper.',
-      'Every page names its accent: `<html data-accent="vermilion">` or `"verdigris"`. `BaseLayout` takes `accent="vermilion"` (the default) or `accent="verdigris"`.',
-      'Sites on the kit: change `red` to `vermilion` and `teal` to `verdigris` wherever an accent is set, then copy the new kit in. The old names no longer work.',
-    ],
   },
   {
     date: '2026-10-19',
