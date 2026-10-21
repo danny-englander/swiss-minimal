@@ -9,12 +9,20 @@ import Hero from '../design/kit/astro/Hero.astro';
 import Ellipse from '../design/kit/astro/Ellipse.astro';
 import NumCircle from '../design/kit/astro/NumCircle.astro';
 import Footer from '../design/kit/astro/Footer.astro';
+import FilePicker from '../design/kit/astro/FilePicker.astro';
+import SummaryList from '../design/kit/astro/SummaryList.astro';
+import OutputPanel from '../design/kit/astro/OutputPanel.astro';
 import FavoriteButton from '../design/kit/astro/FavoriteButton.astro';
 import FeaturesList from '../design/kit/astro/FeaturesList.astro';
 import MenuItems from '../design/kit/astro/MenuItems.astro';
 import type { MenuItem } from '../design/kit/astro/types';
 import { features } from '../data/features';
 import hero from '../assets/hero.jpg';
+
+// Entries number themselves in the order they appear, so adding one never means renumbering.
+// Only the group ranges below are written by hand.
+let count = 0;
+const n = () => ++count;
 
 // The oval badge at each size, largest first. Its size is its text's, set by a text utility.
 const badgeSizes = [
@@ -54,24 +62,33 @@ const chips = [
 
   <!-- Outlined buttons take their colors from the top bar; off the bar they need the same two. -->
   <div class="[--tb-bg:var(--paper)] [--tb-fg:var(--ink)]">
-    <Section id="buttons" title="Buttons" range="01–03">
-      <ComponentEntry num={1} name="Button" classes=".btn">
+    <Section id="buttons" title="Buttons" range="01–04">
+      <ComponentEntry num={n()} name="Button" classes=".btn">
         <Fragment slot="about">The one filled button, for the single main action of a view. Hover brightens it.</Fragment>
         <button class="btn" type="button" data-toast-text="Sent.">Send</button>
       </ComponentEntry>
-      <ComponentEntry num={2} name="Outlined button" classes=".topbar-btn, .topbar-btn--text">
-        <Fragment slot="about">The quiet button: a 1px outline that fills on hover. The top bar uses it for Recent, the menu and the theme.</Fragment>
+      <ComponentEntry num={n()} name="Secondary button" classes=".btn-outline, .btn-group">
+        <Fragment slot="about">Every other action beside the filled one: presets that fill a form, Choose…, Open in Finder. Sentence case, outlined, filled on hover.</Fragment>
+        <div class="btn-group" role="group" aria-label="Date presets">
+          <button type="button" class="btn-outline" data-toast-text="This month chosen.">This month</button>
+          <button type="button" class="btn-outline" data-toast-text="Last month chosen.">Last month</button>
+          <button type="button" class="btn-outline" data-toast-text="1st–15th chosen.">1st–15th</button>
+          <button type="button" class="btn-outline" data-toast-text="16th–end chosen.">16th–end</button>
+        </div>
+      </ComponentEntry>
+      <ComponentEntry num={n()} name="Outlined button" classes=".topbar-btn, .topbar-btn--text">
+        <Fragment slot="about">The quiet button of the top bar: a 1px outline in capitals that fills on hover. The top bar uses it for Recent, the menu and the theme.</Fragment>
         <button class="topbar-btn topbar-btn--text" type="button" data-copy="/components">Copy link</button>
       </ComponentEntry>
-      <ComponentEntry num={3} name="Hover label" classes="data-tip">
+      <ComponentEntry num={n()} name="Hover label" classes="data-tip">
         <Fragment slot="about">A short label under an outlined button saying what it does. Hover or tab to it.</Fragment>
         <button class="topbar-btn topbar-btn--text" type="button" data-tip="Print page" data-print>Print</button>
       </ComponentEntry>
     </Section>
   </div>
 
-  <Section id="forms" title="Forms" range="04–07">
-    <ComponentEntry num={4} name="Field" classes=".field, .field-label">
+  <Section id="forms" title="Forms" range="05–10">
+    <ComponentEntry num={n()} name="Field" classes=".field, .field-label">
       <Fragment slot="about">An underline in large type, no box. A required field gets the flower mark after its label.</Fragment>
       <div class="max-w-md">
         <p class="small muted mb-6"><span class="required-mark"></span>Required</p>
@@ -79,7 +96,7 @@ const chips = [
         <input class="field" id="cmp-name" name="name" autocomplete="name" placeholder="Jane Doe" required />
       </div>
     </ComponentEntry>
-    <ComponentEntry num={5} name="Select" classes=".select-wrap, .select">
+    <ComponentEntry num={n()} name="Select" classes=".select-wrap, .select">
       <Fragment slot="about">A field that picks one item from a list, with a chevron at its end.</Fragment>
       <div class="max-w-md">
         <label class="field-label" for="cmp-topic">Topic</label>
@@ -93,12 +110,31 @@ const chips = [
         </div>
       </div>
     </ComponentEntry>
-    <ComponentEntry num={6} name="Switch" classes=".choice, .switch">
+    <ComponentEntry num={n()} name="Date and time" classes='.field, type="date", "time"'>
+      <Fragment slot="about">The browser's own date and time inputs as fields, with their calendar and clock. The format follows the visitor's settings.</Fragment>
+      <div class="grid max-w-md gap-x-6 gap-y-5 sm:grid-cols-2">
+        <div>
+          <label class="field-label" for="cmp-date">Start date</label>
+          <input class="field" type="date" id="cmp-date" name="date" value="2026-10-01" />
+        </div>
+        <div>
+          <label class="field-label" for="cmp-time">Run at</label>
+          <input class="field" type="time" id="cmp-time" name="time" value="09:00" />
+        </div>
+      </div>
+    </ComponentEntry>
+    <ComponentEntry num={n()} name="File picker" classes=".file-pick, .file-pick-name">
+      <Fragment slot="about">A field that shows the chosen file's name, with a Choose… button. The browser's own file input does the work underneath.</Fragment>
+      <div class="max-w-md">
+        <FilePicker id="cmp-file" name="file" label="Attachment" />
+      </div>
+    </ComponentEntry>
+    <ComponentEntry num={n()} name="Switch" classes=".choice, .switch">
       <Fragment slot="about">On or off for a setting. On fills with the accent.</Fragment>
       <label class="choice"><input class="switch" type="checkbox" role="switch" name="updates" checked /> Email me when something is added</label>
       <label class="choice"><input class="switch" type="checkbox" role="switch" name="digest" /> Send a monthly digest</label>
     </ComponentEntry>
-    <ComponentEntry num={7} name="Radio" classes=".choice-group, .radio">
+    <ComponentEntry num={n()} name="Radio" classes=".choice-group, .radio">
       <Fragment slot="about">One choice from two to five, all in view. The arrow keys move the choice.</Fragment>
       <fieldset class="choice-group choice-group--row">
         <legend class="field-label">Format</legend>
@@ -109,8 +145,8 @@ const chips = [
     </ComponentEntry>
   </Section>
 
-  <Section id="lists" title="Lists" range="08–13">
-    <ComponentEntry num={8} name="List row" classes=".row">
+  <Section id="lists" title="Lists" range="11–17">
+    <ComponentEntry num={n()} name="List row" classes=".row">
       <Fragment slot="about">Numbered rows that fill on hover. The active one stays filled, with an edge on its left.</Fragment>
       <!-- The entry's own rule closes the list, so the last row drops its rule rather than double it -->
       <ul class="border-t border-rule [&>li:last-child]:border-b-0">
@@ -121,7 +157,7 @@ const chips = [
         <Row num={3} title="Thick rules" meta="A 2px line opens every section" />
       </ul>
     </ComponentEntry>
-    <ComponentEntry num={9} name="Filter chips" classes=".chip-group, .chip">
+    <ComponentEntry num={n()} name="Filter chips" classes=".chip-group, .chip">
       <Fragment slot="about">Outlined buttons that narrow a list to one category. The pressed one fills.</Fragment>
       <div class="chip-group" role="group" aria-label="Category" data-demo-chips>
         {
@@ -133,11 +169,11 @@ const chips = [
         }
       </div>
     </ComponentEntry>
-    <ComponentEntry num={10} name="Favorite star" classes=".fav-btn">
+    <ComponentEntry num={n()} name="Favorite star" classes=".fav-btn">
       <Fragment slot="about">Saves an item on this device. This star and the one beside Field notes on the Work page are the same.</Fragment>
       <p class="flex items-center gap-2"><FavoriteButton id="field-notes" name="Field notes" /> Field notes</p>
     </ComponentEntry>
-    <ComponentEntry num={11} name="Page accordion" classes=".page-acc">
+    <ComponentEntry num={n()} name="Page accordion" classes=".page-acc">
       <Fragment slot="about">Folds a filter row away, with a line saying what it shows. Open it and pick a chip.</Fragment>
       <details class="page-acc">
         <summary>
@@ -158,28 +194,39 @@ const chips = [
         </div>
       </details>
     </ComponentEntry>
-    <ComponentEntry num={12} name="Dated list" classes=".dated-list">
+    <ComponentEntry num={n()} name="Dated list" classes=".dated-list">
       <Fragment slot="about">What a site can do and when each part arrived, newest first. These are the latest three.</Fragment>
       <!-- As with the list rows: the entry's rule closes the list -->
       <div class="[&>ol>li:last-child]:border-b-0">
         <FeaturesList features={features.slice(0, 3)} level="h4" />
       </div>
     </ComponentEntry>
-    <ComponentEntry num={13} name="Closing note" classes=".closing-note">
+    <ComponentEntry num={n()} name="Summary list" classes=".summary-list">
+      <Fragment slot="about">A few results, each a small label beside its value, as after a task has run. The label sits over the value on a phone.</Fragment>
+      <div class="[&>dl>div:last-child]:border-b-0">
+        <SummaryList
+          items={[
+            { label: 'Download', value: 'Done. Saved 92 new files, skipped 0 already downloaded.' },
+            { label: 'Info files', value: '92 new, 0 updated with new files, the rest unchanged.' },
+          ]}
+        />
+      </div>
+    </ComponentEntry>
+    <ComponentEntry num={n()} name="Closing note" classes=".closing-note">
       <Fragment slot="about">A bold rule that ends a list, over one quiet line about it.</Fragment>
       <p class="closing-note max-w-md">Kept on this device only.</p>
     </ComponentEntry>
   </Section>
 
-  <Section id="text" title="Text and images" range="14–17">
-    <ComponentEntry num={14} name="Code block" classes="pre, .pre--bar">
+  <Section id="text" title="Text and images" range="18–21">
+    <ComponentEntry num={n()} name="Code block" classes="pre, .pre--bar">
       <Fragment slot="about">Code in Source Code Pro. Terminal output and logs go on the dark block, the same in both themes.</Fragment>
       <pre class="mb-4" tabindex="0"><code>@import "../design/kit/tailwind.css";</code></pre>
       <pre class="pre--bar" tabindex="0"><code><span class="pre-cmd">$ npm test</span>
 52 passed (15.7s)
 <span class="pre-err">1 failed: tests/forms.spec.ts</span></code></pre>
     </ComponentEntry>
-    <ComponentEntry num={15} name="Oval badge" classes=".ellipse, .ellipse--solid, text-sm to text-4xl">
+    <ComponentEntry num={n()} name="Oval badge" classes=".ellipse, .ellipse--solid, text-sm to text-4xl">
       <Fragment slot="about">Abbreviations in an oval, after international car decals. Plain or solid. It takes the size of its text, so a text utility sizes it, never below <code>text-sm</code>.</Fragment>
       <ul class="flex flex-wrap items-end gap-x-6 gap-y-4">
         {
@@ -192,7 +239,7 @@ const chips = [
         }
       </ul>
     </ComponentEntry>
-    <ComponentEntry num={16} name="Number circle" classes=".num-circle, .num-circle--solid">
+    <ComponentEntry num={n()} name="Number circle" classes=".num-circle, .num-circle--solid">
       <Fragment slot="about">A number in a circle, outlined or solid, for steps or for list rows. It takes the color and size of the text around it.</Fragment>
       <div class="flex flex-wrap items-center gap-x-8 gap-y-4 text-2xl">
         <p class="flex items-center gap-2"><NumCircle value={1} /> <NumCircle value={2} /> <NumCircle value={3} /></p>
@@ -209,7 +256,7 @@ const chips = [
         <Row num={3} title="Build on BaseLayout" meta="A Hero or a PageTitle on every page" numStyle="solid" />
       </ul>
     </ComponentEntry>
-    <ComponentEntry num={17} name="Image" classes=".media, .figure">
+    <ComponentEntry num={n()} name="Image" classes=".media, .figure">
       <Fragment slot="about">A plain rectangle on the grid, cropped to a fixed shape, with the caption below.</Fragment>
       <figure class="figure max-w-md">
         <Image
@@ -226,19 +273,24 @@ const chips = [
   </Section>
 
   <div class="[--tb-bg:var(--paper)] [--tb-fg:var(--ink)]">
-    <Section id="feedback" title="Feedback" range="18–20">
-      <ComponentEntry num={18} name="Toast" classes=".toast">
+    <Section id="feedback" title="Feedback" range="22–25">
+      <ComponentEntry num={n()} name="Output panel" classes=".output, .output-log">
+        <Fragment slot="about">A task's live output: a status beside the heading, a spinner while it runs, and the log in a dark block that scrolls. See it run on <a class="link" href="/forms">Forms</a>.</Fragment>
+        <!-- Inside an entry, so its heading is an h4 under the entry's h3. -->
+        <OutputPanel id="cmp-output" title="Output" status="Finished" headingLevel="h4" height="9rem"><span class="pre-cmd">$ export 2026-10-01 2026-10-15</span>{'\n'}Saved exports/2026-10-01-item-01.jpg{'\n'}Saved exports/2026-10-01-item-02.jpg{'\n'}Saved exports/2026-10-01-item-03.jpg{'\n'}<span class="pre-err">Skipped notes.txt: not an image</span></OutputPanel>
+      </ComponentEntry>
+      <ComponentEntry num={n()} name="Toast" classes=".toast">
         <Fragment slot="about">A one-line confirmation at the bottom left, gone after a few seconds.</Fragment>
         <button class="topbar-btn topbar-btn--text" type="button" data-toast-text="Settings saved.">Show toast</button>
       </ComponentEntry>
-      <ComponentEntry num={19} name="Activity indicators" classes=".eq, .spinner">
+      <ComponentEntry num={n()} name="Activity indicators" classes=".eq, .spinner">
         <Fragment slot="about">The equalizer marks what is playing now; the spinner says something is loading.</Fragment>
         <div class="flex items-center gap-8">
           <p class="flex items-center gap-3"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span> Now playing</p>
           <span class="spinner" role="status" aria-label="Loading"></span>
         </div>
       </ComponentEntry>
-      <ComponentEntry num={20} name="Icon actions" classes=".icon-row, .icon-btn">
+      <ComponentEntry num={n()} name="Icon actions" classes=".icon-row, .icon-btn">
         <Fragment slot="about">Icon-only links and buttons under a list item, one color, the accent on hover.</Fragment>
         <a class="title block underline-offset-4 hover:underline" href="/work">Work</a>
         <p class="icon-row">
@@ -258,20 +310,20 @@ const chips = [
     </Section>
   </div>
 
-  <Section id="titles" title="Titles, menus and footers" range="21–23">
-    <ComponentEntry num={21} name="Page title" classes=".page-title, .page-title--bar">
+  <Section id="titles" title="Titles, menus and footers" range="26–28">
+    <ComponentEntry num={n()} name="Page title" classes=".page-title, .page-title--bar">
       <Fragment slot="about">One big title in place of a hero, as on <a class="link" href="/forms">Forms</a>. The dark version, on <a class="link" href="/work">Work</a>, ends in a thick accent rule.</Fragment>
       <!-- A page has one h1, so these copies set the title in a p; the spacing utilities tighten them to fit the column. -->
       <div class="page-title py-0"><p class="page-title-text">All work</p></div>
       <div class="page-title page-title--bar mt-8 mb-0"><p class="page-title-text">All work</p></div>
     </ComponentEntry>
-    <ComponentEntry num={22} name="Menu" classes=".menu-list, .acc, .submenu">
+    <ComponentEntry num={n()} name="Menu" classes=".menu-list, .acc, .submenu">
       <Fragment slot="about">The big lines in the panel. An item with sub-items opens as an accordion, with a plus that turns to a minus. Open Work, then Projects.</Fragment>
       <div class="bg-bar p-6 text-bar-ink">
         <MenuItems items={sampleMenu} group="sample-menu" />
       </div>
     </ComponentEntry>
-    <ComponentEntry num={23} name="Footer" classes=".site-footer, .site-footer--bar">
+    <ComponentEntry num={n()} name="Footer" classes=".site-footer, .site-footer--bar">
       <Fragment slot="about">The traditional footer, as at the end of every page here: the name and a note on the left, the site's links on the right. It stacks on a phone. Plain, or on a dark block.</Fragment>
       <!-- Samples inside the entry are not the page's footer, so each names its links apart. -->
       <Footer name="Swiss Minimal" description="A design kit for type-led sites." links={sampleMenu} label="Sample footer links" class="mt-0 pb-0">
@@ -283,26 +335,26 @@ const chips = [
     </ComponentEntry>
   </Section>
 
-  <Section id="frame" title="Page frame" range="24–30">
-    <ComponentEntry num={24} name="Top bar" classes=".topbar">
+  <Section id="frame" title="Page frame" range="29–35">
+    <ComponentEntry num={n()} name="Top bar" classes=".topbar">
       <Fragment slot="about">The bar at the top of this page, with the site name and the outlined buttons.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={25} name="Slide-down panel" classes=".panel">
+    <ComponentEntry num={n()} name="Slide-down panel" classes=".panel">
       <Fragment slot="about">The dark block behind the menu button. <a class="link" href="#menu">Open it</a>.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={26} name="Panel tabs" classes=".panel-tabs, .panel-tab">
+    <ComponentEntry num={n()} name="Panel tabs" classes=".panel-tabs, .panel-tab">
       <Fragment slot="about">Menu, Contact and Features across the top of the panel. <a class="link" href="#contact">Open Contact</a>.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={27} name="New dot" classes=".new-dot">
+    <ComponentEntry num={n()} name="New dot" classes=".new-dot">
       <Fragment slot="about">The dot on the menu button when something was added since your last visit.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={28} name="Drawer" classes=".drawer">
+    <ComponentEntry num={n()} name="Drawer" classes=".drawer">
       <Fragment slot="about">The Recent button in the top bar: the pages you have opened here.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={29} name="Bottom bar" classes=".bottom-bar, .marquee, .jump-btn">
+    <ComponentEntry num={n()} name="Bottom bar" classes=".bottom-bar, .marquee, .jump-btn">
       <Fragment slot="about">The dark bar fixed along the bottom of this page, and of <a class="link" href="/work">Work</a>. A page opts in. Its title scrolls three times when it is too long, then rests; on Work, its triangle brings Field notes back into view.</Fragment>
     </ComponentEntry>
-    <ComponentEntry num={30} name="Hero" classes=".hero">
+    <ComponentEntry num={n()} name="Hero" classes=".hero">
       <Fragment slot="about">The top of this page. <a class="link" href="/">Home</a> has the square image beside it, <a class="link" href="/about">About</a> the wide one under it.</Fragment>
     </ComponentEntry>
   </Section>

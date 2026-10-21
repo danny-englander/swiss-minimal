@@ -1,6 +1,16 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageTitle from '../design/kit/astro/PageTitle.astro';
+import FilePicker from '../design/kit/astro/FilePicker.astro';
+import OutputPanel from '../design/kit/astro/OutputPanel.astro';
+import SummaryList from '../design/kit/astro/SummaryList.astro';
+
+const presets = [
+  { id: 'this-month', label: 'This month' },
+  { id: 'last-month', label: 'Last month' },
+  { id: 'first-half', label: '1st–15th' },
+  { id: 'second-half', label: '16th–end' },
+];
 ---
 
 <SiteLayout title="Forms" description="Form controls in the Swiss Minimal kit: fields, a select, radios and switches.">
@@ -54,13 +64,111 @@ import PageTitle from '../design/kit/astro/PageTitle.astro';
 
     <button class="btn" type="submit">Save</button>
   </form>
+
+  <!-- A task form with live output, like a downloader's settings screen. No backend: Start runs
+       a short pretend export, streamed into the output panel, then fills the summary. -->
+  <form class="max-w-xl pb-14" data-export-form>
+    <section class="mb-10 border-t-2 border-ink pt-3" aria-labelledby="forms-export">
+      <h2 class="h2 mb-3" id="forms-export">Export</h2>
+      <p class="small muted mb-8"><span class="required-mark"></span>Required</p>
+      <div class="grid gap-x-6 sm:grid-cols-2">
+        <div class="mb-5">
+          <label class="field-label" for="export-start">Start date</label>
+          <input class="field" type="date" id="export-start" name="start" required />
+        </div>
+        <div class="mb-5">
+          <label class="field-label" for="export-end">End date</label>
+          <input class="field" type="date" id="export-end" name="end" required />
+        </div>
+      </div>
+      <div class="btn-group mb-8" role="group" aria-label="Date presets">
+        {presets.map((p) => <button type="button" class="btn-outline" data-preset={p.id}>{p.label}</button>)}
+      </div>
+      <label class="field-label" for="export-time">Run at</label>
+      <input class="field mb-7" type="time" id="export-time" name="time" value="09:00" />
+      <FilePicker id="export-file" name="attachment" label="Attachment" />
+    </section>
+    <button class="btn" type="submit" data-export-start>Start</button>
+  </form>
+
+  <div class="max-w-4xl pb-16">
+    <!-- A <pre> keeps its whitespace, so the starting text stays on one line. -->
+    <OutputPanel id="export-output" status="Not started" height="14rem" class="mb-14"><span class="pre-cmd">$ export</span>{'\n'}Choose dates and press Start.</OutputPanel>
+    <section class="border-t-2 border-ink pt-3" aria-labelledby="forms-summary" data-export-summary>
+      <h2 class="h2 mb-6" id="forms-summary">Summary</h2>
+      <SummaryList
+        items={[
+          { label: 'Export', value: 'Not run yet.' },
+          { label: 'Attachment', value: 'None.' },
+        ]}
+      />
+    </section>
+  </div>
 </SiteLayout>
 
 <script>
+  import { outputClear, outputLine, outputStatus } from '../design/kit/output.js';
+
   // No backend: confirm with the layout's toast.
   const form = document.querySelector<HTMLFormElement>('[data-settings-form]');
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
     document.dispatchEvent(new CustomEvent('toast', { detail: 'Settings saved.' }));
+  });
+
+  // Export: presets fill both dates; Start streams a pretend run, then fills the summary.
+  const exportForm = document.querySelector<HTMLFormElement>('[data-export-form]');
+  const start = document.querySelector<HTMLInputElement>('#export-start');
+  const end = document.querySelector<HTMLInputElement>('#export-end');
+  const time = document.querySelector<HTMLInputElement>('#export-time');
+  const file = document.querySelector<HTMLInputElement>('#export-file');
+  const startButton = document.querySelector<HTMLButtonElement>('[data-export-start]');
+  const panel = document.querySelector<HTMLElement>('[data-output]');
+  const summary = [...document.querySelectorAll<HTMLElement>('[data-export-summary] dd')];
+
+  /** YYYY-MM-DD in local time, as a date input wants it. */
+  const iso = (d: Date) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+  function range(preset: string): [Date, Date] {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = now.getMonth();
+    const last = (month: number) => new Date(y, month + 1, 0);
+    if (preset === 'last-month') return [new Date(y, m - 1, 1), last(m - 1)];
+    if (preset === 'first-half') return [new Date(y, m, 1), new Date(y, m, 15)];
+    if (preset === 'second-half') return [new Date(y, m, 16), last(m)];
+    return [new Date(y, m, 1), last(m)];
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((button) =>
+    button.addEventListener('click', () => {
+      if (!start || !end) return;
+      const [from, to] = range(button.dataset.preset ?? '');
+      start.value = iso(from);
+      end.value = iso(to);
+    }),
+  );
+
+  const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  exportForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!panel || !start || !end || !startButton) return;
+    startButton.disabled = true;
+    outputClear(panel);
+    outputStatus(panel, 'Running…', true);
+    outputLine(panel, `$ export ${start.value} ${end.value} --at ${time?.value || '09:00'}`, 'cmd');
+    const count = 8;
+    for (let i = 1; i <= count; i++) {
+      await wait(120);
+      outputLine(panel, `Saved exports/${start.value}-item-${String(i).padStart(2, '0')}.jpg`);
+    }
+    const attached = file?.files?.[0]?.name;
+    if (attached) outputLine(panel, `Attached ${attached}`);
+    outputStatus(panel, 'Finished', false);
+    if (summary[0]) summary[0].textContent = `Done. Saved ${count} files from ${start.value} to ${end.value}.`;
+    if (summary[1]) summary[1].textContent = attached ? `${attached}, added to the export.` : 'None.';
+    startButton.disabled = false;
   });
 </script>

@@ -8,6 +8,11 @@ import type { Feature } from '../design/kit/astro/types';
 export const features: Feature[] = [
   {
     date: '2026-10-21',
+    title: 'Dates, files and live output',
+    body: 'Date and time fields with presets, a file picker, a panel that streams a task’s output and a summary of the results. Try an export on the Forms page.',
+  },
+  {
+    date: '2026-10-21',
     title: 'Footer',
     body: 'Every page now ends with a footer: the site name and its pages, side by side from tablet width. The dark bar along the bottom is optional, and stays on Work and Components.',
   },
