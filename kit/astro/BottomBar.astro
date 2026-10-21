@@ -5,29 +5,34 @@
 // as `barHeight` so the page, the panel, the drawer and the toast all stop above it.
 //
 // `jump` is the current item: a CSS selector for its row and the name the button says. With no
-// match on a page, the button stays hidden. The default slot adds to the end of the bar.
+// match on a page, the button stays hidden. `heading` is an optional small line above, saying
+// what the bar is. The default slot adds to the end of the row.
 interface Props {
   label: string;
   title: string;
+  heading?: string;
   jump?: { target: string; name: string };
 }
-const { label, title, jump } = Astro.props;
+const { label, title, heading, jump } = Astro.props;
 ---
 
 <div class="bottom-bar" data-jump-bar data-drawer-keep>
   <div class="page">
-    <p class="bottom-bar-label">
-      {label}
-      {
-        jump && (
-          <button type="button" class="jump-btn" data-jump data-jump-target={jump.target} data-jump-name={jump.name} hidden>
-            <span aria-hidden="true" data-jump-glyph>▲</span>
-          </button>
-        )
-      }
-    </p>
-    <span class="marquee" title={title} data-marquee><span>{title}</span></span>
-    <slot />
+    {heading && <p class="bottom-bar-heading">{heading}</p>}
+    <div class="bottom-bar-row">
+      <p class="bottom-bar-label">
+        {label}
+        {
+          jump && (
+            <button type="button" class="jump-btn" data-jump data-jump-target={jump.target} data-jump-name={jump.name} hidden>
+              <span aria-hidden="true" data-jump-glyph>▲</span>
+            </button>
+          )
+        }
+      </p>
+      <span class="marquee" title={title} data-marquee><span>{title}</span></span>
+      <slot />
+    </div>
   </div>
 </div>
 
