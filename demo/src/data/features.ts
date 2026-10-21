@@ -8,6 +8,11 @@ import type { Feature } from '../design/kit/astro/types';
 export const features: Feature[] = [
   {
     date: '2026-10-21',
+    title: 'Select lists in style',
+    body: 'In Chrome and Edge, a select list now opens square, in the site’s type and colors, with the chosen item checked. Other browsers keep their own list. Try Topic on the Forms page.',
+  },
+  {
+    date: '2026-10-21',
     title: 'Dates, files and live output',
     body: 'Date and time fields with presets, a file picker, a panel that streams a task’s output and a summary of the results. Try an export on the Forms page.',
   },

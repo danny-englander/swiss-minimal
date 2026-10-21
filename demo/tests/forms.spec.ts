@@ -32,6 +32,19 @@ test('the select picks an option by its label', async ({ page }) => {
   await expect(topic).toHaveValue('Tools');
 });
 
+test('where supported, the select opens the kit’s own list and still picks by pointer', async ({ page }) => {
+  await page.goto('/forms');
+  const topic = page.getByRole('region', { name: 'Details' }).getByLabel('Topic');
+  const supported = await page.evaluate(() => CSS.supports('appearance', 'base-select'));
+  test.skip(!supported, 'This browser shows its own list');
+  expect(await topic.evaluate((el) => getComputedStyle(el).appearance)).toBe('base-select');
+  await topic.click();
+  expect(await topic.evaluate((el) => el.matches(':open'))).toBe(true);
+  await page.getByRole('option', { name: 'Writing' }).click();
+  await expect(topic).toHaveValue('Writing');
+  expect(await topic.evaluate((el) => el.matches(':open'))).toBe(false);
+});
+
 // The Export section: date and time fields, presets, the file picker, the output panel and the
 // summary list.
 
