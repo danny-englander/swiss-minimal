@@ -6,19 +6,23 @@
 //
 // `jump` is the current item: a CSS selector for its row and the name the button says. With no
 // match on a page, the button stays hidden. `heading` is an optional small line above, saying
-// what the bar is. The default slot adds to the end of the row.
+// what the bar is: an h2 by default, or an h3 with `headingLevel`. With a heading the bar is a
+// section named by it, so screen readers can find it as a region. The default slot adds to the
+// end of the row.
 interface Props {
   label: string;
   title: string;
   heading?: string;
+  headingLevel?: 'h2' | 'h3';
   jump?: { target: string; name: string };
 }
-const { label, title, heading, jump } = Astro.props;
+const { label, title, heading, headingLevel: Heading = 'h2', jump } = Astro.props;
+const Bar = heading ? 'section' : 'div';
 ---
 
-<div class="bottom-bar" data-jump-bar data-drawer-keep>
+<Bar class="bottom-bar" data-jump-bar data-drawer-keep aria-labelledby={heading ? 'bottom-bar-heading' : undefined}>
   <div class="page">
-    {heading && <p class="bottom-bar-heading">{heading}</p>}
+    {heading && <Heading class="bottom-bar-heading" id="bottom-bar-heading">{heading}</Heading>}
     <div class="bottom-bar-row">
       <p class="bottom-bar-label">
         {label}
@@ -34,7 +38,7 @@ const { label, title, heading, jump } = Astro.props;
       <slot />
     </div>
   </div>
-</div>
+</Bar>
 
 <script>
   import '../jump.js';
