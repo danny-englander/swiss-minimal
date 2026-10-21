@@ -34,5 +34,5 @@
 /* Each swatch shows its own accent, whatever the page's accent is, so these two are the
    accents' fixed values from tokens.json rather than the live --accent token. */
 .accent-swatch { width: 0.875rem; height: 0.875rem; flex: none; }
-.accent-swatch--red { background: #e5301b; }
+.accent-swatch--vermilion { background: #e5301b; }
 .accent-swatch--teal { background: #0f8f8c; }

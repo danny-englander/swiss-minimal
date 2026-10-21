@@ -1,12 +1,13 @@
 ---
 // Demo only: a gear on the right edge that opens a small panel for previewing the kit's
-// accents. A real site picks one accent in BaseLayout (accent="teal") and has no switcher.
+// accents. A real site picks one accent in BaseLayout (accent="vermilion" or "teal") and has no
+// switcher.
 // The choice is remembered on this device; the inline "head" script in SiteLayout applies it
 // before first paint, so a reload doesn't flash the other color.
 import { Icon } from 'astro-icon/components';
 
 const accents = [
-  { id: 'red', label: 'Red' },
+  { id: 'vermilion', label: 'Vermilion' },
   { id: 'teal', label: 'Teal' },
 ];
 ---
@@ -28,7 +29,7 @@ const accents = [
     <div class="mt-3 flex gap-2" role="group" aria-labelledby="accent-switcher-label">
       {
         accents.map((a) => (
-          <button type="button" class="accent-option" data-accent-option={a.id} aria-pressed={a.id === 'red' ? 'true' : 'false'}>
+          <button type="button" class="accent-option" data-accent-option={a.id} aria-pressed={a.id === 'vermilion' ? 'true' : 'false'}>
             <span class={`accent-swatch accent-swatch--${a.id}`} aria-hidden="true"></span>
             {a.label}
           </button>
@@ -48,7 +49,7 @@ const accents = [
   const options = [...document.querySelectorAll<HTMLButtonElement>('[data-accent-option]')];
 
   function current() {
-    return root.dataset.accent ?? 'red';
+    return root.dataset.accent ?? 'vermilion';
   }
 
   function sync() {
@@ -67,10 +68,9 @@ const accents = [
 
   for (const o of options) {
     o.addEventListener('click', () => {
-      const id = o.dataset.accentOption ?? 'red';
-      // Red is the default, so it is the absence of the attribute.
-      if (id === 'red') delete root.dataset.accent;
-      else root.dataset.accent = id;
+      // The page always names its accent, as BaseLayout writes it.
+      const id = o.dataset.accentOption ?? 'vermilion';
+      root.dataset.accent = id;
       try {
         localStorage.setItem(KEY, id);
       } catch {}

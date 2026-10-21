@@ -53,8 +53,8 @@ export const features: Feature[] = [
   },
   {
     date: '2026-10-19',
-    title: 'Red or teal',
-    body: 'A site picks one accent, red or teal. The gear on the right edge previews both.',
+    title: 'Vermilion or teal',
+    body: 'A site picks one accent, vermilion or teal. The gear on the right edge previews both.',
   },
   {
     date: '2026-10-19',
@@ -69,7 +69,7 @@ export const features: Feature[] = [
   {
     date: '2026-10-16',
     title: 'Features',
-    body: 'This list. A red dot on the menu button means something new has arrived since you last looked.',
+    body: 'This list. A dot in the accent on the menu button means something new has arrived since you last looked.',
   },
   {
     date: '2026-10-16',
@@ -84,7 +84,7 @@ export const features: Feature[] = [
   {
     date: '2026-10-16',
     title: 'Back to the current item',
-    body: 'When Field notes has scrolled out of view, the red triangle in the bottom bar brings it back.',
+    body: 'When Field notes has scrolled out of view, the triangle in the bottom bar brings it back.',
   },
   {
     date: '2026-10-16',

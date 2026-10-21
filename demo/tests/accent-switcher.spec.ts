@@ -6,13 +6,14 @@ import AxeBuilder from '@axe-core/playwright';
 test('the gear switches the accent and remembers it', async ({ page }) => {
   await page.goto('/');
   const html = page.locator('html');
-  await expect(html).not.toHaveAttribute('data-accent', /.+/);
+  // The page names its accent, vermilion by default.
+  await expect(html).toHaveAttribute('data-accent', 'vermilion');
 
   const gear = page.getByRole('button', { name: 'Change accent color' });
   await gear.click();
   await expect(gear).toHaveAttribute('aria-expanded', 'true');
   // Focus goes to the chosen option.
-  await expect(page.getByRole('button', { name: 'Red', pressed: true })).toBeFocused();
+  await expect(page.getByRole('button', { name: 'Vermilion', pressed: true })).toBeFocused();
 
   await page.getByRole('button', { name: 'Teal' }).click();
   await expect(html).toHaveAttribute('data-accent', 'teal');
@@ -27,10 +28,12 @@ test('the gear switches the accent and remembers it', async ({ page }) => {
   await page.goto('/work');
   await expect(html).toHaveAttribute('data-accent', 'teal');
 
-  // Back to red: the attribute goes away.
+  // Back to vermilion, and remembered too.
   await gear.click();
-  await page.getByRole('button', { name: 'Red' }).click();
-  await expect(html).not.toHaveAttribute('data-accent', /.+/);
+  await page.getByRole('button', { name: 'Vermilion' }).click();
+  await expect(html).toHaveAttribute('data-accent', 'vermilion');
+  await page.goto('/about');
+  await expect(html).toHaveAttribute('data-accent', 'vermilion');
 });
 
 for (const theme of ['light', 'dark'] as const) {

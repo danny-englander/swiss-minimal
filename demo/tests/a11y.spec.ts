@@ -6,8 +6,8 @@ import AxeBuilder from '@axe-core/playwright';
 // that broke it.
 
 const THEMES = ['light', 'dark'] as const;
-// The demo is red; teal is checked by setting <html data-accent="teal">, as a teal site would.
-const ACCENTS = ['red', 'teal'] as const;
+// The demo is vermilion; teal is checked by setting <html data-accent="teal">, as a teal site would.
+const ACCENTS = ['vermilion', 'teal'] as const;
 const PAGES = ['/', '/work', '/work/field-notes', '/about', '/forms', '/components', '/agents'];
 const TABS = ['menu', 'contact', 'features'];
 
@@ -32,7 +32,7 @@ for (const accent of ACCENTS) {
       /** Open a page in this accent. */
       async function open(page: Page, path: string) {
         await page.goto(path);
-        if (accent !== 'red') await page.evaluate((a) => (document.documentElement.dataset.accent = a), accent);
+        if (accent !== 'vermilion') await page.evaluate((a) => (document.documentElement.dataset.accent = a), accent);
       }
 
       for (const path of PAGES) {
