@@ -32,10 +32,10 @@
   --ink: #0e0e0e;          /* text, rules, hover fill */
   --muted: #6a665d;        /* secondary text */
   --rule: #cfcabd;         /* thin row dividers */
-  --accent: #e5301b;       /* brand red: BIG shapes only (hero shapes, primary play/action icon, tiles) */
-  --accent-ink: #ffffff;   /* text on a red fill */
-  --accent-text: #cc2812;  /* red for small text on cream (4.7:1) */
-  --accent-bright: #ff5b3c;/* red for small text on the dark panel (6.3:1) */
+  --accent: #e5301b;       /* brand vermilion: BIG shapes only (hero shapes, primary play/action icon, tiles) */
+  --accent-ink: #ffffff;   /* text on a vermilion fill */
+  --accent-text: #cc2812;  /* vermilion for small text on cream (4.7:1) */
+  --accent-bright: #ff5b3c;/* vermilion for small text on the dark panel (6.3:1) */
   --bar: #0e0e0e;          /* dark surfaces: player bar, slide-down panel, toast */
   --bar-ink: #f3f0e9;      /* text on dark surfaces */
   --row-hover-bg: var(--ink);   /* list row fill on hover */
@@ -91,10 +91,12 @@
   color-scheme: dark;
 }
 
-/* ---------- Accent: red (the default) or teal ---------- */
-/* Each site picks one accent with <html data-accent="teal">; no attribute means red. Only the
-   four accent tokens change; paper, ink and the dark bars stay the same. Each value passes the
-   same contrast checks as the red it replaces (see tokens.json). */
+/* ---------- Accent: vermilion (the default) or teal ---------- */
+/* Each site names its one accent on <html>: data-accent="vermilion" (a red leaning toward
+   orange, the values in :root above, also used when the attribute is missing) or "teal" (below).
+   BaseLayout sets it. Only the four accent tokens change; paper, ink and the dark bars stay
+   the same. Each value passes the same contrast checks as the vermilion it replaces (see
+   tokens.json). */
 :root[data-accent="teal"] {
   --accent: #0f8f8c;       /* large shapes and the focus ring (3.5:1 on paper) */
   --accent-ink: #ffffff;   /* text on a teal fill (6.3:1 on accent-text) */
@@ -220,7 +222,7 @@ kbd {                            /* a key: outlined like the top-bar buttons */
 /* ---------- Rules and rows ---------- */
 .rule-thick { border-top: 2px solid var(--ink); }
 .rule-thin { border-bottom: 1px solid var(--rule); }
-.row {                           /* list row: fills on hover or when active (black on cream; raised dark with a red edge in dark mode) */
+.row {                           /* list row: fills on hover or when active (black on cream; raised dark with an accent edge in dark mode) */
   border-bottom: 1px solid var(--rule);
   transition: background-color 150ms, color 150ms;
 }
@@ -296,7 +298,7 @@ html[data-drawer-open] .topbar { --tb-bg: var(--bar); --tb-fg: var(--bar-ink); }
 }
 .topbar-btn[data-tip]:focus-visible::after { opacity: 1; }
 
-/* "New" dot: a small red dot on a button's top-right corner, ringed in the bar's color so it
+/* "New" dot: a small accent dot on a button's top-right corner, ringed in the bar's color so it
    stands clear of the border, and a matching one after a tab's label. Both sit out of the text
    flow, so they never wrap onto a line of their own on a phone. Round, like the spinner. */
 .new-dot {
@@ -338,7 +340,7 @@ html[data-drawer-open] .topbar { --tb-bg: var(--bar); --tb-fg: var(--bar-ink); }
 .chip-count { font-size: 0.875rem; font-variant-numeric: tabular-nums; opacity: 0.75; }  /* how many items it shows */
 .chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
-/* An accordion on the page itself (not in the panel): small red heading, a muted line under it
+/* An accordion on the page itself (not in the panel): small accent heading, a muted line under it
    saying what is chosen, and the same plus/minus. Use it to fold a row of filter buttons. */
 .page-acc { max-width: 36rem; }
 .page-acc > summary {
@@ -694,7 +696,7 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 }
 .jump-btn:hover { color: var(--bar-ink); }
 .jump-btn[hidden] { display: none; }
-/* The row it scrolled to shows a red outline that fades. An outline, not a shadow, so it does
+/* The row it scrolled to shows an accent outline that fades. An outline, not a shadow, so it does
    not fight the active row's edge. */
 .row[data-flash="true"] {
   outline: 3px solid var(--accent); outline-offset: -3px;
@@ -703,7 +705,7 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 @keyframes row-flash { 0%, 40% { outline-color: var(--accent); } 100% { outline-color: transparent; } }
 
 /* ---------- Favorite star ---------- */
-/* An outline star that fills red when chosen. It sits beside a row's main link or button,
+/* An outline star that fills with the accent when chosen. It sits beside a row's main link or button,
    never inside it. On a filled (hovered or active) row it follows the row's text. */
 .fav-btn {
   display: inline-flex; flex: none; align-items: center; justify-content: center;

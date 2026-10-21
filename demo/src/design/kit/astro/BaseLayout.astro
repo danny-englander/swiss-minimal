@@ -33,8 +33,8 @@ interface Props {
   home?: string | false;
   /** Height of a fixed bottom bar, if the site has one (e.g. "5rem"). The panel and toast stop above it. */
   barHeight?: string;
-  /** The site's one accent color. Red by default. */
-  accent?: 'red' | 'teal';
+  /** The site's one accent color, named on <html data-accent>. Vermilion by default. */
+  accent?: 'vermilion' | 'teal';
 }
 const {
   title,
@@ -45,7 +45,7 @@ const {
   tagline = '',
   home,
   barHeight = '0rem',
-  accent = 'red',
+  accent = 'vermilion',
 } = Astro.props;
 const hasPanel = menu.length > 0 || panelTabs.length > 0;
 const homeHref = home ?? (hasPanel ? '/' : false);
@@ -58,7 +58,7 @@ const tabContent = await Promise.all(
 ---
 
 <!doctype html>
-<html lang="en" style={`--bar-h: ${barHeight}`} data-accent={accent === 'red' ? undefined : accent}>
+<html lang="en" style={`--bar-h: ${barHeight}`} data-accent={accent}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
