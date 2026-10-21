@@ -1,6 +1,6 @@
 # Swiss Minimal
 
-A Swiss / Bauhaus look for any site: type-led, flat color, thick rules, almost no decoration. One typeface, a cream page, black ink, and a single accent, vermilion or teal, used sparingly. It works for a portfolio, a blog, a directory, a nonprofit or a product site; nothing in it assumes a subject.
+A Swiss / Bauhaus look for any site: type-led, flat color, thick rules, almost no decoration. One typeface, a cream page, black ink, and a single accent, vermilion or verdigris, used sparingly. It works for a portfolio, a blog, a directory, a nonprofit or a product site; nothing in it assumes a subject.
 
 ## What to load
 
@@ -43,13 +43,13 @@ Put this in `<head>` before first paint so a saved theme does not flash:
 Light is the default. Dark keeps the same roles.
 
 - Page: `paper` ground, `ink` text and thick rules, `muted` for secondary text, `rule` for thin dividers.
-- **One accent per site: vermilion or teal,** named on the page: `<html data-accent="vermilion">` or `<html data-accent="teal">`. In Astro, `<BaseLayout accent="vermilion">` or `accent="teal"` writes it; vermilion is the default, so leaving `accent` off gives vermilion too. Vermilion is a red leaning toward orange, the red of Swiss posters. Only the four accent tokens change; paper, ink and the dark bars stay the same, and every rule below holds for either. A site never mixes the two, and visitors don't switch between them. (The demo has a gear on its right edge for previewing both; that switcher is demo-only, not a kit component.)
-- **The accent has three tokens, by size and ground.** `accent` is for large shapes and the focus ring only. Small accent text on `paper` uses `accent-text`; small accent text on a dark surface uses `accent-bright`. Never set small text in plain `accent` (3.9:1 vermilion, 3.5:1 teal on light `paper`).
+- **One accent per site: vermilion or verdigris,** named on the page: `<html data-accent="vermilion">` or `<html data-accent="verdigris">`. In Astro, `<BaseLayout accent="vermilion">` or `accent="verdigris"` writes it; vermilion is the default, so leaving `accent` off gives vermilion too. Two historic pigments: vermilion is a red leaning toward orange, the red of Swiss posters; verdigris is the blue-green patina of old copper roofs and bronze. Only the four accent tokens change; paper, ink and the dark bars stay the same, and every rule below holds for either. A site never mixes the two, and visitors don't switch between them. (The demo has a gear on its right edge for previewing both; that switcher is demo-only, not a kit component.)
+- **The accent has three tokens, by size and ground.** `accent` is for large shapes and the focus ring only. Small accent text on `paper` uses `accent-text`; small accent text on a dark surface uses `accent-bright`. Never set small text in plain `accent` (3.9:1 vermilion, 3.5:1 verdigris on light `paper`).
 - The filled button is `accent-text` with `accent-ink` text.
 - **Dark surfaces stay dark in both themes.** The panel, the drawer, the top bar while either is open, a bottom bar and the toast are `bar` with `bar-ink` text. These black blocks are what make the light page feel Swiss.
 - Small labels on `bar` (a definition term, an accordion heading) are bold `accent-bright`, never faded white.
 - List rows fill on hover and when active: `row-hover-bg` / `row-active-bg` with every piece of text (muted too) in `row-fg`. The active row also gets a 6px `row-edge` on its left (the accent, in dark).
-- Never add a color. A new state reuses these roles. A new accent must pass every contrast check vermilion and teal pass (see `tokens.json`), and needs a dark version too.
+- Never add a color. A new state reuses these roles. A new accent must pass every contrast check vermilion and verdigris pass (see `tokens.json`), and needs a dark version too.
 
 ## Type
 

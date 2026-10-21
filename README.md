@@ -4,7 +4,7 @@
 
 A Swiss / Bauhaus design kit for Astro and Tailwind v4: type-led, flat color, thick rules, one typeface.
 
-Each site picks one accent: vermilion (the default, a red leaning toward orange) or teal, with `<BaseLayout accent="vermilion">` / `accent="teal"`, or `<html data-accent="vermilion">` / `"teal"`. See Color in [`DESIGN.md`](DESIGN.md). In the demo, the gear on the right edge previews both.
+Each site picks one accent: vermilion (the default, a red leaning toward orange) or verdigris (the blue-green of copper patina), with `<BaseLayout accent="vermilion">` / `accent="verdigris"`, or `<html data-accent="vermilion">` / `"verdigris"`. See Color in [`DESIGN.md`](DESIGN.md). In the demo, the gear on the right edge previews both.
 
 - [`DESIGN.md`](DESIGN.md): the rules (color, type, layout, images, motion, accessibility, Tailwind setup).
 - [`COMPONENTS.md`](COMPONENTS.md): markup and rules for each component.

@@ -10,8 +10,8 @@ Read first, whatever the task: [`DESIGN.md`](DESIGN.md) (the rules, and its "Do 
 - **One change, three places.** A new or changed component means the CSS in `kit/theme.css` (plus an Astro component in `kit/astro/` if it has props or parts), its section in `COMPONENTS.md` (and its name in the list under Components in `DESIGN.md`), and a use in the demo, with a test if it has behavior.
 - **The demo** is an Astro + Tailwind v4 site in `demo/`. Node comes from nvm (`demo/.nvmrc`); in a shell without it on the PATH, prefix commands with `PATH=$HOME/.nvm/versions/node/v24.21.0/bin:$PATH`. The dev server is the `demo` entry in `.claude/launch.json` (port 4321, or the next free one).
 - **Check:** `npx astro check` and `npm test` in `demo/`. The tests build the site and serve it on port 4392, then scan every page in both themes and both accents with axe, plus behavior tests. Add a new page to `PAGES` in `demo/tests/a11y.spec.ts`.
-- **Look at it** at about 375px and 1280px wide, in light and dark, and in teal as well as vermilion (the gear on the right edge, or `<html data-accent="teal">`). The manual checklist is under "Manual checks" in [`TOOLING.md`](TOOLING.md).
-- **Commits:** a short imperative subject ("Add a teal accent beside red"), a body saying what and why. Kit, docs and demo changes go in separate commits.
+- **Look at it** at about 375px and 1280px wide, in light and dark, and in verdigris as well as vermilion (the gear on the right edge, or `<html data-accent="verdigris">`). The manual checklist is under "Manual checks" in [`TOOLING.md`](TOOLING.md).
+- **Commits:** a short imperative subject ("Add a verdigris accent beside vermilion"), a body saying what and why. Kit, docs and demo changes go in separate commits.
 - **Releasing:** never `git push` main by hand. Add an entry at the top of `demo/src/data/features.ts` for anything a visitor would notice, dated the release day, then `npm run release -- --dry-run` and `npm run release` in `demo/` (see Releases in the [`README`](README.md)). The owner approves each release.
 
 ## Starting a new site with the kit

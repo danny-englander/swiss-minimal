@@ -118,7 +118,7 @@ What the automated tests can't see. Run through it in a real browser at about 39
 - [ ] Jump: scroll the current item away (or filter it out) and the triangle in the bottom bar brings it back and focuses it.
 - [ ] Accordions: only one open per level; nested level works; plus becomes minus.
 - [ ] Current page is underlined in the accent in the menu.
-- [ ] With `data-accent="teal"`, every accent mark turns teal in light and dark, and nothing else changes.
+- [ ] With `data-accent="verdigris"`, every accent mark turns verdigris in light and dark, and nothing else changes.
 - [ ] Theme toggle switches and remembers; reloading in dark shows no flash of light.
 - [ ] Filters: hide/show, keep numbers, status line updates, URL updates and is read on load, live region announces.
 - [ ] Forms: switches and radios work from the keyboard and show the accent when on; required fields show ⁕; a form that submits confirms with a toast above any bottom bar.
