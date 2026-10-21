@@ -74,7 +74,20 @@ const tabs = [
 
   <DrawerButton slot="topbar" label="Recent pages">Recent</DrawerButton>
 
-  <form slot="contact" class="max-w-xl border-t-2 border-current pt-3" data-contact-form>
+  <!-- Netlify Forms finds this form in the built HTML (name, data-netlify) and keeps the messages
+       under Forms in the Netlify dashboard. bot-field is a honeypot: people never see it, so a
+       submission that fills it in is spam. -->
+  <form
+    slot="contact"
+    class="max-w-xl border-t-2 border-current pt-3"
+    name="contact"
+    method="POST"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    data-contact-form
+  >
+    <input type="hidden" name="form-name" value="contact" />
+    <p hidden><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
     <p class="label mb-2 font-bold text-accent-bright">Contact</p>
     <p class="small mb-6 text-bar-ink/85"><span class="required-mark"></span>Required</p>
     <label class="field-label" for="contact-name">Your name</label>
@@ -90,9 +103,10 @@ const tabs = [
       </select>
     </div>
     <label class="field-label" for="contact-message">Message</label>
-    <textarea class="field mb-5 min-h-24 resize-y" id="contact-message" name="message" rows="3"></textarea>
-    <label class="choice mb-7"><input class="switch" type="checkbox" role="switch" name="copy" /> Send me a copy</label>
+    <textarea class="field mb-7 min-h-24 resize-y" id="contact-message" name="message" rows="3"></textarea>
     <button class="btn" type="submit">Send</button>
+    <!-- The toast sits behind the open panel, so a failure is said here, beside the button. -->
+    <p class="small mt-4 font-bold text-accent-bright empty:mt-0" role="alert" data-contact-error></p>
   </form>
 
   <div slot="features" class="max-w-4xl">
@@ -168,12 +182,31 @@ const tabs = [
   }
   document.addEventListener('toast', (e) => showToast(String((e as CustomEvent).detail)));
 
-  // Contact form: no backend. Close the panel and confirm with a toast.
+  // Contact form: sent to Netlify Forms without leaving the page. Only once Netlify accepts it
+  // does the panel close with a thank-you; otherwise the message stays put to try again.
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
-  form?.addEventListener('submit', (e) => {
+  const error = form?.querySelector<HTMLElement>('[data-contact-error]');
+  const send = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    form.reset();
-    document.dispatchEvent(new Event('menu:close'));
-    showToast('Message sent. Thank you.');
+    if (!send || !error) return;
+    send.disabled = true;
+    error.textContent = '';
+    try {
+      const body = new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString();
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      document.dispatchEvent(new Event('menu:close'));
+      showToast('Message sent. Thank you.');
+    } catch {
+      error.textContent = 'Couldn’t send your message. Check your connection and try again.';
+    } finally {
+      send.disabled = false;
+    }
   });
 </script>
