@@ -606,9 +606,8 @@ html[data-drawer-open] { overflow: hidden; }  /* stop the page scrolling behind 
 .bottom-bar > .page {            /* an optional heading over one row: label, title */
   display: flex; flex-direction: column; justify-content: center; gap: 0.25rem; height: 100%;
 }
-.bottom-bar-heading {            /* says what the bar is; quiet, like the closing note */
-  margin: 0; font-size: 0.875rem; font-weight: 500; line-height: 1.2;
-  color: color-mix(in srgb, var(--bar-ink) 75%, transparent);
+.bottom-bar-heading {            /* says what the bar is: bold, the largest type in the bar */
+  margin: 0; font-size: 1.25rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.01em;
 }
 .bottom-bar-row { display: flex; align-items: center; gap: 1rem; min-width: 0; }
 .bottom-bar-label {              /* "Now": a small label, so bold accent-bright on the bar */
