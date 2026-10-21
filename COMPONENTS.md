@@ -43,9 +43,21 @@ The one filled button: `accent-text` fill, `accent-ink` text, bold uppercase wit
 
 **Markup.** `<button class="btn">Send</button>`. Padding 0.9rem 1.8rem, no border, square corners. Hover brightens it slightly (`filter: brightness(1.12)`); `:disabled` drops to 60% opacity with a progress cursor.
 
-**Use it** for the single primary action of a view (submit a form, start playback, subscribe). One per view. Everything else is an outlined button or a link.
+**Use it** for the single primary action of a view (submit a form, start playback, subscribe). One per view. Everything else is a secondary button, an outlined button or a link.
 
 **Don't** put it in plain `accent`, round it, or write more than two words on it.
+
+## SecondaryButton
+
+The button for every other action beside the one filled `Button`: a 1px outline in the text's color, sentence case, 1rem weight 500, at least 2.75rem tall. It fills with the text color on hover. Presets that fill in a form ("This month", "Last month"), the Choose… of a `FilePicker`, "Open in Finder" under a result.
+
+**Markup.** `<button type="button" class="btn-outline">Last month</button>`. Several together go in `<div class="btn-group" role="group" aria-label="Date presets">`, which wraps on a phone.
+
+- On a dark surface (panel, drawer, bottom bar, `page-title--bar`, a dark footer) it takes `bar-ink` and fills with it.
+- It does what it says when pressed and keeps no state. A choice that stays chosen is a `FilterChips` button with `aria-pressed`, which looks the same.
+- `:disabled` drops to 60%.
+
+**Don't.** Use it for the main action of the view (that is the filled `Button`), or write it in capitals (that is the top bar's `OutlinedButton`).
 
 ## Panel
 
@@ -156,6 +168,45 @@ A `Field` that picks one item from a list: the same underline and type, with a c
 - The open list is the browser's own, always `ink` on `paper`, so it reads even when the field sits on a dark panel.
 - For "nothing chosen yet", make the first option an empty-valued prompt ("Choose a topic"). For two to four choices, use radios instead: they show every option at once.
 - `:disabled` drops to 60% with a not-allowed cursor.
+
+## DateTimeField
+
+A `Field` for a date, a time or both: the browser's own `<input type="date">`, `time`, `datetime-local` or `month`, with the same underline and type.
+
+**Markup.** `<label class="field-label" for="start">Start date</label><input class="field" type="date" id="start" name="start">`. No script, no component: the browser's control does the work, including its calendar or clock, the keyboard and the screen reader.
+
+- **The picker icon** is the browser's own and follows `color-scheme`, so it reads on the dark page; on a dark surface the kit sets the scheme to dark so it does there too.
+- **Digits are tabular**, so dates in a column line up.
+- **Formats** follow the visitor's settings (10/21/2026 or 21.10.2026); the value sent is always ISO (`2026-10-21`, `09:00`). Set `min` and `max` to bound it.
+- **Presets** that fill a range ("This month", "1st–15th") are `SecondaryButton`s in a `btn-group` under the fields.
+- Two fields that make a range sit side by side from 640px and stack on a phone.
+
+**Don't.** Replace the control with a script calendar, or use a plain text field for a date.
+
+## FilePicker
+
+A field that shows the chosen file's name, with a Choose… `SecondaryButton` beside it.
+
+**Markup.**
+
+```html
+<label class="field-label" for="ref" id="ref-label">Attachment</label>
+<div class="file-pick">
+  <input class="sr-only" type="file" id="ref" name="ref" aria-labelledby="ref-label ref-name" data-file-pick>
+  <span class="file-pick-name" id="ref-name" data-file-pick-name data-empty>No file chosen</span>
+  <label class="btn-outline" for="ref" aria-hidden="true">Choose…</label>
+</div>
+```
+
+Load `kit/file-pick.js`. In Astro, `<FilePicker id="ref" name="ref" label="Attachment" />`, with `accept`, `multiple`, `directory`, `required` and `disabled` as needed.
+
+- **The real file input stays in the page**, visually hidden but focusable, so keyboard, screen reader and drag-and-drop all use the browser's own control. While it has keyboard focus, the Choose… button shows the focus ring.
+- **The field shows the choice:** a file's name, "3 files" for several, or a folder's name; until then the text it started with, at 75%.
+- **Its name** is the label and the field together, so a screen reader hears "Attachment, report.pdf". The Choose… label is hidden from screen readers, since the input is the control.
+- **A folder** (`directory`, the `webkitdirectory` attribute) works in current Chrome, Edge, Firefox and Safari. The browser asks the visitor to confirm, and the page gets the files in it, never the folder's path on their disk.
+- A `required` picker gets the required mark on its label like any field.
+
+**Don't.** Draw a drop zone with a dashed box, or show a path you can't know.
 
 ## Switch
 
@@ -439,6 +490,53 @@ In Astro, `<FeaturesList features={features} />`, with the data in a typed file 
 - Date over the text on phones; a 10rem date column beside it from 640px. The date is 14px bold, `accent-text` on the page and `accent-bright` on dark.
 - **Format dates in UTC.** They are plain days, so `toLocaleDateString(…, { timeZone: 'UTC' })`; otherwise a visitor west of UTC sees the day before.
 - One entry per thing a visitor would notice, dated the day it went live; when a feature grows, edit its line rather than adding one. The newest date also drives `NewDot`.
+
+## SummaryList
+
+A few results, each a small label beside its value: what a task did, a record's details, an order's totals.
+
+**Markup.**
+
+```html
+<dl class="summary-list">
+  <div><dt>Download</dt><dd>Done. Saved 92 new files.</dd></div>
+  <div><dt>Info files</dt><dd>92 new, 0 updated.</dd></div>
+</dl>
+```
+
+In Astro, `<SummaryList items={[{ label: 'Download', value: 'Done. Saved 92 new files.' }]} />`; for links or richer values, write the `<dl>` yourself.
+
+- **Label** in the `label` style (14px, 500, uppercase) at 85% of the text color; **value** in body text.
+- Label over value on phones; a 10rem label column from 640px, on the value's baseline.
+- 1px `rule` under each row. On a dark surface the rules follow `bar-ink`.
+- Labels are one or two words; values are a short sentence. Put it under a section's 2px rule and `h2`, like any section.
+
+**Don't.** Use it for a list of things to choose from (that is a `ListRow`), or for more than a handful of rows.
+
+## OutputPanel
+
+A section for a task's live output, the way a downloader or a build tool shows its work: the 2px rule and an `h2`, a status at the heading's right, and the log in a dark `CodeBlock` of fixed height that scrolls.
+
+**Markup.**
+
+```html
+<section class="output" aria-labelledby="out-heading" data-output>
+  <div class="output-head">
+    <h2 class="h2" id="out-heading">Output</h2>
+    <p class="output-status"><span class="spinner" aria-hidden="true"></span><span role="status" data-output-status>Finished</span></p>
+  </div>
+  <pre class="pre--bar output-log" tabindex="0" aria-label="Output log" data-output-log><code>…</code></pre>
+</section>
+```
+
+In Astro, `<OutputPanel id="out" status="Not started" />`, with `title`, `running`, `headingLevel` and `height` (default 20rem). Stream into it with `kit/output.js`: `outputClear(panel)`, `outputLine(panel, text, 'cmd' | 'err')`, `outputStatus(panel, 'Running…', true)`.
+
+- **Status.** 14px at 75%, a polite live region: a screen reader hears "Running…" and "Finished", not every line. While running (`data-running`), the spinner shows beside it.
+- **The log** follows its newest line while the reader is at the bottom; once they scroll up to read, it stays put. Lines are set as text, never HTML. Commands in bold, errors in the accent, as in any `pre--bar`.
+- It scrolls inside its fixed height, and sideways for long lines; `tabindex="0"` lets the keyboard scroll it.
+- Put a `SummaryList` of the results after it.
+
+**Don't.** Let the log grow the page, or announce each line.
 
 ## CodeBlock
 
