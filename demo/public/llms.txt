@@ -1,6 +1,6 @@
 # Swiss Minimal
 
-> A Swiss / Bauhaus design kit for Astro and Tailwind v4: type-led, flat color, thick rules and one typeface (Overused Grotesk) on a cream page, with black ink and one accent, vermilion or teal.
+> A Swiss / Bauhaus design kit for Astro and Tailwind v4: type-led, flat color, thick rules and one typeface (Overused Grotesk) on a cream page, with black ink and one accent, vermilion or verdigris.
 
 The kit is plain CSS (`kit/theme.css`, loaded through `kit/tailwind.css` on a Tailwind v4 site), a few small plain scripts and some Astro components. A site without Tailwind or Astro can link `theme.css` as a stylesheet and copy the components' markup. To use it, copy `kit/` and `fonts/` from the repository into a project's `src/design/`, side by side.
 

@@ -15,9 +15,9 @@ test('the gear switches the accent and remembers it', async ({ page }) => {
   // Focus goes to the chosen option.
   await expect(page.getByRole('button', { name: 'Vermilion', pressed: true })).toBeFocused();
 
-  await page.getByRole('button', { name: 'Teal' }).click();
-  await expect(html).toHaveAttribute('data-accent', 'teal');
-  await expect(page.getByRole('button', { name: 'Teal', pressed: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Verdigris' }).click();
+  await expect(html).toHaveAttribute('data-accent', 'verdigris');
+  await expect(page.getByRole('button', { name: 'Verdigris', pressed: true })).toBeVisible();
 
   // Escape closes it and gives focus back to the gear.
   await page.keyboard.press('Escape');
@@ -26,7 +26,7 @@ test('the gear switches the accent and remembers it', async ({ page }) => {
 
   // Remembered on another page, applied before the page's own scripts run.
   await page.goto('/work');
-  await expect(html).toHaveAttribute('data-accent', 'teal');
+  await expect(html).toHaveAttribute('data-accent', 'verdigris');
 
   // Back to vermilion, and remembered too.
   await gear.click();

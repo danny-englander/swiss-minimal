@@ -53,8 +53,8 @@ export const features: Feature[] = [
   },
   {
     date: '2026-10-19',
-    title: 'Vermilion or teal',
-    body: 'A site picks one accent, vermilion or teal. The gear on the right edge previews both.',
+    title: 'Vermilion or verdigris',
+    body: 'A site picks one accent, vermilion or verdigris. The gear on the right edge previews both.',
   },
   {
     date: '2026-10-19',

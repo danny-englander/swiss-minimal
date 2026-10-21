@@ -6,8 +6,9 @@ import AxeBuilder from '@axe-core/playwright';
 // that broke it.
 
 const THEMES = ['light', 'dark'] as const;
-// The demo is vermilion; teal is checked by setting <html data-accent="teal">, as a teal site would.
-const ACCENTS = ['vermilion', 'teal'] as const;
+// The demo is vermilion; verdigris is checked by setting <html data-accent="verdigris">, as a
+// verdigris site would.
+const ACCENTS = ['vermilion', 'verdigris'] as const;
 const PAGES = ['/', '/work', '/work/field-notes', '/about', '/forms', '/components', '/agents'];
 const TABS = ['menu', 'contact', 'features'];
 
