@@ -40,11 +40,11 @@ const sampleMenu: MenuItem[] = [
   {
     label: 'Work',
     children: [
-      { label: 'All work', href: '/work' },
-      { label: 'Projects', children: [{ label: 'Field notes', href: '/work/field-notes' }] },
+      { label: 'All work', href: '/work/' },
+      { label: 'Projects', children: [{ label: 'Field notes', href: '/work/field-notes/' }] },
     ],
   },
-  { label: 'About', href: '/about' },
+  { label: 'About', href: '/about/' },
 ];
 
 const chips = [
@@ -79,7 +79,7 @@ const chips = [
       </ComponentEntry>
       <ComponentEntry num={n()} name="Outlined button" classes=".topbar-btn, .topbar-btn--text">
         <Fragment slot="about">The quiet button of the top bar: a 1px outline in capitals that fills on hover. The top bar uses it for Recent, the menu and the theme.</Fragment>
-        <button class="topbar-btn topbar-btn--text" type="button" data-copy="/components">Copy link</button>
+        <button class="topbar-btn topbar-btn--text" type="button" data-copy="/components/">Copy link</button>
       </ComponentEntry>
       <ComponentEntry num={n()} name="Hover label" classes="data-tip">
         <Fragment slot="about">A short label under an outlined button saying what it does. Hover or tab to it.</Fragment>
@@ -276,7 +276,7 @@ const chips = [
   <div class="[--tb-bg:var(--paper)] [--tb-fg:var(--ink)]">
     <Section id="feedback" title="Feedback" range="22–26">
       <ComponentEntry num={n()} name="Output panel" classes=".output, .output-log">
-        <Fragment slot="about">A task's live output: a status beside the heading, a spinner while it runs, and the log in a dark block that scrolls. See it run on <a class="link" href="/forms">Forms</a>.</Fragment>
+        <Fragment slot="about">A task's live output: a status beside the heading, a spinner while it runs, and the log in a dark block that scrolls. See it run on <a class="link" href="/forms/">Forms</a>.</Fragment>
         <!-- Inside an entry, so its heading is an h4 under the entry's h3. -->
         <OutputPanel id="cmp-output" title="Output" status="Finished" headingLevel="h4" height="9rem"><span class="pre-cmd">$ export 2026-10-01 2026-10-15</span>{'\n'}Saved exports/2026-10-01-item-01.jpg{'\n'}Saved exports/2026-10-01-item-02.jpg{'\n'}Saved exports/2026-10-01-item-03.jpg{'\n'}<span class="pre-err">Skipped notes.txt: not an image</span></OutputPanel>
       </ComponentEntry>
@@ -304,7 +304,7 @@ const chips = [
       </ComponentEntry>
       <ComponentEntry num={n()} name="Icon actions" classes=".icon-row, .icon-btn">
         <Fragment slot="about">Icon-only links and buttons under a list item, one color, the accent on hover.</Fragment>
-        <a class="title block underline-offset-4 hover:underline" href="/work">Work</a>
+        <a class="title block underline-offset-4 hover:underline" href="/work/">Work</a>
         <p class="icon-row">
           <a
             class="icon-btn"
@@ -314,7 +314,7 @@ const chips = [
             aria-label="Share on Bluesky: Work (opens in a new tab)"
             title="Share on Bluesky"><Icon name="simple-icons:bluesky" class="icon" aria-hidden="true" /></a
           >
-          <button class="icon-btn" type="button" data-copy="/work" aria-label="Copy link: Work" title="Copy link">
+          <button class="icon-btn" type="button" data-copy="/work/" aria-label="Copy link: Work" title="Copy link">
             <Icon name="material-symbols:content-copy-outline" class="icon" aria-hidden="true" />
           </button>
         </p>
@@ -324,7 +324,7 @@ const chips = [
 
   <Section id="titles" title="Titles, menus and footers" range="27–29">
     <ComponentEntry num={n()} name="Page title" classes=".page-title, .page-title--bar">
-      <Fragment slot="about">One big title in place of a hero, as on <a class="link" href="/forms">Forms</a>. The dark version, on <a class="link" href="/work">Work</a>, ends in a thick accent rule.</Fragment>
+      <Fragment slot="about">One big title in place of a hero, as on <a class="link" href="/forms/">Forms</a>. The dark version, on <a class="link" href="/work/">Work</a>, ends in a thick accent rule.</Fragment>
       <!-- A page has one h1, so these copies set the title in a p; the spacing utilities tighten them to fit the column. -->
       <div class="page-title py-0"><p class="page-title-text">All work</p></div>
       <div class="page-title page-title--bar mt-8 mb-0"><p class="page-title-text">All work</p></div>
@@ -364,10 +364,10 @@ const chips = [
       <Fragment slot="about">The Recent button in the top bar: the pages you have opened here.</Fragment>
     </ComponentEntry>
     <ComponentEntry num={n()} name="Bottom bar" classes=".bottom-bar, .marquee, .jump-btn">
-      <Fragment slot="about">The dark bar fixed along the bottom of this page, and of <a class="link" href="/work">Work</a>. A page opts in. Its title scrolls three times when it is too long, then rests; on Work, its triangle brings Field notes back into view.</Fragment>
+      <Fragment slot="about">The dark bar fixed along the bottom of this page, and of <a class="link" href="/work/">Work</a>. A page opts in. Its title scrolls three times when it is too long, then rests; on Work, its triangle brings Field notes back into view.</Fragment>
     </ComponentEntry>
     <ComponentEntry num={n()} name="Hero" classes=".hero">
-      <Fragment slot="about">The top of this page. <a class="link" href="/">Home</a> has the square image beside it, <a class="link" href="/about">About</a> the wide one under it.</Fragment>
+      <Fragment slot="about">The top of this page. <a class="link" href="/">Home</a> has the square image beside it, <a class="link" href="/about/">About</a> the wide one under it.</Fragment>
     </ComponentEntry>
   </Section>
 </SiteLayout>

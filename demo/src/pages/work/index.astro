@@ -57,7 +57,7 @@ const count = (id: string) => work.filter((w) => w.category === id).length;
             title={w.title}
             meta={w.meta}
             category={w.category}
-            href={w.slug ? `/work/${w.slug}` : undefined}
+            href={w.slug ? `/work/${w.slug}/` : undefined}
             id={w.id}
             active={w.id === 'field-notes'}
             favorite

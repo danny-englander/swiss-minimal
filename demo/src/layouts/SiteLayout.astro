@@ -28,8 +28,10 @@ const menu = menuFor(Astro.url.pathname);
 // The footer lists the menu's pages, plus Contact, which opens the panel's Contact tab.
 const footerLinks = [...menu, { label: 'Contact', href: '#contact' }];
 const pageTitle = `${title} · Swiss Minimal`;
-// Share tags need full URLs, so they are built on `site` in astro.config.mjs.
-const canonical = new URL(Astro.url.pathname, Astro.site);
+// Share tags need full URLs, so they are built on `site` in astro.config.mjs. Every page's
+// address ends in a slash, as the built site serves it (the dev server leaves it off).
+const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const canonical = new URL(path, Astro.site);
 const shareImage = new URL('/share-dark.png', Astro.site);
 const nowReading =
   'Field notes: twelve months of small projects set in a single typeface, and what that taught me about restraint';

@@ -138,13 +138,15 @@ import IconTemplates from '../design/kit/astro/IconTemplates.astro';
     empty.hidden = visits.length > 0;
   }
 
-  // Record this page, newest first, once per path.
+  // Record this page, newest first, once per path. Paths end in a slash, as the live site serves
+  // them; one saved before that ("/work") counts as the same page.
+  const slash = (path: string) => (path.endsWith('/') ? path : `${path}/`);
   const here: Visit = {
-    path: location.pathname,
+    path: slash(location.pathname),
     title: document.title.replace(/ · Swiss Minimal$/, ''),
     at: Date.now(),
   };
-  const visits = [here, ...load().filter((v) => v.path !== here.path)].slice(0, MAX);
+  const visits = [here, ...load().filter((v) => slash(v.path) !== here.path)].slice(0, MAX);
   save(visits);
   render(visits);
 </script>

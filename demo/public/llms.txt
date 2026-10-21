@@ -23,14 +23,14 @@ Agents: start with AGENTS.md. It covers the three tasks people bring, which are 
 
 ## Demo
 
-- [Components](https://swissminimal.ch/components): Every component in the kit on one page.
-- [Agents](https://swissminimal.ch/agents): How to build or restyle a site with the kit using an AI coding agent.
-- [Forms](https://swissminimal.ch/forms): Fields, a select, radios and switches in a working form.
+- [Components](https://www.swissminimal.ch/components/): Every component in the kit on one page.
+- [Agents](https://www.swissminimal.ch/agents/): How to build or restyle a site with the kit using an AI coding agent.
+- [Forms](https://www.swissminimal.ch/forms/): Fields, a select, radios, switches, date fields and a file picker in working forms, with an export task that streams live output.
 
 ## Optional
 
 - [README](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/README.md): What is in the repository, and how to run, test and release the demo.
 - [Repository](https://github.com/danny-englander/swiss-minimal): The source, including the demo site in demo/.
-- [Home](https://swissminimal.ch/): The demo's home page, with a split hero and list rows.
-- [Work](https://swissminimal.ch/work): A filterable list with favorites and a dark page title.
-- [About](https://swissminimal.ch/about): Running text, code blocks and oval badges.
+- [Home](https://www.swissminimal.ch/): The demo's home page, with a split hero and list rows.
+- [Work](https://www.swissminimal.ch/work/): A filterable list with favorites and a dark page title.
+- [About](https://www.swissminimal.ch/about/): Running text, code blocks and oval badges.

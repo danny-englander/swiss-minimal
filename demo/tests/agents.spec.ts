@@ -10,9 +10,11 @@ test('llms.txt is served as plain text and every demo page it lists exists', asy
   expect(text.startsWith('# Swiss Minimal\n')).toBe(true);
 
   // Links to this site are written with the live domain; check each path on the local build.
-  const paths = [...text.matchAll(/\]\(https:\/\/swissminimal\.ch(\/[^)]*)\)/g)].map((m) => m[1]);
+  const paths = [...text.matchAll(/\]\(https:\/\/www\.swissminimal\.ch(\/[^)]*)\)/g)].map((m) => m[1]);
   expect(paths.length).toBeGreaterThan(0);
   for (const path of paths) {
+    // Written as the site serves them: www, and a slash at the end.
+    expect(path.endsWith('/'), path).toBe(true);
     const linked = await request.get(path);
     expect(linked.ok(), path).toBe(true);
   }

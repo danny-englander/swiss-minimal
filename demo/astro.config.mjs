@@ -6,8 +6,9 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // The live address. Share tags and the sitemap need full URLs.
-  site: 'https://swissminimal.ch',
+  // The live address, www as on Netlify. Share tags, canonical URLs and the sitemap are built on
+  // it, and every page address ends in a slash (pages build as folders: about/index.html).
+  site: 'https://www.swissminimal.ch',
   // Icons are inlined as SVG at build time, from two sets only (see Iconography in DESIGN.md):
   // Simple Icons for brand marks, Material Symbols for a few actions.
   // The sitemap lists every built page at /sitemap-index.xml.

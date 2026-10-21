@@ -16,7 +16,7 @@ const { item } = Astro.props;
 
 <SiteLayout title={item.title} description={item.body?.[0]} bottomBar>
   <article class="max-w-2xl pt-12 pb-16 [&>p]:mb-5">
-    <a class="link small mb-8 inline-block" href="/work">All work</a>
+    <a class="link small mb-8 inline-block" href="/work/">All work</a>
     <h1 class="h2 mb-3">{item.title}</h1>
     {item.meta && <p class="small muted">{item.meta}</p>}
     {item.body?.map((p) => <p>{p}</p>)}

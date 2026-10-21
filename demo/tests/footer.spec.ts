@@ -11,7 +11,7 @@ test('every page ends with the footer, listing the site’s pages', async ({ pag
     const footer = page.getByRole('contentinfo');
     await expect(footer, path).toContainText('Swiss Minimal');
     const nav = footer.getByRole('navigation', { name: 'Footer' });
-    await expect(nav.getByRole('link', { name: 'About' }), path).toHaveAttribute('href', '/about');
+    await expect(nav.getByRole('link', { name: 'About' }), path).toHaveAttribute('href', '/about/');
     await expect(nav.getByRole('link', { name: 'Contact' }), path).toHaveAttribute('href', '#contact');
   }
 });
