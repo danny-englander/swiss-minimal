@@ -23,18 +23,22 @@ const { num, title, meta, href, active, category, id, favorite, numStyle = 'plai
 ---
 
 <li
-  class="row grid grid-cols-[1fr_auto] gap-y-1 p-4 md:grid-cols-[3rem_1fr_2.75rem] md:items-baseline md:gap-x-2 md:px-0"
+  class:list={[
+    'row grid grid-cols-[1fr_auto] gap-y-1 p-4 md:items-baseline md:gap-x-2 md:px-0',
+    // A circled number is wider, so its column is too: room for the circle clear of the edge.
+    numStyle === 'plain' ? 'md:grid-cols-[3rem_1fr_2.75rem]' : 'md:grid-cols-[4rem_1fr_2.75rem]',
+  ]}
   data-active={active ? 'true' : undefined}
   aria-current={active ? 'true' : undefined}
   data-category={category}
   data-item={id}
 >
-  <!-- md:pl-5 keeps the number clear of the active row's 6px edge; a circle is wider, so it
-       sits nearer, at the range label's inset, and keeps a gap before the name -->
+  <!-- md:pl-5 keeps the number clear of the active row's 6px edge; a circle sits at 1rem in its
+       wider column, 10px clear of the edge and as far again from the name -->
   <span
     class:list={[
       'num small muted col-start-1 row-start-1 font-medium',
-      numStyle === 'plain' ? 'md:pl-5' : 'md:pl-2',
+      numStyle === 'plain' ? 'md:pl-5' : 'md:pl-4',
     ]}
   >
     {numStyle === 'plain' ? String(num).padStart(2, '0') : <NumCircle value={num} solid={numStyle === 'solid'} />}
