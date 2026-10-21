@@ -387,6 +387,41 @@ In Astro, `<Footer name="Site name" description="…" links={menu}><Fragment slo
 
 **Don't.** Add a logo image, icons beside the links, a newsletter form or a column of social icons. A link to the site's page on a service says its name in text.
 
+## Dialog
+
+A modal dialog on the browser's own `<dialog>`: a square panel with a 2px rule in the text's color, on the page's ground, over a flat dark backdrop. For a choice that needs an answer before the visitor goes on ("Delete this export?"), or a short form that belongs to one action.
+
+**Markup.**
+
+```html
+<button type="button" class="btn-outline" commandfor="confirm" command="show-modal">Delete export…</button>
+
+<dialog class="dialog" id="confirm" aria-labelledby="confirm-title" closedby="any">
+  <form method="dialog" class="dialog-form">
+    <div class="dialog-head">
+      <h2 class="dialog-title" id="confirm-title">Delete this export?</h2>
+      <button class="dialog-close" value="close" aria-label="Close" title="Close"><i></i><i></i></button>
+    </div>
+    <div class="dialog-body"><p>The 8 files go with it. This can't be undone.</p></div>
+    <div class="dialog-actions">
+      <button class="btn" value="delete">Delete</button>
+      <button class="btn-outline" value="cancel" autofocus>Cancel</button>
+    </div>
+  </form>
+</dialog>
+```
+
+Load `kit/dialog.js`. In Astro, `<Dialog id="confirm" title="Delete this export?">…<Fragment slot="actions">…</Fragment></Dialog>`; `lightDismiss={false}` keeps it open on a click outside.
+
+- **The browser does the work** (see `<dialog>` on MDN): `showModal()` makes the page behind inert and puts the dialog on top, Escape closes it, focus goes to the `autofocus` button and back to the opener on close. The page doesn't scroll behind it.
+- **Opening** with invoker commands (`commandfor` + `command="show-modal"`) needs no script; `kit/dialog.js` runs them in browsers that don't yet.
+- **Closing.** Every button in the `<form method="dialog">` closes it and leaves its `value` in `dialog.returnValue`; listen for `close` and act on it. `closedby="any"` closes it on a click outside too (the script fills in where that isn't supported); Escape and outside clicks return `""`, the X `"close"`.
+- **Focus.** Put `autofocus` on the safest choice (Cancel, not Delete), so Enter never destroys anything by accident.
+- **Actions** are one filled `Button` for the choice the dialog is about and `SecondaryButton`s for the rest, filled one first.
+- **Shape.** Up to 34rem wide, `gutter` from the screen's edges on a phone; the title is 1.75rem bold; the X is two bars like the menu button's, `accent-text` on hover. It fades and rises in over 250ms and fades out; not under Reduce Motion. The backdrop is `bar` at 75%, flat, no blur.
+
+**Don't.** Use it for something that could be a page or a `Toast`, open one from another, or put navigation in it.
+
 ## Toast
 
 A short confirmation on a `bar` block with a 6px `accent-bright` left edge, bottom-left above any bottom bar.
@@ -491,6 +526,7 @@ In Astro, `<FeaturesList features={features} />`, with the data in a typed file 
 - Date over the text on phones; a 10rem date column beside it from 640px. The date is 14px bold, `accent-text` on the page and `accent-bright` on dark.
 - **Format dates in UTC.** They are plain days, so `toLocaleDateString(…, { timeZone: 'UTC' })`; otherwise a visitor west of UTC sees the day before.
 - One entry per thing a visitor would notice, dated the day it went live; when a feature grows, edit its line rather than adding one. The newest date also drives `NewDot`.
+- An entry's optional `details` (a list of short sentences) are for release notes: what it does, where to see it, what a site needs to change. The list on the page shows only the `body`.
 
 ## SummaryList
 
