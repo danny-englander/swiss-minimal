@@ -44,6 +44,13 @@ for (const path of WITHOUT_BAR) {
   });
 }
 
+test('the bottom bar is a region named by its h2', async ({ page }) => {
+  await page.goto('/work');
+  const bar = page.getByRole('region', { name: 'Bottom bar' });
+  await expect(bar).toBeVisible();
+  await expect(bar.getByRole('heading', { level: 2, name: 'Bottom bar' })).toBeVisible();
+});
+
 for (const path of WITH_BAR) {
   test(`${path} shows the bottom bar, and the footer ends above it`, async ({ page }) => {
     await page.goto(path);
