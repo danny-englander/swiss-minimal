@@ -10,7 +10,7 @@ Read first, whatever the task: [`DESIGN.md`](DESIGN.md) (the rules, and its "Do 
 - **One change, three places.** A new or changed component means the CSS in `kit/theme.css` (plus an Astro component in `kit/astro/` if it has props or parts), its section in `COMPONENTS.md` (and its name in the list under Components in `DESIGN.md`), and a use in the demo, with a test if it has behavior.
 - **The demo** is an Astro + Tailwind v4 site in `demo/`. Node comes from nvm (`demo/.nvmrc`); in a shell without it on the PATH, prefix commands with `PATH=$HOME/.nvm/versions/node/v24.21.0/bin:$PATH`. The dev server is the `demo` entry in `.claude/launch.json` (port 4321, or the next free one).
 - **Check:** `npx astro check` and `npm test` in `demo/`. The tests build the site and serve it on port 4392, then scan every page in both themes and both accents with axe, plus behavior tests. Add a new page to `PAGES` in `demo/tests/a11y.spec.ts`.
-- **Look at it** at about 375px and 1280px wide, in light and dark, and in teal as well as red (the gear on the right edge, or `<html data-accent="teal">`). The manual checklist is under "Manual checks" in [`TOOLING.md`](TOOLING.md).
+- **Look at it** at about 375px and 1280px wide, in light and dark, and in teal as well as vermilion (the gear on the right edge, or `<html data-accent="teal">`). The manual checklist is under "Manual checks" in [`TOOLING.md`](TOOLING.md).
 - **Commits:** a short imperative subject ("Add a teal accent beside red"), a body saying what and why. Kit, docs and demo changes go in separate commits.
 - **Releasing:** never `git push` main by hand. Add an entry at the top of `demo/src/data/features.ts` for anything a visitor would notice, dated the release day, then `npm run release -- --dry-run` and `npm run release` in `demo/` (see Releases in the [`README`](README.md)). The owner approves each release.
 
@@ -19,7 +19,7 @@ Read first, whatever the task: [`DESIGN.md`](DESIGN.md) (the rules, and its "Do 
 1. Make an Astro project with Tailwind v4 (`tailwindcss`, `@tailwindcss/vite`), Node 22.12 or later.
 2. Copy `kit/` and `fonts/` into `src/design/`, side by side. The relative paths inside them (font URLs, the layout's font preload, `../panel.js`) depend on that layout.
 3. Make `src/styles/global.css` start with `@import "../design/kit/tailwind.css";` and import it in your layout. Don't import `tailwindcss` or `theme.css` anywhere else.
-4. Build pages on `kit/astro/BaseLayout.astro`: give it a `menu` (`MenuItem[]`, current page marked), an `accent` if not red, and `barHeight` on pages with a `BottomBar` (it is optional). Open each page with a `Hero` or a `PageTitle`, and end it with a `Footer` given the same `menu`.
+4. Build pages on `kit/astro/BaseLayout.astro`: give it a `menu` (`MenuItem[]`, current page marked), an `accent` if not vermilion, and `barHeight` on pages with a `BottomBar` (it is optional). Open each page with a `Hero` or a `PageTitle`, and end it with a `Footer` given the same `menu`.
 5. Page layout is Tailwind utilities; components are kit classes. Colors only through the token utilities (`text-muted`, `bg-bar`, `text-accent-text`, …), never Tailwind's palette.
 6. Copy the tests from `TOOLING.md`. Don't edit the files in `src/design/`; a fix there belongs back in this repository.
 
