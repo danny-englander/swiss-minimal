@@ -4,7 +4,8 @@
 // square or portrait -> "split" (text and image 50/50 from 768px);
 // landscape          -> "wide"  (text above, image the full width of the page).
 // Import the image (`import art from '../assets/art.jpg'`) so Astro knows its size
-// and serves resized, modern formats.
+// and serves resized, modern formats. The default slot adds text under the lead, before the
+// image: a second lead paragraph (`<p class="lead hero-lead">`), say.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
@@ -29,6 +30,7 @@ const sizes = shape === 'split' ? '(min-width: 768px) 50vw, 100vw' : '(min-width
   <div class="hero-text">
     <h1 class="display">{Astro.slots.has('title') ? <slot name="title" /> : title}</h1>
     {lead && <p class="lead hero-lead">{lead}</p>}
+    <slot />
   </div>
   {
     image && (
