@@ -198,6 +198,8 @@ New pieces this theme needs: **Drop cap** (`.drop-cap`), **Ornament break** (`.o
 
 ## How it could live in the repo later
 
+**Decided since:** one repository, one branch, a `fleuron/` folder beside `kit/`, and a second Netlify site built from its own folder. See [`PLAN.md`](PLAN.md). The options as first weighed:
+
 **Option A: a second theme file sharing the components.** `kit/theme.css` splits into `base.css` (layout, behavior, the component structure) and two skins, `swiss.css` and `fleuron.css`, which set tokens, fonts, rules and the few shape changes. A site picks one with `<html data-kit="fleuron">` or by importing one file. The scripts and Astro components stay shared.
 
 - For: one set of components, scripts and tests. A fix to the panel helps both. The axe tests run each page in both skins.
