@@ -113,6 +113,14 @@ Ornaments are `aria-hidden="true"`. They never carry meaning a screen reader nee
 
 Open question: the Google Fonts cut of EB Garamond does not reliably carry ❦ ❧ ☙ ☞, so in the mockup they come from the system's fallback font and look a little different on each machine. A real kit would either self-host a full EB Garamond with its ornaments, or draw five or six ornaments as inline SVG in `currentColor`, the way Swiss Minimal allows one hand-drawn mark.
 
+## Alternative: all in Cormorant Garamond
+
+[`cormorant.html`](cormorant.html) is the same mockup set in one family, **Cormorant Garamond** v4.002 (Christian Thalmann, SIL OFL 1.1), self-hosted from the designer's own release on GitHub rather than Google Fonts, whose version leaves the ornaments out. The files and license are in `fonts/`.
+
+- **Ornaments from the font.** It has ❦ (and a second design of it as stylistic set 3), ☞ and ☜, ⁂, † ‡ § ¶, drawn in every weight. It lacks ❧ and ☙, so section heads use ❦ on both sides.
+- **One family for everything.** Light (300) for the masthead, titles and drop cap; Medium (500) for text, a size up at 1.25rem because Cormorant runs small; Medium italic for subtitles; SemiBold (600) small caps for labels and list titles. No Caslon.
+- **Costs.** Each weight is about 200 KB, since the release fonts carry every glyph. A real kit would subset them to Latin plus the ornaments. Cormorant is more delicate and calligraphic than EB Garamond, with a smaller x-height; it reads well at Medium on a good screen, less so on a cheap one.
+
 ## Layout
 
 - **A narrow page.** Reading measure `measure` (34rem, about 66 characters). The page itself is `page-max` 60rem, narrower than Swiss Minimal's 88rem; this is a book, not a poster.
