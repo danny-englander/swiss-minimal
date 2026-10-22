@@ -17,9 +17,6 @@
      Latin files from Google Fonts. Not preloaded: a browser downloads it only on a page that shows code. */
   @font-face { font-family: "Courier Prime"; src: url("fonts/CourierPrime-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
   @font-face { font-family: "Courier Prime"; src: url("fonts/CourierPrime-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
-  /* Swiss Minimal's code font, here only so the appendix can compare the two. */
-  @font-face { font-family: "Source Code Pro"; src: url("fonts/SourceCodePro-VF.woff2") format("woff2"); font-weight: 200 900; font-style: normal; font-display: swap; }
-
   /* Tokens. Light is the default; dark follows the system unless data-theme is set. */
   :root {
     --paper: #f5efe2;
@@ -40,8 +37,6 @@
     color-scheme: light;
   }
   :root[data-accent="prussian"] { --accent: #2c4a7a; }
-  :root[data-code-font="source"] { --font-mono: "Source Code Pro", ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; }
-
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --paper: #17150f; --ink: #ebe2cf; --muted: #a99f8c; --rule: #5c5649;
@@ -92,10 +87,11 @@
   .muted { color: var(--muted); }
   .num { font-variant-numeric: lining-nums tabular-nums; }
   em, .italic { font-style: italic; }
-  /* Code: the one place a second family appears. Never under the 17px floor, always upright
-     (Courier Prime's italic isn't loaded), no ligatures, no tint behind inline code. */
+  /* Code: the one place a second family appears. Courier Prime runs much larger than
+     Cormorant, so it is set at 0.8em, never under 16px (its own floor, a pixel under the
+     text's). Always upright (its italic isn't loaded), no ligatures, no tint behind inline code. */
   code, kbd, samp, pre {
-    font-family: var(--font-mono); font-size: max(0.9em, 1.0625rem); font-style: normal;
+    font-family: var(--font-mono); font-size: max(0.8em, 1rem); font-style: normal;
     font-feature-settings: normal; font-variant-ligatures: none; font-variant-numeric: normal;
   }
   pre { margin: 1.25rem 0; padding: 1rem; border: 1px solid var(--rule); line-height: 1.5; overflow-x: auto; tab-size: 2; text-align: left; hyphens: manual; }
@@ -106,8 +102,6 @@
   /* A log or terminal output: on the quiet plate, not Swiss Minimal's black bar. */
   pre.pre--plate { background: var(--plate); border-color: var(--plate); }
   kbd { padding: 0 0.3em; border: 1px solid currentColor; }
-  .code-switch { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem 1rem; margin: 0 0 1.75rem; }
-  .code-switch .topbar-btn { font-variant-caps: normal; letter-spacing: 0; font-weight: 500; }
 
   /* Rules and ornaments */
   .double-rule { border: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); height: 4px; margin: 0; }
@@ -338,10 +332,6 @@
       </div>
       <div class="measure">
         <p class="opening-subtitle center" style="margin-bottom:1.5rem">Concerning the Machinery Behind This Page, for Readers of a Technical Disposition</p>
-        <div class="code-switch">
-          <span class="label muted" id="code-font-name">Code in Courier Prime</span>
-          <button type="button" class="topbar-btn" id="code-font-btn" aria-pressed="false" aria-describedby="code-font-name">Show Source Code Pro</button>
-        </div>
         <div class="prose">
           <p>The small capitals on this page are not shrunken capitals but true ones, asked for with <code>font-variant-caps: all-small-caps</code>. The drop cap is the first letter of a paragraph, floated and enlarged. To close a panel, press <kbd>Esc</kbd>; to search the page, <kbd>⌘</kbd> <kbd>F</kbd>, which you knew.</p>
         </div>
@@ -382,7 +372,7 @@
       <li><a href="#top">Correspondence</a></li>
       <li><a href="#top">About</a></li>
     </ul>
-    <p class="colophon small muted">Set in Cormorant Garamond, ornaments included, with code in <code>Courier Prime</code>. A mockup of the Fleuron theme, a sister to Swiss Minimal.</p>
+    <p class="colophon small muted">Set in Cormorant Garamond, ornaments included, with code in <code>Courier Prime</code>. A mockup of the Fleuron theme, a sister to Swiss Minimal. <a href="variable.html">Compare with variable Cormorant</a>.</p>
   </div>
 </footer>
 
@@ -407,17 +397,6 @@
       accentBtn.setAttribute('aria-pressed', String(on));
     });
     label();
-
-    // Mockup only: compare the code font with Swiss Minimal's.
-    var codeBtn = document.getElementById('code-font-btn');
-    var codeName = document.getElementById('code-font-name');
-    codeBtn.addEventListener('click', function () {
-      var source = root.dataset.codeFont !== 'source';
-      if (source) root.dataset.codeFont = 'source'; else delete root.dataset.codeFont;
-      codeBtn.setAttribute('aria-pressed', String(source));
-      codeBtn.textContent = source ? 'Show Courier Prime' : 'Show Source Code Pro';
-      codeName.textContent = source ? 'Code in Source Code Pro' : 'Code in Courier Prime';
-    });
   })();
 </script>
 </body>

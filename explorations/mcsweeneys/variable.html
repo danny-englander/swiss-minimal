@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fleuron, variable</title>
+<meta name="description" content="The Fleuron mockup set in Cormorant's variable fonts: two files for every weight.">
+<link rel="preload" href="fonts/Cormorant-VF.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Cormorant v4.002 by Christian Thalmann, SIL OFL 1.1 (fonts/Cormorant-OFL.txt), variable:
+     one file for every upright weight, one for every italic, Light 300 to Bold 700. */
+  @font-face { font-family: "Cormorant"; src: url("fonts/Cormorant-VF.woff2") format("woff2"); font-weight: 300 700; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Cormorant"; src: url("fonts/Cormorant-Italic-VF.woff2") format("woff2"); font-weight: 300 700; font-style: italic; font-display: swap; }
+  /* Courier Prime by Alan Dague-Greene, SIL OFL 1.1 (fonts/CourierPrime-OFL.txt), for code only.
+     Latin files from Google Fonts. Not preloaded: a browser downloads it only on a page that shows code. */
+  @font-face { font-family: "Courier Prime"; src: url("fonts/CourierPrime-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Courier Prime"; src: url("fonts/CourierPrime-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+  /* Tokens. Light is the default; dark follows the system unless data-theme is set. */
+  :root {
+    --paper: #f5efe2;
+    --ink: #1d1a16;
+    --muted: #6b6253;
+    --rule: #c9bea8;
+    --plate: #ebe2cf;
+    --accent: #a8322a;
+    --accent-ink: #fdf9f0;
+
+    --font-text: "Cormorant", Garamond, "Iowan Old Style", Georgia, serif;
+    --font-display: "Cormorant", Garamond, Georgia, serif;
+    --font-mono: "Courier Prime", ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+    --measure: 34rem;
+    --page-max: 60rem;
+    --gutter: 1.5rem;
+    color-scheme: light;
+  }
+  :root[data-accent="prussian"] { --accent: #2c4a7a; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17150f; --ink: #ebe2cf; --muted: #a99f8c; --rule: #5c5649;
+      --plate: #2a251d; --accent: #e2826d; --accent-ink: #17150f;
+      color-scheme: dark;
+    }
+    :root:not([data-theme="light"])[data-accent="prussian"] { --accent: #8db0de; }
+  }
+  :root[data-theme="dark"] {
+    --paper: #17150f; --ink: #ebe2cf; --muted: #a99f8c; --rule: #5c5649;
+    --plate: #2a251d; --accent: #e2826d; --accent-ink: #17150f;
+    color-scheme: dark;
+  }
+  :root[data-theme="dark"][data-accent="prussian"] { --accent: #8db0de; }
+
+  @media (min-width: 640px) { :root { --gutter: 2rem; } }
+
+  /* Base */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    /* Cormorant runs small and light: Medium, a size up from a usual serif. */
+    font: 500 1.25rem/1.5 var(--font-text);
+    font-variant-numeric: oldstyle-nums proportional-nums;
+    font-kerning: normal;
+    font-feature-settings: "liga" 1, "kern" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  button, summary, label { cursor: pointer; }
+  a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  a:hover { color: var(--accent); }
+  p { margin: 0; }
+  h1, h2, h3 { margin: 0; font-weight: 400; }
+
+  .page { max-width: var(--page-max); margin: 0 auto; padding: 0 var(--gutter); }
+  .measure { max-width: var(--measure); margin-left: auto; margin-right: auto; }
+  .center { text-align: center; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* Type styles */
+  .sc { font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600; }
+  .label { font-size: 1.125rem; font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600; }
+  .small { font-size: 1.0625rem; line-height: 1.45; }
+  .muted { color: var(--muted); }
+  .num { font-variant-numeric: lining-nums tabular-nums; }
+  em, .italic { font-style: italic; }
+  /* Code: the one place a second family appears. Courier Prime runs much larger than
+     Cormorant, so it is set at 0.8em, never under 16px (its own floor, a pixel under the
+     text's). Always upright (its italic isn't loaded), no ligatures, no tint behind inline code. */
+  code, kbd, samp, pre {
+    font-family: var(--font-mono); font-size: max(0.8em, 1rem); font-style: normal;
+    font-feature-settings: normal; font-variant-ligatures: none; font-variant-numeric: normal;
+  }
+  pre { margin: 1.25rem 0; padding: 1rem; border: 1px solid var(--rule); line-height: 1.5; overflow-x: auto; tab-size: 2; text-align: left; hyphens: manual; }
+  pre code { font-size: inherit; }
+  pre .pre-cmd { font-weight: 700; }
+  pre .pre-err { color: var(--accent); }
+  pre .pre-note { color: var(--muted); }
+  /* A log or terminal output: on the quiet plate, not Swiss Minimal's black bar. */
+  pre.pre--plate { background: var(--plate); border-color: var(--plate); }
+  kbd { padding: 0 0.3em; border: 1px solid currentColor; }
+
+  /* Rules and ornaments */
+  .double-rule { border: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); height: 4px; margin: 0; }
+  .ornament { display: block; text-align: center; font-size: 1.5rem; line-height: 1; color: var(--ink); margin: 2.25rem 0; }
+  .ornament--accent { color: var(--accent); }
+
+  /* Top bar */
+  .topbar { padding-top: 0.75rem; }
+  .topbar-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 0.6rem; }
+  .topbar-name { font-size: 1.0625rem; line-height: 1.2; text-decoration: none; }
+  .topbar-btns { display: flex; gap: 0.5rem; }
+  .topbar-btn {
+    font: inherit; font-size: 1.125rem; color: var(--ink); background: transparent;
+    border: 1px solid var(--ink); border-radius: 0; min-height: 2.25rem; padding: 0 0.7rem;
+    font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600;
+    transition: background-color 150ms;
+  }
+  .topbar-btn:hover { background: var(--plate); }
+
+  /* Masthead */
+  .masthead { padding: 2.5rem 0 0; text-align: center; }
+  .masthead-kicker { margin-bottom: 1rem; }
+  .masthead-name {
+    font-family: var(--font-display); font-size: clamp(3rem, 10vw, 6.75rem); line-height: 0.95; font-weight: 300;
+    letter-spacing: 0; margin: 0.15em 0 0.2em;
+  }
+  .masthead-tagline { font-style: italic; font-size: clamp(1.125rem, 2.4vw, 1.375rem); max-width: 36rem; margin: 0 auto 1.25rem; line-height: 1.4; }
+  .masthead-meta { display: flex; justify-content: space-between; gap: 1rem; padding: 0.35rem 0; flex-wrap: wrap; }
+  .masthead-meta > span:nth-child(2) { display: none; }
+  @media (min-width: 640px) { .masthead-meta > span:nth-child(2) { display: inline; } }
+
+  /* Article opening */
+  .opening { text-align: center; padding: 3rem 0 0; }
+  .opening-title {
+    font-family: var(--font-display); font-size: clamp(2.5rem, 6.5vw, 4.5rem); line-height: 1; font-weight: 300;
+    max-width: 48rem; margin: 0.75rem auto 1rem; text-wrap: balance;
+  }
+  .opening-subtitle { font-style: italic; font-size: clamp(1.25rem, 2.6vw, 1.5rem); line-height: 1.35; max-width: 38rem; margin: 0 auto; text-wrap: balance; }
+  .byline { margin-top: 1.5rem; }
+  .byline .by { font-style: italic; font-variant-caps: normal; letter-spacing: 0; font-weight: 500; }
+
+  /* Running text */
+  /* Ragged right: never stretch word spaces to fill a line. */
+  .prose { hyphens: auto; -webkit-hyphens: auto; text-align: left; text-wrap: pretty; }
+  .prose p + p { text-indent: 1.5em; }
+  .drop-cap::first-letter {
+    float: left; font-family: var(--font-display); font-weight: 300; color: var(--accent);
+    font-size: 4.6em; line-height: 0.8; padding: 0.06em 0.08em 0 0; margin-top: 0.02em;
+  }
+  .footnote-ref { color: var(--accent); text-decoration: none; font-size: 0.85em; vertical-align: 0.35em; line-height: 0; }
+
+  /* Section head: small caps between fleurons */
+  .section-head { text-align: center; margin: 3.5rem 0 1.5rem; }
+  .section-head .double-rule { margin-bottom: 1rem; }
+  .section-head h2 { font-size: 1.375rem; font-variant-caps: all-small-caps; letter-spacing: 0.1em; font-weight: 600; }
+  .section-head h2 .orn { color: var(--accent); font-variant-caps: normal; letter-spacing: 0; padding: 0 0.6em; font-weight: 500; }
+
+  /* Box: a frame with an inner rule */
+  .box { border: 1px solid var(--ink); padding: 3px; }
+  .box-inner { border: 1px solid var(--ink); padding: 1.5rem 1.25rem; }
+  @media (min-width: 640px) { .box-inner { padding: 2rem 2.25rem; } }
+
+  /* Contents list with dotted leaders */
+  .contents { list-style: none; margin: 0; padding: 0; }
+  .contents li { padding: 0.55rem 0; border-bottom: 1px solid var(--rule); }
+  .contents li:last-child { border-bottom: 0; }
+  .contents a { display: grid; grid-template-columns: 2.25rem 1fr auto; column-gap: 0.25rem; align-items: baseline; text-decoration: none; }
+  .contents a:hover .contents-title { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; }
+  .contents-num { font-variant-caps: all-small-caps; letter-spacing: 0.04em; color: var(--muted); }
+  .contents-title { font-weight: 600; display: flex; align-items: baseline; gap: 0.35rem; min-width: 0; }
+  .contents-title::after { content: ""; flex: 1; border-bottom: 1px dotted var(--muted); transform: translateY(-0.25em); min-width: 1rem; }
+  .contents-page { font-variant-numeric: lining-nums tabular-nums; }
+  .contents-by { grid-column: 2 / 3; font-style: italic; color: var(--muted); font-size: 1.0625rem; }
+  @media (min-width: 1024px) {
+    .contents--two { column-count: 2; column-gap: 3rem; column-rule: 1px solid var(--rule); }
+    .contents--two li { break-inside: avoid; }
+  }
+
+  /* Numbered list (an ordinary list in running text) */
+  .list { margin: 1rem 0; padding: 0; list-style: none; counter-reset: item; }
+  .list li { counter-increment: item; position: relative; padding-left: 2.75rem; margin: 0.4rem 0; text-align: left; hyphens: manual; }
+  .list li::before { content: "§ " counter(item, upper-roman) "."; position: absolute; left: 0; width: 2rem; color: var(--accent); font-variant-caps: all-small-caps; white-space: nowrap; font-size: 0.95em; }
+
+  /* Pull quote */
+  .pull-quote { margin: 2.5rem auto; max-width: 30rem; text-align: center; padding: 1.25rem 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+  .pull-quote p { font-style: italic; font-size: clamp(1.375rem, 3.2vw, 1.75rem); line-height: 1.3; text-wrap: balance; hyphens: manual; }
+  .pull-quote footer { margin-top: 0.75rem; }
+
+  /* Form */
+  .field-label { display: block; margin-bottom: 0.15rem; }
+  .field-label .req { color: var(--accent); font-variant-caps: normal; margin-left: 0.15em; }
+  .field {
+    width: 100%; font: inherit; font-size: 1.25rem; color: inherit; background: transparent;
+    border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 0.3rem 0; outline-offset: 3px;
+  }
+  .field::placeholder { color: var(--ink); opacity: 0.5; font-style: italic; }
+  .form-row { display: grid; gap: 1.5rem; align-items: end; }
+  @media (min-width: 640px) { .form-row { grid-template-columns: 1fr auto; } }
+  .btn {
+    font: inherit; font-size: 1.25rem; font-weight: 600; font-variant-caps: all-small-caps; letter-spacing: 0.1em;
+    background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 0;
+    padding: 0.7rem 1.75rem; min-height: 2.75rem;
+  }
+  .btn:hover { filter: brightness(1.1); }
+  .hand { color: var(--accent); font-size: 1.2em; margin-right: 0.3em; }
+
+  /* Footer */
+  .site-footer { text-align: center; margin-top: 4rem; padding-bottom: 3rem; }
+  .site-footer .double-rule { margin-bottom: 1.5rem; }
+  .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem 0; list-style: none; padding: 0; margin: 0.75rem 0; }
+  .footer-links li + li::before { content: "·"; padding: 0 0.6em; color: var(--muted); }
+  .colophon { max-width: 30rem; margin: 1rem auto 0; font-style: italic; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="page">
+    <div class="topbar-row">
+      <a class="topbar-name sc" href="#top">The Fleuron Quarterly</a>
+      <div class="topbar-btns">
+        <button type="button" class="topbar-btn" id="accent-btn" aria-pressed="false">Prussian</button>
+        <button type="button" class="topbar-btn" id="theme-btn">Theme</button>
+      </div>
+    </div>
+    <hr class="double-rule">
+  </div>
+</header>
+
+<main id="top">
+  <div class="page">
+
+    <!-- Masthead -->
+    <section class="masthead" aria-labelledby="masthead-name">
+      <p class="masthead-kicker label muted">A periodical of uncommon length</p>
+      <h1 class="masthead-name" id="masthead-name">The Fleuron<br>Quarterly</h1>
+      <p class="masthead-tagline">Containing essays, lists, letters, &amp; one regrettable diagram, each set by hand in a typeface older than the republic</p>
+      <hr class="double-rule">
+      <div class="masthead-meta label">
+        <span>Issue No. <span class="num">47</span></span>
+        <span>Printed in San Francisco</span>
+        <span>Autumn, <span class="num">2026</span></span>
+      </div>
+      <hr class="double-rule">
+    </section>
+
+    <!-- Article opening -->
+    <article aria-labelledby="article-title">
+      <header class="opening">
+        <p class="label muted">An essay, in eleven parts</p>
+        <h2 class="opening-title" id="article-title">On the Keeping of Lists, Being a Short Account of Several Long Ones</h2>
+        <p class="opening-subtitle">In which the author attempts to organise a sock drawer, a life, and a small municipal library, and succeeds at roughly one of these</p>
+        <p class="byline label"><span class="by">by</span> Marguerite A. Pell</p>
+        <span class="ornament ornament--accent" aria-hidden="true">❦</span>
+      </header>
+
+      <div class="prose measure">
+        <p class="drop-cap">Every list begins as a promise and ends as a confession. Mine began on the back of a gas bill, in pencil, under the heading <em>Things To Do Before the Weekend</em>, and it ended four years later as a three-ring binder with tabbed dividers, an index, and a short preface addressed to whoever might find it after I was gone.<a class="footnote-ref" href="#fn1" aria-label="Footnote 1">†</a> I do not think this was the plan.</p>
+        <p>The trouble with lists is that they look finished. A column of items, each on its own line, has the confident air of a thing that knows where it is going. It is only when you try to cross something off that you discover how many of them were never really tasks at all, but wishes in a borrowed coat.</p>
+        <p>What follows, then, is an incomplete inventory of the lists I have kept, arranged in the order in which they defeated me:</p>
+        <ol class="list">
+          <li>The list of books to read, which grows by three for every one finished.</li>
+          <li>The list of people owed a letter, now mostly in the past tense.</li>
+          <li>The list of lists, which was a mistake, and which I am still keeping.</li>
+        </ol>
+        <p>It would be easy to conclude from this that lists are useless. That is not my conclusion. My conclusion, such as it is, comes at the end, which is where conclusions are traditionally kept, and you will have to read the other ten parts to reach it.</p>
+      </div>
+
+      <figure class="pull-quote">
+        <blockquote><p>A column of items has the confident air of a thing that knows where it is going.</p></blockquote>
+        <footer class="label muted">From part the first</footer>
+      </figure>
+
+      <div class="prose measure">
+        <p>I tried, for a while, to keep my lists in a notebook with numbered pages, on the theory that a list with page numbers would be ashamed to wander. It wandered. By the spring it had reached page two hundred and twelve, by which time the early pages had acquired the faded authority of scripture and could no longer be amended.</p>
+      </div>
+      <span class="ornament" aria-hidden="true">⁂</span>
+    </article>
+
+    <!-- Table of contents -->
+    <section aria-labelledby="toc-title">
+      <div class="section-head">
+        <hr class="double-rule">
+        <h2 id="toc-title"><span class="orn" aria-hidden="true">❦</span>In this issue<span class="orn" aria-hidden="true">❦</span></h2>
+      </div>
+      <div class="box">
+        <div class="box-inner">
+          <ol class="contents contents--two">
+            <li><a href="#article-title"><span class="contents-num">i.</span><span class="contents-title">On the Keeping of Lists</span><span class="contents-page">3</span><span class="contents-by">Marguerite A. Pell</span></a></li>
+            <li><a href="#top"><span class="contents-num">ii.</span><span class="contents-title">A Brief History of the Semicolon</span><span class="contents-page">29</span><span class="contents-by">Theo Barringer</span></a></li>
+            <li><a href="#top"><span class="contents-num">iii.</span><span class="contents-title">Letters from a Lighthouse, Unsent</span><span class="contents-page">41</span><span class="contents-by">Ines Okafor</span></a></li>
+            <li><a href="#top"><span class="contents-num">iv.</span><span class="contents-title">Twelve Hats I Have Not Worn</span><span class="contents-page">58</span><span class="contents-by">R. J. Whitcombe</span></a></li>
+            <li><a href="#top"><span class="contents-num">v.</span><span class="contents-title">The Regrettable Diagram</span><span class="contents-page">77</span><span class="contents-by">The Editors</span></a></li>
+            <li><a href="#top"><span class="contents-num">vi.</span><span class="contents-title">Correspondence &amp; Corrections</span><span class="contents-page">90</span><span class="contents-by">Our Readers, Regrettably</span></a></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form -->
+    <section aria-labelledby="sub-title">
+      <div class="section-head">
+        <hr class="double-rule">
+        <h2 id="sub-title"><span class="orn" aria-hidden="true">❦</span>Subscribe<span class="orn" aria-hidden="true">❦</span></h2>
+      </div>
+      <div class="measure">
+        <p class="center" style="margin-bottom:1.75rem"><span class="hand" aria-hidden="true">☞</span>Four issues a year, delivered by post, in a manner we cannot fully guarantee.</p>
+        <form class="form-row" onsubmit="event.preventDefault()">
+          <div>
+            <label class="field-label label" for="email">Your email<span class="req" aria-hidden="true">†</span></label>
+            <input class="field" id="email" type="email" required placeholder="you@example.com" autocomplete="email">
+          </div>
+          <button class="btn" type="submit">Subscribe</button>
+        </form>
+        <p class="small muted" style="margin-top:0.75rem"><span aria-hidden="true">†</span> Required.</p>
+      </div>
+    </section>
+
+    <!-- Code -->
+    <section aria-labelledby="appendix-title">
+      <div class="section-head">
+        <hr class="double-rule">
+        <h2 id="appendix-title"><span class="orn" aria-hidden="true">❦</span>Appendix A<span class="orn" aria-hidden="true">❦</span></h2>
+      </div>
+      <div class="measure">
+        <p class="opening-subtitle center" style="margin-bottom:1.5rem">Concerning the Machinery Behind This Page, for Readers of a Technical Disposition</p>
+        <div class="prose">
+          <p>The small capitals on this page are not shrunken capitals but true ones, asked for with <code>font-variant-caps: all-small-caps</code>. The drop cap is the first letter of a paragraph, floated and enlarged. To close a panel, press <kbd>Esc</kbd>; to search the page, <kbd>⌘</kbd> <kbd>F</kbd>, which you knew.</p>
+        </div>
+        <pre tabindex="0" aria-label="CSS for the drop cap"><code>.drop-cap::first-letter {
+  float: left;
+  font-family: "Cormorant Garamond";
+  font-weight: 300;
+  font-size: 4.6em;  /* 3 lines */
+  color: var(--accent);
+}
+/* Alike? 0O 1lI |! rn m */</code></pre>
+        <pre class="pre--plate" tabindex="0" aria-label="Test output"><span class="pre-cmd">$ npm test</span>
+<span class="pre-note">Running 112 tests using 4 workers</span>
+  ✓ masthead has one h1 (light, rubric)
+  ✓ every ornament is hidden from screen readers
+  ✓ contrast passes in both themes
+<span class="pre-err">  ✗ the regrettable diagram is still regrettable</span>
+<span class="pre-note">111 passed, 1 failed (14.2s)</span></pre>
+      </div>
+    </section>
+
+    <!-- Footnote -->
+    <aside class="measure small" style="margin-top:3rem;border-top:1px solid var(--rule);padding-top:0.75rem;width:100%" aria-label="Footnotes">
+      <p id="fn1"><span style="color:var(--accent)">†</span> Nobody has found it. It is on the shelf above the radiator.</p>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="page">
+    <hr class="double-rule">
+    <span class="ornament" aria-hidden="true" style="margin:0 0 0.75rem">❦</span>
+    <p class="label">The Fleuron Quarterly</p>
+    <ul class="footer-links">
+      <li><a href="#top">Back issues</a></li>
+      <li><a href="#top">Submissions</a></li>
+      <li><a href="#top">Correspondence</a></li>
+      <li><a href="#top">About</a></li>
+    </ul>
+    <p class="colophon small muted">Set in Cormorant's variable fonts, ornaments included, with code in <code>Courier Prime</code>. A mockup of the Fleuron theme, a sister to Swiss Minimal. <a href="index.html">Compare with Cormorant Garamond</a>.</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var themeBtn = document.getElementById('theme-btn');
+    var accentBtn = document.getElementById('accent-btn');
+    function dark() {
+      var t = root.dataset.theme;
+      return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    function label() {
+      var next = dark() ? 'Light' : 'Dark';
+      themeBtn.textContent = next;
+      themeBtn.setAttribute('aria-label', 'Switch to ' + next.toLowerCase() + ' theme');
+    }
+    themeBtn.addEventListener('click', function () { root.dataset.theme = dark() ? 'light' : 'dark'; label(); });
+    accentBtn.addEventListener('click', function () {
+      var on = root.dataset.accent !== 'prussian';
+      if (on) root.dataset.accent = 'prussian'; else delete root.dataset.accent;
+      accentBtn.setAttribute('aria-pressed', String(on));
+    });
+    label();
+  })();
+</script>
+</body>
+</html>
