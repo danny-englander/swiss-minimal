@@ -98,13 +98,15 @@
   :root[data-kit="fleuron"][data-accent="prussian"] { --accent: #2c4a7a; }
   :root[data-kit="fleuron"][data-theme="dark"] {
     --paper: #17150f; --ink: #ebe2cf; --muted: #a99f8c; --rule: #5c5649;
-    --accent: #fa4f2a; --accent-ink: #17150f;
+    --accent: #f63c30; --accent-ink: #17150f;
     --bar: #2a251d; --bar-ink: #ebe2cf;
     color-scheme: dark;
   }
   :root[data-kit="fleuron"][data-theme="dark"][data-accent="prussian"] { --accent: #8db0de; }
   /* Fleuron's accent is safe for small text everywhere, so its three Swiss roles are one color. */
   :root[data-kit="fleuron"] { --accent-text: var(--accent); --accent-bright: var(--accent); }
+  /* Except dark Rubric, whose small text on the plate needs a touch more light (4.7:1, where #f63c30 gives 4.1). */
+  :root[data-kit="fleuron"][data-theme="dark"]:not([data-accent="prussian"]) { --accent-bright: #ff5244; }
 
   :root { --gutter: 1rem; }
   :root[data-kit="fleuron"] { --gutter: 1.5rem; }

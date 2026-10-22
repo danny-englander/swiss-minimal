@@ -57,8 +57,9 @@ Light is the default. Dark keeps the same roles. Both pass WCAG AA for every tex
 | `muted` | `#6b6253` | `#a99f8c` | Bylines, dates, captions (5.2:1 light, 7.0:1 dark). |
 | `rule` | `#c9bea8` | `#5c5649` | Thin dividers only. Decorative, never a control's only edge. |
 | `plate` | `#ebe2cf` | `#2a251d` | A boxed panel's ground (the Swiss `bar`, but quiet). Ink on it 13.5:1 / 11.8:1; muted 4.7:1 / 5.8:1. |
-| `accent` | `#a8322a` | `#fa4f2a` | Rubric red. Initials, the pointing hand, the focus ring, small accent text on `paper` (5.8:1 light, 5.4:1 dark) and on `plate` (5.2:1 light, 4.5:1 dark). |
-| `accent-ink` | `#fdf9f0` | `#17150f` | Text on an accent fill: the filled button (6.3:1 light, 5.4:1 dark). |
+| `accent` | `#a8322a` | `#f63c30` | Rubric red. Initials, the pointing hand, the focus ring, small accent text on `paper` (5.8:1 light, 4.9:1 dark). |
+| `accent-bright` | `#a8322a` | `#ff5244` | Small accent text on `plate`, such as an error line in a log (5.2:1 light, 4.7:1 dark). The same as `accent` except in dark Rubric, where `accent` gives only 4.1:1 on `plate`. |
+| `accent-ink` | `#fdf9f0` | `#17150f` | Text on an accent fill: the filled button (6.3:1 light, 4.9:1 dark). |
 
 The second accent, like verdigris beside vermilion:
 
@@ -66,13 +67,14 @@ The second accent, like verdigris beside vermilion:
 | --- | --- | --- |
 | `accent` | `#2c4a7a` | `#8db0de` |
 | `accent-ink` | `#fdf9f0` | `#17150f` |
+| `accent-bright` | `#2c4a7a` | `#8db0de` |
 
 Accent names: **Rubric** (default) and **Prussian**. Rubric is the red ink of manuscript initials and headings (often vermilion itself, so it nods to the parent kit). Prussian is the first modern synthetic pigment, 1706, the blue of cyanotypes and old bindings. Prussian passes 7.7:1 on light paper and 8.2:1 on dark, 6.9:1 on light `plate`.
 
 Changes from Swiss Minimal:
 
-- **One accent token does the work of three.** These accents are safe for small text on the page and on `plate` in both themes, so Swiss Minimal's `accent-text` and `accent-bright` fold into `accent`. Fewer tokens, one less rule to remember.
-- **Dark Rubric is a strong vermilion**, `#fa4f2a`, close to Swiss Minimal's own dark accent (`#ff4b2b`), so the two kits' reds are kin. On dark `plate` it passes at exactly 4.5:1, AA's line, so it can't go any darker there, and any new dark surface must be checked before accent text goes on it.
+- **Two accent tokens, not three.** These accents are safe for small text on the page in both themes, so Swiss Minimal's `accent-text` folds into `accent`. `accent-bright` keeps a narrow job: small accent text on `plate`. It differs from `accent` only in dark Rubric.
+- **Dark Rubric is a true red**, `#f63c30`, leaning a little cooler than an orange vermilion so it never reads as pumpkin on the near-black page. It sits close to Swiss Minimal's own dark accent (`#ff4b2b`), so the two kits' reds are kin. Any new dark surface must be checked before accent text goes on it.
 - **No dark bars.** Swiss Minimal's black blocks are what make it Swiss; here they would look like a web app. The panel, drawer, toast and bottom bar use `plate` with a double rule edge. The row hover becomes `plate`, not a black fill.
 
 ## Type

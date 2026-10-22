@@ -24,6 +24,7 @@
     --plate: #ebe2cf;
     --accent: #a8322a;
     --accent-ink: #fdf9f0;
+    --accent-bright: #a8322a;  /* small accent text on `plate`; lighter than accent only in dark Rubric */
 
     --font-text: "Cormorant", Garamond, "Iowan Old Style", Georgia, serif;
     --font-display: "Cormorant", Garamond, Georgia, serif;
@@ -34,21 +35,21 @@
     --gutter: 1.5rem;
     color-scheme: light;
   }
-  :root[data-accent="prussian"] { --accent: #2c4a7a; }
+  :root[data-accent="prussian"] { --accent: #2c4a7a; --accent-bright: #2c4a7a; }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --paper: #17150f; --ink: #ebe2cf; --muted: #a99f8c; --rule: #5c5649;
-      --plate: #2a251d; --accent: #fa4f2a; --accent-ink: #17150f;
+      --plate: #2a251d; --accent: #f63c30; --accent-ink: #17150f; --accent-bright: #ff5244;
       color-scheme: dark;
     }
-    :root:not([data-theme="light"])[data-accent="prussian"] { --accent: #8db0de; }
+    :root:not([data-theme="light"])[data-accent="prussian"] { --accent: #8db0de; --accent-bright: #8db0de; }
   }
   :root[data-theme="dark"] {
     --paper: #17150f; --ink: #ebe2cf; --muted: #a99f8c; --rule: #5c5649;
-    --plate: #2a251d; --accent: #fa4f2a; --accent-ink: #17150f;
+    --plate: #2a251d; --accent: #f63c30; --accent-ink: #17150f; --accent-bright: #ff5244;
     color-scheme: dark;
   }
-  :root[data-theme="dark"][data-accent="prussian"] { --accent: #8db0de; }
+  :root[data-theme="dark"][data-accent="prussian"] { --accent: #8db0de; --accent-bright: #8db0de; }
 
   @media (min-width: 640px) { :root { --gutter: 2rem; } }
 
@@ -98,7 +99,9 @@
   pre .pre-err { color: var(--accent); }
   pre .pre-note { color: var(--muted); }
   /* A log or terminal output: on the quiet plate, not Swiss Minimal's black bar. */
-  pre.pre--plate { background: var(--plate); border-color: var(--plate); }  kbd { padding: 0 0.3em; border: 1px solid currentColor; }
+  pre.pre--plate { background: var(--plate); border-color: var(--plate); }
+  pre.pre--plate .pre-err { color: var(--accent-bright); }
+  kbd { padding: 0 0.3em; border: 1px solid currentColor; }
 
   /* Rules and ornaments */
   .double-rule { border: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); height: 4px; margin: 0; }
