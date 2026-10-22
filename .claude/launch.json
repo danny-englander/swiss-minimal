@@ -12,6 +12,12 @@
       "runtimeExecutable": "/usr/bin/python3",
       "runtimeArgs": ["-m", "http.server", "4399", "--bind", "127.0.0.1", "--directory", "explorations/mcsweeneys"],
       "port": 4399
+    },
+    {
+      "name": "fleuron-network",
+      "runtimeExecutable": "/usr/bin/python3",
+      "runtimeArgs": ["-m", "http.server", "4400", "--bind", "0.0.0.0", "--directory", "explorations/mcsweeneys"],
+      "port": 4400
     }
   ]
 }
