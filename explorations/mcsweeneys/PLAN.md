@@ -32,6 +32,21 @@ So a fix to `panel.js` is one edit in `shared/`, one `npm run sync`, and one com
 
 **Docs.** The root `README.md` becomes a short front page for both kits. `DESIGN.md`, `COMPONENTS.md` and `tokens.json` at the root stay Swiss Minimal's (moving them would break links); Fleuron's are in `fleuron/`. `CLAUDE.md` gains a line on which kit a task is about.
 
+## The Fleuron demo site
+
+Decided: the demo is a pretend literary quarterly, front and center, like the mockup. It has the same set of pages as the Swiss demo, so every component is shown and tested, but the front of the site reads as the quarterly and the kit's own pages sit behind it as "back matter", written plainly.
+
+| Swiss demo page | Fleuron demo page |
+| --- | --- |
+| Home | The current issue: masthead, "In this issue", the lead article's opening |
+| Work, Work detail | The contents of an issue, and each piece as an article (drop cap, pull quote, footnotes) |
+| About | About the quarterly, in its own deadpan voice |
+| Components | Back matter: every component, plainly labeled |
+| Forms | Back matter: every field and control, perhaps dressed as a subscription or letters page |
+| Agents | Back matter: how to use the kit with AI agents |
+
+The pieces are written for the demo: no real McSweeney's text, names or marks.
+
 ## Two Netlify sites
 
 Both are linked to the same repository and both deploy from `main`. They differ only in the folder they build.
