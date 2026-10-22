@@ -57,8 +57,8 @@ Light is the default. Dark keeps the same roles. Both pass WCAG AA for every tex
 | `muted` | `#6b6253` | `#a99f8c` | Bylines, dates, captions (5.2:1 light, 7.0:1 dark). |
 | `rule` | `#c9bea8` | `#5c5649` | Thin dividers only. Decorative, never a control's only edge. |
 | `plate` | `#ebe2cf` | `#2a251d` | A boxed panel's ground (the Swiss `bar`, but quiet). Ink on it 13.5:1 / 11.8:1; muted 4.7:1 / 5.8:1. |
-| `accent` | `#a8322a` | `#e2826d` | Rubric red. Initials, the pointing hand, the focus ring (5.8:1 / 6.6:1). Safe for small text too. |
-| `accent-ink` | `#fdf9f0` | `#17150f` | Text on an accent fill: the filled button (6.3:1 / 6.6:1). |
+| `accent` | `#a8322a` | `#fa4f2a` | Rubric red. Initials, the pointing hand, the focus ring, small accent text on `paper` (5.8:1 light, 5.4:1 dark) and on `plate` (5.2:1 light, 4.5:1 dark). |
+| `accent-ink` | `#fdf9f0` | `#17150f` | Text on an accent fill: the filled button (6.3:1 light, 5.4:1 dark). |
 
 The second accent, like verdigris beside vermilion:
 
@@ -71,7 +71,8 @@ Accent names: **Rubric** (default) and **Prussian**. Rubric is the red ink of ma
 
 Changes from Swiss Minimal:
 
-- **One accent token does the work of three.** These accents are dark enough for small text in light, and light enough in dark, so `accent-text` and `accent-bright` fold into `accent`. Fewer tokens, one less rule to remember.
+- **One accent token does the work of three.** These accents are safe for small text on the page and on `plate` in both themes, so Swiss Minimal's `accent-text` and `accent-bright` fold into `accent`. Fewer tokens, one less rule to remember.
+- **Dark Rubric is a strong vermilion**, `#fa4f2a`, close to Swiss Minimal's own dark accent (`#ff4b2b`), so the two kits' reds are kin. On dark `plate` it passes at exactly 4.5:1, AA's line, so it can't go any darker there, and any new dark surface must be checked before accent text goes on it.
 - **No dark bars.** Swiss Minimal's black blocks are what make it Swiss; here they would look like a web app. The panel, drawer, toast and bottom bar use `plate` with a double rule edge. The row hover becomes `plate`, not a black fill.
 
 ## Type
