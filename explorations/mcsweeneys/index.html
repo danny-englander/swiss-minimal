@@ -17,6 +17,8 @@
      Latin files from Google Fonts. Not preloaded: a browser downloads it only on a page that shows code. */
   @font-face { font-family: "Courier Prime"; src: url("fonts/CourierPrime-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
   @font-face { font-family: "Courier Prime"; src: url("fonts/CourierPrime-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+  /* Swiss Minimal's code font, here only so the appendix can compare the two. */
+  @font-face { font-family: "Source Code Pro"; src: url("fonts/SourceCodePro-VF.woff2") format("woff2"); font-weight: 200 900; font-style: normal; font-display: swap; }
 
   /* Tokens. Light is the default; dark follows the system unless data-theme is set. */
   :root {
@@ -38,6 +40,7 @@
     color-scheme: light;
   }
   :root[data-accent="prussian"] { --accent: #2c4a7a; }
+  :root[data-code-font="source"] { --font-mono: "Source Code Pro", ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; }
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -89,8 +92,22 @@
   .muted { color: var(--muted); }
   .num { font-variant-numeric: lining-nums tabular-nums; }
   em, .italic { font-style: italic; }
-  /* Never under the 17px floor, and always upright: Courier Prime's italic isn't loaded. */
-  code { font-family: var(--font-mono); font-size: max(0.9em, 1.0625rem); font-style: normal; }
+  /* Code: the one place a second family appears. Never under the 17px floor, always upright
+     (Courier Prime's italic isn't loaded), no ligatures, no tint behind inline code. */
+  code, kbd, samp, pre {
+    font-family: var(--font-mono); font-size: max(0.9em, 1.0625rem); font-style: normal;
+    font-feature-settings: normal; font-variant-ligatures: none; font-variant-numeric: normal;
+  }
+  pre { margin: 1.25rem 0; padding: 1rem; border: 1px solid var(--rule); line-height: 1.5; overflow-x: auto; tab-size: 2; text-align: left; hyphens: manual; }
+  pre code { font-size: inherit; }
+  pre .pre-cmd { font-weight: 700; }
+  pre .pre-err { color: var(--accent); }
+  pre .pre-note { color: var(--muted); }
+  /* A log or terminal output: on the quiet plate, not Swiss Minimal's black bar. */
+  pre.pre--plate { background: var(--plate); border-color: var(--plate); }
+  kbd { padding: 0 0.3em; border: 1px solid currentColor; }
+  .code-switch { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem 1rem; margin: 0 0 1.75rem; }
+  .code-switch .topbar-btn { font-variant-caps: normal; letter-spacing: 0; font-weight: 500; }
 
   /* Rules and ornaments */
   .double-rule { border: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); height: 4px; margin: 0; }
@@ -313,6 +330,39 @@
       </div>
     </section>
 
+    <!-- Code -->
+    <section aria-labelledby="appendix-title">
+      <div class="section-head">
+        <hr class="double-rule">
+        <h2 id="appendix-title"><span class="orn" aria-hidden="true">❦</span>Appendix A<span class="orn" aria-hidden="true">❦</span></h2>
+      </div>
+      <div class="measure">
+        <p class="opening-subtitle center" style="margin-bottom:1.5rem">Concerning the Machinery Behind This Page, for Readers of a Technical Disposition</p>
+        <div class="code-switch">
+          <span class="label muted" id="code-font-name">Code in Courier Prime</span>
+          <button type="button" class="topbar-btn" id="code-font-btn" aria-pressed="false" aria-describedby="code-font-name">Show Source Code Pro</button>
+        </div>
+        <div class="prose">
+          <p>The small capitals on this page are not shrunken capitals but true ones, asked for with <code>font-variant-caps: all-small-caps</code>. The drop cap is the first letter of a paragraph, floated and enlarged. To close a panel, press <kbd>Esc</kbd>; to search the page, <kbd>⌘</kbd> <kbd>F</kbd>, which you knew.</p>
+        </div>
+        <pre tabindex="0" aria-label="CSS for the drop cap"><code>.drop-cap::first-letter {
+  float: left;
+  font-family: "Cormorant Garamond";
+  font-weight: 300;
+  font-size: 4.6em;  /* 3 lines */
+  color: var(--accent);
+}
+/* Alike? 0O 1lI |! rn m */</code></pre>
+        <pre class="pre--plate" tabindex="0" aria-label="Test output"><span class="pre-cmd">$ npm test</span>
+<span class="pre-note">Running 112 tests using 4 workers</span>
+  ✓ masthead has one h1 (light, rubric)
+  ✓ every ornament is hidden from screen readers
+  ✓ contrast passes in both themes
+<span class="pre-err">  ✗ the regrettable diagram is still regrettable</span>
+<span class="pre-note">111 passed, 1 failed (14.2s)</span></pre>
+      </div>
+    </section>
+
     <!-- Footnote -->
     <aside class="measure small" style="margin-top:3rem;border-top:1px solid var(--rule);padding-top:0.75rem;width:100%" aria-label="Footnotes">
       <p id="fn1"><span style="color:var(--accent)">†</span> Nobody has found it. It is on the shelf above the radiator.</p>
@@ -357,6 +407,17 @@
       accentBtn.setAttribute('aria-pressed', String(on));
     });
     label();
+
+    // Mockup only: compare the code font with Swiss Minimal's.
+    var codeBtn = document.getElementById('code-font-btn');
+    var codeName = document.getElementById('code-font-name');
+    codeBtn.addEventListener('click', function () {
+      var source = root.dataset.codeFont !== 'source';
+      if (source) root.dataset.codeFont = 'source'; else delete root.dataset.codeFont;
+      codeBtn.setAttribute('aria-pressed', String(source));
+      codeBtn.textContent = source ? 'Show Courier Prime' : 'Show Source Code Pro';
+      codeName.textContent = source ? 'Code in Source Code Pro' : 'Code in Courier Prime';
+    });
   })();
 </script>
 </body>
