@@ -1,6 +1,6 @@
-# Plan: Agent Design Kits, one repository, one site
+# Plan: Verdigris, one repository, one site
 
-Decided: the project becomes **Agent Design Kits**, at agentdesignkits.com, in a repository renamed `agent-design-kits`, public and MIT licensed. Fleuron lives in it, on `main`, beside Swiss Minimal. One site: a landing page at the root that switches between the kits in place, and each kit's full demo at its own path. No long-lived branches, so nothing is ever merged between kits. The landing page's mockup is [`../landing/`](../landing/).
+Decided: the project becomes **Verdigris** ("Design kits your AI agent can follow"), at verdigris.ch (registered 2026-10-22), in a repository renamed `verdigris`, public and MIT licensed. The name is the patina copper takes on with time, and Swiss Minimal's second accent; it was chosen over descriptive names ("Agent Design Kits", "Agentic UI Kit") that collide with Google's Agent Development Kit, OpenAI's AgentKit and agentic-UI libraries. Fleuron lives in it, on `main`, beside Swiss Minimal. One site: a landing page at the root that switches between the kits in place, and each kit's full demo at its own path. No long-lived branches, so nothing is ever merged between kits. The landing page's mockup is [`../landing/`](../landing/).
 
 ## One source for every file
 
@@ -10,7 +10,7 @@ Every file is edited in exactly one place. People still use a kit by copying one
 shared/             edited here only: the plain scripts and the Astro components both kits use
 kit/                Swiss Minimal kit: theme.css, tailwind.css, its own components, + synced copies
 fonts/              Swiss Minimal fonts (unchanged)
-landing/            agentdesignkits.com itself: the landing page with the kit switcher
+landing/            verdigris.ch itself: the landing page with the kit switcher
 demo/               Swiss Minimal's demo, at /swiss-minimal/; src/design/kit and fonts are links, not copies
 fleuron/
   kit/              fleuron.css, tailwind.css, its own components, + synced copies
@@ -56,15 +56,15 @@ No subdomains. One Netlify site, deployed from `main`, serves everything:
 
 | Address | What |
 | --- | --- |
-| agentdesignkits.com/ | The landing page, with the controls |
-| agentdesignkits.com/swiss-minimal/ | Swiss Minimal's full demo |
-| agentdesignkits.com/fleuron/ | Fleuron's full demo, the quarterly |
+| verdigris.ch/ | The landing page, with the controls; it opens in Swiss Minimal with the verdigris accent |
+| verdigris.ch/swiss-minimal/ | Swiss Minimal's full demo |
+| verdigris.ch/fleuron/ | Fleuron's full demo, the quarterly |
 
 **The build.** Each demo stays its own Astro project, built with Astro's `base` set to its path (`/swiss-minimal/`), so its links and assets work below the root. `npm run build` in the repository root runs `scripts/build.ts`: it reads `kits.json`, builds each demo, and gathers them with the landing page into one `dist/`. Netlify settings: base directory empty (the repository root), build `npm run build`, publish `dist`. Every push rebuilds the whole site; it is small, so there is nothing to gain from skipping parts.
 
 **The landing page switches the real kits.** The mockup copies both kits' CSS into one file and scopes it by hand; the real page doesn't. It loads each kit's own `theme.css` as a stylesheet and turns all but one off (`<link rel="stylesheet" disabled>`), so switching is instant and nothing is written twice: a fix to a kit's CSS shows on the landing page the moment it lands. Only the landing page's own layout (the hero art, the control bar) is scoped by `data-kit`. No React, no framework in the kits: the controls are a small plain script, like the kits' others.
 
-**Leaving swissminimal.ch.** Keep the domain for at least a year, added to the same Netlify site, with one permanent redirect that keeps every path: `https://www.swissminimal.ch/* → https://agentdesignkits.com/swiss-minimal/:splat` (301). Old links and search results carry over; then decide whether to let it lapse. Update the README, the release notes and the demo's own links to the new address.
+**Leaving swissminimal.ch.** Keep the domain for at least a year, added to the same Netlify site, with one permanent redirect that keeps every path: `https://www.swissminimal.ch/* → https://verdigris.ch/swiss-minimal/:splat` (301). Both domains are at Namecheap, so pointing both at Netlify is the same job twice. Old links and search results carry over; then decide whether to let it lapse. Update the README, the release notes and the demo's own links to the new address.
 
 ## Releases
 
@@ -110,5 +110,5 @@ Each step is its own commit, and kit, docs and demo changes stay separate, as no
 5. Make `fleuron-demo/`: `demo/`'s setup (Astro, Tailwind, the axe and behavior tests), linked to `fleuron/`, with the mockup's pages as the first content.
 6. Update `CLAUDE.md`, `AGENTS.md` and `TOOLING.md`: edit shared files in `shared/`, run the sync, and which kit a task is about.
 7. Teach the release script to take a kit's name and read `kits.json`; give `fleuron-demo/` its own release.
-8. Build `landing/` from the mockup, switching the kits' real stylesheets, and add `scripts/build.ts`. Point the Netlify site at the repository root, add agentdesignkits.com, and set up the swissminimal.ch redirect.
+8. Build `landing/` from the mockup, switching the kits' real stylesheets, and add `scripts/build.ts`. Point the Netlify site at the repository root, add verdigris.ch, and set up the swissminimal.ch redirect.
 9. Rewrite the root `README.md` as the front page for every kit, and delete `explorations/`.

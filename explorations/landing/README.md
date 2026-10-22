@@ -1,6 +1,6 @@
-# Agent Design Kits: landing page mockup
+# Verdigris: landing page mockup
 
-*An exploration, not the site.* What agentdesignkits.com could be: one page that explains the project and redraws itself in whichever kit you choose.
+*An exploration, not the site.* What verdigris.ch could be: one page that explains the project and redraws itself in whichever kit you choose. It opens in Swiss Minimal with the verdigris accent, the project's namesake, and the name runs edge to edge in Swiss Minimal, centered in Cormorant Light in Fleuron.
 
 Open [`index.html`](index.html) through a local server, so it can reach Fleuron's fonts in `../mcsweeneys/fonts/`: the `explorations-network` entry in `.claude/launch.json` serves the whole `explorations/` folder on port 4401, at `/landing/index.html`.
 
@@ -25,7 +25,7 @@ Switching never animates: colors snap to the new kit at once, and hover fades co
 
 ## Mockup only
 
-- Links point at the repository's current name (`swiss-minimal`); they become `agent-design-kits` after the rename.
+- Links point at the repository's current name (`swiss-minimal`); they become `verdigris` after the rename.
 - The prompt names `fleuron/kit/` and `fleuron/DESIGN.md`, which exist only in the plan so far.
 - The Fleuron "Site" link opens the Fleuron mockup next door.
 - Swiss Minimal's fonts are copied into `fonts/` here so the page stands alone.
