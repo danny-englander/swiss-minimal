@@ -33,7 +33,7 @@ Alternatives:
 - **Type does the work, again.** But here type is set like a book: serif, centered titles, small caps.
 - **Ornament is allowed, and rationed.** A fleuron marks a break, a hand points at one thing, a box holds one thing. Never a pattern, never a background, never two ornaments side by side.
 - **Flat, still.** No shadows, gradients, textures or rounded corners, the same as Swiss Minimal. Letterpress is suggested by the type and the rules, not by imitating ink spread or paper grain.
-- **One typeface, plus code.** Cormorant Garamond does everything: the masthead, titles, text, small caps, italics and the ornaments. The one exception is code, set in Courier Prime, as Swiss Minimal sets code in Source Code Pro. Three weights of Cormorant, each with one job (see Type). No bold in running text.
+- **One typeface, plus code.** Cormorant does everything: the masthead, titles, text, small caps, italics and the ornaments. The one exception is code, set in Courier Prime, as Swiss Minimal sets code in Source Code Pro. Three weights of Cormorant, each with one job (see Type). No bold in running text.
 - **Thin rule, double rule.** A 1px rule separates rows. A double rule (two 1px lines, 3px apart) opens a section and frames the masthead. There is no thick 2px slab.
 - **Centered titles, left-aligned reading.** Mastheads, page titles and section heads center. Body text, lists and forms align left, ragged right. Never justify: on a screen the browser can only fill a line by stretching the spaces between words, which a printer would never do.
 - **Color is rarer still.** One second ink, like a two-color print job: a red for rubrics (initials, a pointing hand, the primary button) and nothing else.
@@ -76,7 +76,7 @@ Changes from Swiss Minimal:
 
 ## Type
 
-One family: **Cormorant Garamond** v4.002 by Christian Thalmann (Catharsis Fonts), SIL OFL 1.1, falling back to Garamond, Iowan Old Style, Georgia.
+One family: **Cormorant** v4.002 by Christian Thalmann (Catharsis Fonts), SIL OFL 1.1, as two variable fonts: `Cormorant-VF.woff2` for every upright weight and `Cormorant-Italic-VF.woff2` for every italic, Light 300 to Bold 700. Falls back to Garamond, Iowan Old Style, Georgia. Preload the upright file; it sets nearly everything on screen.
 
 | Style | Weight | Use |
 | --- | --- | --- |
@@ -91,9 +91,10 @@ One family: **Cormorant Garamond** v4.002 by Christian Thalmann (Catharsis Fonts
 | `code` | Courier Prime 400 | Code, file names, commands, keys, at 0.8em of the text around it (16px in body text), never under 16px, always upright, even in italic text. Courier Prime runs much larger than Cormorant, so code gets its own floor, a pixel under the text's. 700 only for a command in a log, as in Swiss Minimal's CodeBlock |
 
 - **Why Cormorant.** It is a free Garamond, close to the face the Quarterly is set in, with what this theme needs and most free serifs lack: real small caps, old-style and lining figures, ligatures (its "Th" is lovely), a true italic, and the ornaments themselves, drawn to match the type in every weight. One family is also closer to Swiss Minimal's "one typeface" rule.
-- **Three weights, one job each.** Light only at display sizes, 2.5rem and up, where its fine strokes look like a Caslon title page; it is too thin for text. Medium for reading, because Cormorant's Regular is too light on a screen. SemiBold for small caps and names, the way Swiss Minimal uses its 500 for labels. Medium italic for subtitles and emphasis. Never Regular or Bold.
+- **Three weights, one job each.** Light only at display sizes, 2.5rem and up, where its fine strokes look like a Caslon title page; it is too thin for text. Medium for reading, because Cormorant's Regular is too light on a screen. SemiBold for small caps and names, the way Swiss Minimal uses its 500 for labels. Medium italic for subtitles and emphasis. Never Regular or Bold, and no weights in between: the variable font could set any weight, but three is the rule.
 - **Self-hosted, from the designer's release** on GitHub ([CatharsisFonts/Cormorant](https://github.com/CatharsisFonts/Cormorant/releases/latest)), not Google Fonts: Google's version leaves the ornaments out. The four woff2 files and `Cormorant-OFL.txt` sit in `fonts/`; keep the license beside them.
-- **Size, and the variable option.** Each static weight is about 200 KB, because the release files carry every glyph: about 740 KB for the four. The same release has **Cormorant** (without "Garamond") as two variable fonts, one upright and one italic, covering every weight from Light to Bold in 284 KB together. [`variable.html`](variable.html) is the mockup set in them. Measured in the browser, the two are the same design: same x-height, same letter widths, same figures, same ornaments, and the pages look alike. (Cormorant Garamond's own variable font exists only as a 1.1 MB TTF.) Either way, a real kit subsets the files to Latin, the figures and the ornaments.
+- **Why variable.** The two files are 284 KB together, against about 740 KB for four static weights of Cormorant Garamond, the version first tried. Measured in the browser the two are the same design (same x-height, letter widths, figures and ornaments) and the pages look alike, so the variable files win: 60% less to download, half the files, text that switches from the fallback in one step instead of weight by weight, and any weight between 300 and 700 at no cost. (Cormorant Garamond's own variable font exists only as a 1.1 MB TTF.)
+- **Still to do for a kit:** subset the files to Latin, the figures and the ornaments; the release files carry Cyrillic, Greek and Vietnamese too.
 - **Courier Prime for code** (Alan Dague-Greene, SIL OFL 1.1). A typewriter face, closer to a manuscript than Source Code Pro (chosen over it after comparing the two on the mockup's code), so code looks the same on every device instead of falling back to each system's own monospace. Self-hosted beside Cormorant and never preloaded, so a page with no code never downloads it. Falls back to `ui-monospace`, SF Mono, Menlo, Consolas, Liberation Mono.
 - **Cormorant runs small.** Its x-height is low, so everything is set a size up from a usual serif: 1.25rem for reading text, and **17px is the floor**, not Swiss Minimal's 14px.
 - Considered and set aside: **EB Garamond** with **Libre Caslon Display** for titles (the first mockup: sturdier text, but two families, and Google's EB Garamond lacks the ornaments), **IM Fell** (its scanned roughness reads as costume at body size), **Libre Caslon Text** (no small caps), **Cinzel Decorative** (capitals only, no ornaments).
@@ -193,7 +194,7 @@ New pieces this theme needs: **Drop cap** (`.drop-cap`), **Ornament break** (`.o
 
 ## License
 
-Cormorant Garamond by Christian Thalmann (Catharsis Fonts), SIL Open Font License 1.1: https://github.com/CatharsisFonts/Cormorant. Free on any site as long as `fonts/Cormorant-OFL.txt` stays with it.
+Cormorant by Christian Thalmann (Catharsis Fonts), SIL Open Font License 1.1: https://github.com/CatharsisFonts/Cormorant. Free on any site as long as `fonts/Cormorant-OFL.txt` stays with it.
 
 Courier Prime by Alan Dague-Greene (Quote-Unquote Apps), SIL Open Font License 1.1: https://github.com/quoteunquoteapps/CourierPrime. Self-hosted in `fonts/` (Regular and Bold, about 11 KB each) with `CourierPrime-OFL.txt` beside them. The official repository has only TTF files, so the woff2 files are Google Fonts' builds of the same font, Latin only: plenty for code. If a page ever needs accented letters in code, add Google's extended-Latin files or convert the official TTFs.
 

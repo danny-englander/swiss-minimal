@@ -13,7 +13,7 @@ fonts/              Swiss Minimal fonts (unchanged)
 demo/               swissminimal.ch; src/design/kit and src/design/fonts are links, not copies
 fleuron/
   kit/              fleuron.css, tailwind.css, its own components, + synced copies
-  fonts/            Cormorant Garamond woff2 files and Cormorant-OFL.txt
+  fonts/            Cormorant's two variable woff2 files, Courier Prime, and their licenses
   DESIGN.md, COMPONENTS.md, tokens.json
 fleuron-demo/       Fleuron's site; src/design/kit and src/design/fonts are links
 scripts/sync.ts     copies shared/ into kit/ and fleuron/kit/

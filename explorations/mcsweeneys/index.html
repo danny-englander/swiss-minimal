@@ -4,15 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fleuron mockup</title>
-<meta name="description" content="A mockup of Fleuron, a bookish sister theme to Swiss Minimal, set entirely in Cormorant Garamond.">
-<link rel="preload" href="fonts/CormorantGaramond-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="description" content="A mockup of Fleuron, a bookish sister theme to Swiss Minimal, set in Cormorant's variable fonts.">
+<link rel="preload" href="fonts/Cormorant-VF.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-  /* Cormorant Garamond v4.002 by Christian Thalmann, SIL OFL 1.1 (fonts/Cormorant-OFL.txt).
-     From the designer's release, which carries the ornaments Google Fonts leaves out. */
-  @font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-Light.woff2") format("woff2"); font-weight: 300; font-style: normal; font-display: swap; }
-  @font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
-  @font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-MediumItalic.woff2") format("woff2"); font-weight: 500; font-style: italic; font-display: swap; }
-  @font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-SemiBold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+  /* Cormorant v4.002 by Christian Thalmann, SIL OFL 1.1 (fonts/Cormorant-OFL.txt), variable:
+     one file for every upright weight, one for every italic, Light 300 to Bold 700. */
+  @font-face { font-family: "Cormorant"; src: url("fonts/Cormorant-VF.woff2") format("woff2"); font-weight: 300 700; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Cormorant"; src: url("fonts/Cormorant-Italic-VF.woff2") format("woff2"); font-weight: 300 700; font-style: italic; font-display: swap; }
   /* Courier Prime by Alan Dague-Greene, SIL OFL 1.1 (fonts/CourierPrime-OFL.txt), for code only.
      Latin files from Google Fonts. Not preloaded: a browser downloads it only on a page that shows code. */
   @font-face { font-family: "Courier Prime"; src: url("fonts/CourierPrime-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
@@ -27,8 +25,8 @@
     --accent: #a8322a;
     --accent-ink: #fdf9f0;
 
-    --font-text: "Cormorant Garamond", Garamond, "Iowan Old Style", Georgia, serif;
-    --font-display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --font-text: "Cormorant", Garamond, "Iowan Old Style", Georgia, serif;
+    --font-display: "Cormorant", Garamond, Georgia, serif;
     --font-mono: "Courier Prime", ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
     --measure: 34rem;
@@ -372,7 +370,7 @@
       <li><a href="#top">Correspondence</a></li>
       <li><a href="#top">About</a></li>
     </ul>
-    <p class="colophon small muted">Set in Cormorant Garamond, ornaments included, with code in <code>Courier Prime</code>. A mockup of the Fleuron theme, a sister to Swiss Minimal. <a href="variable.html">Compare with variable Cormorant</a>.</p>
+    <p class="colophon small muted">Set in Cormorant, ornaments included, with code in <code>Courier Prime</code>. A mockup of the Fleuron theme, a sister to Swiss Minimal.</p>
   </div>
 </footer>
 
