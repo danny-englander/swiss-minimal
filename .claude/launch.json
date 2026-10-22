@@ -18,6 +18,12 @@
       "runtimeExecutable": "/usr/bin/python3",
       "runtimeArgs": ["-m", "http.server", "4400", "--bind", "0.0.0.0", "--directory", "explorations/mcsweeneys"],
       "port": 4400
+    },
+    {
+      "name": "explorations-network",
+      "runtimeExecutable": "/usr/bin/python3",
+      "runtimeArgs": ["-m", "http.server", "4401", "--bind", "0.0.0.0", "--directory", "explorations"],
+      "port": 4401
     }
   ]
 }
