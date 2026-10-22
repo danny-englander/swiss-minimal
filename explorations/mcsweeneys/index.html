@@ -6,6 +6,11 @@
 <title>Fleuron mockup</title>
 <meta name="description" content="A mockup of Fleuron, a bookish sister theme to Swiss Minimal, set entirely in Cormorant Garamond.">
 <link rel="preload" href="fonts/CormorantGaramond-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Courier Prime for code only. Not preloaded: a browser downloads it only on a page that shows code.
+     The kit would self-host it beside Cormorant, the way Swiss Minimal self-hosts Source Code Pro. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
   /* Cormorant Garamond v4.002 by Christian Thalmann, SIL OFL 1.1 (fonts/Cormorant-OFL.txt).
      From the designer's release, which carries the ornaments Google Fonts leaves out. */
@@ -26,7 +31,7 @@
 
     --font-text: "Cormorant Garamond", Garamond, "Iowan Old Style", Georgia, serif;
     --font-display: "Cormorant Garamond", Garamond, Georgia, serif;
-    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --font-mono: "Courier Prime", ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
     --measure: 34rem;
     --page-max: 60rem;
@@ -85,7 +90,8 @@
   .muted { color: var(--muted); }
   .num { font-variant-numeric: lining-nums tabular-nums; }
   em, .italic { font-style: italic; }
-  code { font-family: var(--font-mono); font-size: 0.9em; }
+  /* Never under the 17px floor, and always upright: Courier Prime's italic isn't loaded. */
+  code { font-family: var(--font-mono); font-size: max(0.9em, 1.0625rem); font-style: normal; }
 
   /* Rules and ornaments */
   .double-rule { border: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); height: 4px; margin: 0; }
@@ -327,7 +333,7 @@
       <li><a href="#top">Correspondence</a></li>
       <li><a href="#top">About</a></li>
     </ul>
-    <p class="colophon small muted">Set entirely in Cormorant Garamond, ornaments included. A mockup of the Fleuron theme, a sister to Swiss Minimal.</p>
+    <p class="colophon small muted">Set in Cormorant Garamond, ornaments included, with code in <code>Courier Prime</code>. A mockup of the Fleuron theme, a sister to Swiss Minimal.</p>
   </div>
 </footer>
 
