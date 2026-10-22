@@ -30,10 +30,11 @@ Alternatives:
 
 ## Principles
 
-- **Type does the work, again.** But here type is set like a book: serif, centered titles, small caps.
+- **Type does the work, again.** But here type is set like a book: serif, centered titles, italics.
+- **No capitals for show.** No all caps and no small caps, anywhere: labels, headings and buttons are sentence case, set a size larger instead. (McSweeney's uses small caps; Fleuron departs from it here, for easier reading.)
 - **Ornament is allowed, and rationed.** A fleuron marks a break, a hand points at one thing, a box holds one thing. Never a pattern, never a background, never two ornaments side by side.
 - **Flat, still.** No shadows, gradients, textures or rounded corners, the same as Swiss Minimal. Letterpress is suggested by the type and the rules, not by imitating ink spread or paper grain.
-- **One typeface, plus code.** Cormorant does everything: the masthead, titles, text, small caps, italics and the ornaments. The one exception is code, set in Courier Prime, as Swiss Minimal sets code in Source Code Pro. Three weights of Cormorant, each with one job (see Type). No bold in running text.
+- **One typeface, plus code.** Cormorant does everything: the masthead, titles, text, labels, italics and the ornaments. The one exception is code, set in Courier Prime, as Swiss Minimal sets code in Source Code Pro. Three weights of Cormorant, each with one job (see Type). No bold in running text.
 - **Thin rule, double rule.** A 1px rule separates rows. A double rule (two 1px lines, 3px apart) opens a section and frames the masthead. There is no thick 2px slab.
 - **Centered titles, left-aligned reading.** Mastheads, page titles and section heads center. Body text, lists and forms align left, ragged right. Never justify: on a screen the browser can only fill a line by stretching the spaces between words, which a printer would never do.
 - **Color is rarer still.** One second ink, like a two-color print job: a red for rubrics (initials, a pointing hand, the primary button) and nothing else.
@@ -41,7 +42,7 @@ Alternatives:
 ## Content and voice
 
 - Titles may be long. That is the point: "On the Keeping of Lists, Being a Short Account of Several Long Ones." Subtitles are italic.
-- Labels are small caps in sentence case ("Table of contents", "In this issue"), never all caps. Small caps read at any length, so Swiss Minimal's two-word limit goes away.
+- Labels are SemiBold sentence case ("Table of contents", "In this issue"), never capitals of any kind. Sentence case reads at any length, so Swiss Minimal's two-word limit goes away.
 - Buttons and links stay plain and short: "Subscribe", "Send". Being playful is the content's job, not the interface's.
 - No emoji. Exclamation marks are the writer's business.
 - The site name is set in Cormorant Light, large, centered, between double rules. Still no logo.
@@ -86,22 +87,22 @@ One family: **Cormorant** v4.002 by Christian Thalmann (Catharsis Fonts), SIL OF
 | `masthead` | Light 300 | Site name, `clamp(3rem, 10vw, 6.75rem)`, line height 0.95, centered |
 | `display` | Light 300 | An article or page title, `clamp(2.5rem, 6.5vw, 4.5rem)`, line height 1, centered |
 | `subtitle` | Medium 500 italic | Under a display title, 1.25rem then 1.5rem, centered |
-| `h2` | SemiBold 600, small caps | Section head, 1.375rem, 0.1em, centered between ornaments |
+| `h2` | SemiBold 600 | Section head, 1.75rem, sentence case, centered between ornaments |
 | `title` | SemiBold 600 | A list item's name |
 | `body` | Medium 500 | 1.25rem / 1.5, ragged right, hyphenated, old-style figures |
 | `small` | Medium 500 | Captions and meta, 1.0625rem |
-| `label` | SemiBold 600, small caps | Bylines, running heads, field labels, buttons, 1.125rem, 0.06em |
+| `label` | SemiBold 600 | Bylines, running heads, field labels, buttons, 1.25rem, sentence case, no tracking (the filled button 1.375rem) |
 | `code` | Courier Prime 400 | Code, file names, commands, keys, at 0.8em of the text around it (16px in body text), never under 16px, always upright, even in italic text. Courier Prime runs much larger than Cormorant, so code gets its own floor, a pixel under the text's. 700 only for a command in a log, as in Swiss Minimal's CodeBlock |
 
-- **Why Cormorant.** It is a free Garamond, close to the face the Quarterly is set in, with what this theme needs and most free serifs lack: real small caps, old-style and lining figures, ligatures (its "Th" is lovely), a true italic, and the ornaments themselves, drawn to match the type in every weight. One family is also closer to Swiss Minimal's "one typeface" rule.
-- **Three weights, one job each.** Light only at display sizes, 2.5rem and up, where its fine strokes look like a Caslon title page; it is too thin for text. Medium for reading, because Cormorant's Regular is too light on a screen. SemiBold for small caps and names, the way Swiss Minimal uses its 500 for labels. Medium italic for subtitles and emphasis. Never Regular or Bold, and no weights in between: the variable font could set any weight, but three is the rule.
+- **Why Cormorant.** It is a free Garamond, close to the face the Quarterly is set in, with what this theme needs and most free serifs lack: old-style and lining figures, ligatures (its "Th" is lovely), a true italic, and the ornaments themselves, drawn to match the type in every weight. One family is also closer to Swiss Minimal's "one typeface" rule.
+- **Three weights, one job each.** Light only at display sizes, 2.5rem and up, where its fine strokes look like a Caslon title page; it is too thin for text. Medium for reading, because Cormorant's Regular is too light on a screen. SemiBold for labels, headings and names, the way Swiss Minimal uses its 500 for labels. Medium italic for subtitles and emphasis. Never Regular or Bold, and no weights in between: the variable font could set any weight, but three is the rule.
 - **Self-hosted, from the designer's release** on GitHub ([CatharsisFonts/Cormorant](https://github.com/CatharsisFonts/Cormorant/releases/latest)), not Google Fonts: Google's version leaves the ornaments out. The four woff2 files and `Cormorant-OFL.txt` sit in `fonts/`; keep the license beside them.
 - **Why variable.** The two files are 284 KB together, against about 740 KB for four static weights of Cormorant Garamond, the version first tried. Measured in the browser the two are the same design (same x-height, letter widths, figures and ornaments) and the pages look alike, so the variable files win: 60% less to download, half the files, text that switches from the fallback in one step instead of weight by weight, and any weight between 300 and 700 at no cost. (Cormorant Garamond's own variable font exists only as a 1.1 MB TTF.)
 - **Still to do for a kit:** subset the files to Latin, the figures and the ornaments; the release files carry Cyrillic, Greek and Vietnamese too.
 - **Courier Prime for code** (Alan Dague-Greene, SIL OFL 1.1). A typewriter face, closer to a manuscript than Source Code Pro (chosen over it after comparing the two on the mockup's code), so code looks the same on every device instead of falling back to each system's own monospace. Self-hosted beside Cormorant and never preloaded, so a page with no code never downloads it. Falls back to `ui-monospace`, SF Mono, Menlo, Consolas, Liberation Mono.
 - **Cormorant runs small.** Its x-height is low, so everything is set a size up from a usual serif: 1.25rem for reading text, and **17px is the floor**, not Swiss Minimal's 14px.
-- Considered and set aside: **EB Garamond** with **Libre Caslon Display** for titles (the first mockup: sturdier text, but two families, and Google's EB Garamond lacks the ornaments), **IM Fell** (its scanned roughness reads as costume at body size), **Libre Caslon Text** (no small caps), **Cinzel Decorative** (capitals only, no ornaments).
-- Small caps are real small caps (`font-variant-caps: all-small-caps` or `small-caps`), never shrunk capitals.
+- Considered and set aside: **EB Garamond** with **Libre Caslon Display** for titles (the first mockup: sturdier text, but two families, and Google's EB Garamond lacks the ornaments), **IM Fell** (its scanned roughness reads as costume at body size), **Libre Caslon Text** (Cormorant does the same job and brings its own ornaments), **Cinzel Decorative** (capitals only, no ornaments).
+- No `text-transform: uppercase` and no `font-variant-caps`. Write labels in sentence case and let size and weight set them apart. Roman numerals in lists are lowercase (i, ii, iii).
 - Body uses old-style figures; tables and anything in a column use lining tabular figures (`.num`).
 - `hyphens: auto` with `lang` set, and `text-wrap: pretty`, so the ragged edge stays even and no line ends on a lone word.
 
@@ -130,7 +131,7 @@ Ornaments are `aria-hidden="true"`. They never carry meaning a screen reader nee
 
 ## Images
 
-The Swiss rules hold: content only, plain rectangles, no filters. Two changes: a figure may sit in the box frame when it is a plate (a "Fig. 1" illustration); captions are centered italics, with the figure number in small caps.
+The Swiss rules hold: content only, plain rectangles, no filters. Two changes: a figure may sit in the box frame when it is a plate (a "Fig. 1" illustration); captions are centered italics, with the figure number in SemiBold ("Fig. 1").
 
 ## Motion
 
@@ -146,47 +147,47 @@ How each Swiss Minimal component would change. Most keep their markup and behavi
 
 | Component | In Fleuron |
 | --- | --- |
-| Top bar | Paper, ends in a double rule. The site name in small caps at the left, the buttons at the right. Never turns dark. |
-| Outlined button | 1px `ink` border, small caps label. Hover fills `plate`, not black. |
+| Top bar | Paper, ends in a double rule. The site name in SemiBold at the left, the buttons at the right. Never turns dark. |
+| Outlined button | 1px `ink` border, SemiBold sentence-case label. Hover fills `plate`, not black. |
 | Hover label | `plate` with an `ink` hairline, italic. |
-| Button | The one filled button: `accent` fill, `accent-ink` small caps. |
+| Button | The one filled button: `accent` fill, `accent-ink` SemiBold sentence case. |
 | Secondary button | As the outlined button, sentence case. |
 | Panel | `plate`, a double rule along its bottom edge. The menu is centered, in Cormorant Light at display size. |
 | Menu | Centered lines with a ☞ before the current item instead of an underline. Accordion plus/minus kept. |
-| Panel tabs | Roman numerals (I, II, III) in small caps, the chosen one underlined in `accent`. |
+| Panel tabs | Lowercase roman numerals (i, ii, iii) in italic before each label, the chosen one underlined in `accent`. |
 | "New" dot | Kept, round, `accent`. |
-| Field | Kept: underline only, but 1px. Label in small caps. Required mark becomes a dagger (†) in the accent. |
+| Field | Kept: underline only, but 1px. Label in SemiBold sentence case. Required mark becomes a dagger (†) in the accent. |
 | Select, Date and time, File picker | Follow the field. |
 | Switch, Radio | Kept; switch stays square, `accent` when on. |
-| Filter buttons | Small caps text with a 1px frame; pressed fills `ink`. |
+| Filter buttons | SemiBold sentence case with a 1px frame; pressed fills `ink`. |
 | Favorite star | Becomes a fleuron (❦) or stays a star; owner's call. |
 | Page accordion | A ☞ before the summary that turns when open, instead of plus/minus. |
 | List row | Title in SemiBold, meta in italic `muted`, a dotted leader to a page number at the right (like a contents page). Hover fills `plate`. |
 | Bottom bar | `plate` with a double rule on top. |
-| Jump to current | Kept, small caps label. |
+| Jump to current | Kept, sentence-case label. |
 | Scrolling title | **Dropped.** Long titles wrap. |
 | Dialog | Paper inside the box frame, a fleuron above the title. |
 | Toast | `plate`, boxed, italic text. |
 | Drawer | `plate`, double rule on its leading edge. |
-| Icon actions | Kept, but icons are rarer still; prefer a word in small caps. |
+| Icon actions | Kept, but icons are rarer still; prefer a word. |
 | Closing note | A centered fleuron over one italic line, in place of the 2px rule. |
-| Dated list | Dates in small caps with old-style figures, a hanging column. |
-| Summary list | Small caps label, dotted leader to the value. |
+| Dated list | Dates in italic with old-style figures, a hanging column. |
+| Summary list | SemiBold label, dotted leader to the value. |
 | Output panel, Code block | Courier Prime; the dark log becomes `plate`. |
 | Ellipse, Number circle | Kept; the number circle uses Cormorant's old-style figures. |
 | Activity indicators | Kept, `accent`. |
 | Image | As above: plain, with an optional boxed "plate" and centered italic caption. |
-| Hero | Becomes the **Masthead**: double rule, kicker in small caps, the name in Light, italic tagline, double rule. |
-| Page title | Becomes the **Article opening**: kicker, title in Light, italic subtitle, byline in small caps, a fleuron. |
-| Footer | Centered: a fleuron, the site name in small caps, links in a line separated by middots, a colophon line saying what it is set in. |
+| Hero | Becomes the **Masthead**: double rule, kicker in SemiBold, the name in Light, italic tagline, double rule. |
+| Page title | Becomes the **Article opening**: kicker, title in Light, italic subtitle, byline in SemiBold after an italic "by", a fleuron. |
+| Footer | Centered: a fleuron, the site name in SemiBold, links in a line separated by middots, a colophon line saying what it is set in. |
 
 New pieces this theme needs: **Drop cap** (`.drop-cap`), **Ornament break** (`.ornament`), **Box** (`.box`), **Pull quote** (`.pull-quote`, italic between rules, centered), **Contents list** (`.contents`, numbered rows with dotted leaders), **Footnote** (`.footnote`, daggers and a small rule).
 
 ## Do not
 
 - Add textures, paper grain, ink spread, sepia, or any image as decoration.
-- Use bold in running text. Emphasis is italic; labels are small caps.
-- Set long text in all caps, or fake small caps by shrinking capitals.
+- Use bold in running text. Emphasis is italic; labels are SemiBold.
+- Set anything in capitals for show: no all caps, no small caps, no wide letterspacing.
 - Use a second family for anything but code, or Courier Prime for anything but code. Don't use Cormorant's Regular or Bold; Light only at 2.5rem and up.
 - Use an ornament the font doesn't have (❧, ☙), or text under 17px.
 - Put two ornaments side by side, or use one as a pattern or a background.

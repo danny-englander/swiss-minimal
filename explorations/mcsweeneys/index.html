@@ -80,8 +80,9 @@
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
   /* Type styles */
-  .sc { font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600; }
-  .label { font-size: 1.125rem; font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600; }
+  /* No capitals of any kind, small caps included: labels are SemiBold sentence case, a size up. */
+  .sc { font-size: 1.25rem; font-weight: 600; }
+  .label { font-size: 1.25rem; font-weight: 600; }
   .small { font-size: 1.0625rem; line-height: 1.45; }
   .muted { color: var(--muted); }
   .num { font-variant-numeric: lining-nums tabular-nums; }
@@ -111,12 +112,12 @@
   /* Top bar */
   .topbar { padding-top: 0.75rem; }
   .topbar-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 0.6rem; }
-  .topbar-name { font-size: 1.0625rem; line-height: 1.2; text-decoration: none; }
+  .topbar-name { line-height: 1.2; text-decoration: none; }
   .topbar-btns { display: flex; gap: 0.5rem; }
   .topbar-btn {
-    font: inherit; font-size: 1.125rem; color: var(--ink); background: transparent;
-    border: 1px solid var(--ink); border-radius: 0; min-height: 2.25rem; padding: 0 0.7rem;
-    font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600;
+    font: inherit; font-size: 1.25rem; color: var(--ink); background: transparent;
+    border: 1px solid var(--ink); border-radius: 0; min-height: 2.5rem; padding: 0 0.8rem;
+    font-weight: 600;
     transition: background-color 150ms;
   }
   .topbar-btn:hover { background: var(--plate); }
@@ -141,7 +142,7 @@
   }
   .opening-subtitle { font-style: italic; font-size: clamp(1.25rem, 2.6vw, 1.5rem); line-height: 1.35; max-width: 38rem; margin: 0 auto; text-wrap: balance; }
   .byline { margin-top: 1.5rem; }
-  .byline .by { font-style: italic; font-variant-caps: normal; letter-spacing: 0; font-weight: 500; }
+  .byline .by { font-style: italic; font-weight: 500; }
 
   /* Running text */
   /* Ragged right: never stretch word spaces to fill a line. */
@@ -153,11 +154,11 @@
   }
   .footnote-ref { color: var(--accent); text-decoration: none; font-size: 0.85em; vertical-align: 0.35em; line-height: 0; }
 
-  /* Section head: small caps between fleurons */
+  /* Section head: SemiBold sentence case between fleurons */
   .section-head { text-align: center; margin: 3.5rem 0 1.5rem; }
   .section-head .double-rule { margin-bottom: 1rem; }
-  .section-head h2 { font-size: 1.375rem; font-variant-caps: all-small-caps; letter-spacing: 0.1em; font-weight: 600; }
-  .section-head h2 .orn { color: var(--accent); font-variant-caps: normal; letter-spacing: 0; padding: 0 0.6em; font-weight: 500; }
+  .section-head h2 { font-size: 1.75rem; line-height: 1.2; font-weight: 600; }
+  .section-head h2 .orn { color: var(--accent); padding: 0 0.5em; font-weight: 500; font-size: 0.8em; }
 
   /* Box: a frame with an inner rule */
   .box { border: 1px solid var(--ink); padding: 3px; }
@@ -170,7 +171,7 @@
   .contents li:last-child { border-bottom: 0; }
   .contents a { display: grid; grid-template-columns: 2.25rem 1fr auto; column-gap: 0.25rem; align-items: baseline; text-decoration: none; }
   .contents a:hover .contents-title { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; }
-  .contents-num { font-variant-caps: all-small-caps; letter-spacing: 0.04em; color: var(--muted); }
+  .contents-num { color: var(--muted); }
   .contents-title { font-weight: 600; display: flex; align-items: baseline; gap: 0.35rem; min-width: 0; }
   .contents-title::after { content: ""; flex: 1; border-bottom: 1px dotted var(--muted); transform: translateY(-0.25em); min-width: 1rem; }
   .contents-page { font-variant-numeric: lining-nums tabular-nums; }
@@ -183,7 +184,7 @@
   /* Numbered list (an ordinary list in running text) */
   .list { margin: 1rem 0; padding: 0; list-style: none; counter-reset: item; }
   .list li { counter-increment: item; position: relative; padding-left: 2.75rem; margin: 0.4rem 0; text-align: left; hyphens: manual; }
-  .list li::before { content: "§ " counter(item, upper-roman) "."; position: absolute; left: 0; width: 2rem; color: var(--accent); font-variant-caps: all-small-caps; white-space: nowrap; font-size: 0.95em; }
+  .list li::before { content: "§ " counter(item, lower-roman) "."; position: absolute; left: 0; width: 2rem; color: var(--accent); white-space: nowrap; }
 
   /* Pull quote */
   .pull-quote { margin: 2.5rem auto; max-width: 30rem; text-align: center; padding: 1.25rem 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
@@ -192,7 +193,7 @@
 
   /* Form */
   .field-label { display: block; margin-bottom: 0.15rem; }
-  .field-label .req { color: var(--accent); font-variant-caps: normal; margin-left: 0.15em; }
+  .field-label .req { color: var(--accent); margin-left: 0.15em; }
   .field {
     width: 100%; font: inherit; font-size: 1.25rem; color: inherit; background: transparent;
     border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 0.3rem 0; outline-offset: 3px;
@@ -201,7 +202,7 @@
   .form-row { display: grid; gap: 1.5rem; align-items: end; }
   @media (min-width: 640px) { .form-row { grid-template-columns: 1fr auto; } }
   .btn {
-    font: inherit; font-size: 1.25rem; font-weight: 600; font-variant-caps: all-small-caps; letter-spacing: 0.1em;
+    font: inherit; font-size: 1.375rem; font-weight: 600;
     background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 0;
     padding: 0.7rem 1.75rem; min-height: 2.75rem;
   }
@@ -333,7 +334,7 @@
       <div class="measure">
         <p class="opening-subtitle center" style="margin-bottom:1.5rem">Concerning the Machinery Behind This Page, for Readers of a Technical Disposition</p>
         <div class="prose">
-          <p>The small capitals on this page are not shrunken capitals but true ones, asked for with <code>font-variant-caps: all-small-caps</code>. The drop cap is the first letter of a paragraph, floated and enlarged. To close a panel, press <kbd>Esc</kbd>; to search the page, <kbd>⌘</kbd> <kbd>F</kbd>, which you knew.</p>
+          <p>The figures on this page are old-style, rising and falling like lowercase letters, asked for with <code>font-variant-numeric: oldstyle-nums</code>. The drop cap is the first letter of a paragraph, floated and enlarged. To close a panel, press <kbd>Esc</kbd>; to search the page, <kbd>⌘</kbd> <kbd>F</kbd>, which you knew.</p>
         </div>
         <pre tabindex="0" aria-label="CSS for the drop cap"><code>.drop-cap::first-letter {
   float: left;

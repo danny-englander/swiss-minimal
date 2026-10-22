@@ -85,8 +85,9 @@
     --font-mono: "Courier Prime", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --fs-body: 1.25rem; --lh-body: 1.5; --w-body: 500;
     --fs-small: 1.0625rem; --fs-lead: 1.375rem;
-    --fs-label: 1.125rem; --w-label: 600; --ls-label: 0.06em; --tt-label: none; --caps-label: all-small-caps;
-    --fs-h2: 1.375rem; --w-h2: 600; --ls-h2: 0.1em; --tt-h2: none; --caps-h2: all-small-caps;
+    /* No capitals of any kind in Fleuron, small caps included: sentence case, a size up. */
+    --fs-label: 1.25rem; --w-label: 600; --ls-label: 0; --tt-label: none; --caps-label: normal;
+    --fs-h2: 1.75rem; --w-h2: 600; --ls-h2: 0; --tt-h2: none; --caps-h2: normal;
     --fs-title: 1.375rem; --w-title: 600;
     --fs-display: clamp(3rem, 10vw, 6.75rem); --w-display: 300; --lh-display: 0.95; --ls-display: 0;
     --fs-code: max(1rem, 0.8em);
@@ -178,7 +179,7 @@
   :root[data-kit="swiss"] .topbar-links { font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
   :root[data-kit="fleuron"] .topbar-row { border-bottom: 0; box-shadow: 0 1px 0 var(--ink), 0 4px 0 var(--paper), 0 5px 0 var(--ink); margin-bottom: 5px; }
   :root[data-kit="fleuron"] .topbar-name,
-  :root[data-kit="fleuron"] .topbar-links { font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600; font-size: 1.125rem; }
+  :root[data-kit="fleuron"] .topbar-links { font-weight: 600; font-size: 1.25rem; }
   @media (max-width: 539px) { .topbar-links li:not(:last-child) { display: none; } }
 
   /* ============================================================================================
@@ -214,7 +215,7 @@
 
   /* ============================================================================================
      Sections. Swiss Minimal: the 2px rule, then the heading at the left. Fleuron: the double
-     rule, then a centered small-caps heading between fleurons.
+     rule, then a centered SemiBold heading between fleurons.
      ============================================================================================ */
   .section { margin-top: 4rem; }
   .section-head { display: grid; gap: 0.75rem 2rem; padding-top: 0.75rem; margin-bottom: 2rem; }
@@ -249,7 +250,7 @@
   :root[data-kit="swiss"] .row[data-active="true"] { box-shadow: inset 6px 0 0 var(--accent); }
   :root[data-kit="swiss"] .rows--hover .row:hover .btn-outline,
   :root[data-kit="swiss"] .row[data-active="true"] .btn-outline { --bo-fg: var(--row-fg); --bo-bg: var(--row-hover-bg); }
-  :root[data-kit="fleuron"] .row-num { font-variant-caps: all-small-caps; letter-spacing: 0.04em; }
+  :root[data-kit="fleuron"] .row-num { font-style: italic; text-transform: lowercase; }   /* roman numerals as i, ii */
   :root[data-kit="fleuron"] .row-text { font-style: italic; }
   :root[data-kit="fleuron"] .row[data-active="true"] .row-title::before { content: "\261E" / ""; color: var(--accent); margin-right: 0.4em; font-weight: 500; }
 
@@ -260,7 +261,7 @@
   .btn { padding: 0.9rem 1.8rem; border: 0; background: var(--accent-text); color: var(--accent-ink); }
   .btn:hover { filter: brightness(1.12); color: var(--accent-ink); }
   :root[data-kit="swiss"] .btn { font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
-  :root[data-kit="fleuron"] .btn { padding: 0.7rem 1.75rem; font-weight: 600; letter-spacing: 0.1em; font-variant-caps: all-small-caps; font-size: 1.25rem; }
+  :root[data-kit="fleuron"] .btn { padding: 0.7rem 1.75rem; font-weight: 600; font-size: 1.375rem; }
 
   .btn-outline { --bo-fg: var(--ink); --bo-bg: var(--paper); padding: 0.6rem 1.25rem; border: 1px solid var(--bo-fg); background: transparent; color: var(--bo-fg); font-weight: 500; white-space: nowrap; }
   .btn-outline:hover { background: var(--bo-fg); color: var(--bo-bg); }
@@ -270,7 +271,7 @@
   .chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .chip { padding: 0.6rem 1rem; border: 1px solid var(--ink); background: transparent; color: var(--ink); font-weight: 500; }
   .chip:hover, .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-  :root[data-kit="fleuron"] .chip { font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600; font-size: 1.125rem; }
+  :root[data-kit="fleuron"] .chip { font-weight: 600; font-size: 1.25rem; }
 
   .field-label { display: block; }
   .field {
@@ -355,7 +356,7 @@
   .site-footer-links a:hover { text-decoration: underline; }
   :root[data-kit="fleuron"] .site-footer-inner { text-align: center; justify-items: center; }
   :root[data-kit="fleuron"] .site-footer-inner::before { content: "\2766" / ""; font-size: 1.5rem; line-height: 1; }
-  :root[data-kit="fleuron"] .site-footer-name { font-size: 1.25rem; font-weight: 600; font-variant-caps: all-small-caps; letter-spacing: 0.08em; }
+  :root[data-kit="fleuron"] .site-footer-name { font-size: 1.5rem; font-weight: 600; letter-spacing: 0; }
   :root[data-kit="fleuron"] .site-footer-note { font-style: italic; margin-left: auto; margin-right: auto; }
   :root[data-kit="fleuron"] .site-footer-links { columns: auto; display: flex; flex-wrap: wrap; justify-content: center; }
   :root[data-kit="fleuron"] .site-footer-links li + li::before { content: "\00B7" / ""; padding: 0 0.6em; color: var(--muted); }
@@ -395,7 +396,7 @@
   .seg label:hover:not(:has(input:checked)) { color: var(--accent-bright); }
   .seg label:has(input:focus-visible) { outline: var(--focus-w) solid var(--accent-bright); outline-offset: var(--focus-off); z-index: 1; }
   :root[data-kit="swiss"] .seg label { font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
-  :root[data-kit="fleuron"] .seg label { font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600; font-size: 1.125rem; }
+  :root[data-kit="fleuron"] .seg label { font-weight: 600; font-size: 1.25rem; }
   :root[data-kit="fleuron"] :is(.seg > legend, .controls-title) { font-style: italic; }
   @media (max-width: 539px) { .controls-now { display: none; } }
 
