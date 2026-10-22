@@ -1,6 +1,6 @@
-# Plan: two kits, one repository, two sites
+# Plan: Agent Design Kits, one repository, one site
 
-Decided: Fleuron lives in this repository, on `main`, beside Swiss Minimal. Each kit has its own site on Netlify, built from its own folder. No long-lived branches, so nothing is ever merged between themes.
+Decided: the project becomes **Agent Design Kits**, at agentdesignkits.com, in a repository renamed `agent-design-kits`, public and MIT licensed. Fleuron lives in it, on `main`, beside Swiss Minimal. One site: a landing page at the root that switches between the kits in place, and each kit's full demo at its own path. No long-lived branches, so nothing is ever merged between kits. The landing page's mockup is [`../landing/`](../landing/).
 
 ## One source for every file
 
@@ -10,13 +10,15 @@ Every file is edited in exactly one place. People still use a kit by copying one
 shared/             edited here only: the plain scripts and the Astro components both kits use
 kit/                Swiss Minimal kit: theme.css, tailwind.css, its own components, + synced copies
 fonts/              Swiss Minimal fonts (unchanged)
-demo/               swissminimal.ch; src/design/kit and src/design/fonts are links, not copies
+landing/            agentdesignkits.com itself: the landing page with the kit switcher
+demo/               Swiss Minimal's demo, at /swiss-minimal/; src/design/kit and fonts are links, not copies
 fleuron/
   kit/              fleuron.css, tailwind.css, its own components, + synced copies
   fonts/            Cormorant's two variable woff2 files, Courier Prime, and their licenses
   DESIGN.md, COMPONENTS.md, tokens.json
-fleuron-demo/       Fleuron's site; src/design/kit and src/design/fonts are links
-kits.json           the list of kits: folder, demo folder, tag prefix, shared files left out
+fleuron-demo/       Fleuron's demo, at /fleuron/; src/design/kit and fonts are links
+kits.json           the list of kits: folder, demo folder, path on the site, tag prefix, shared files left out
+scripts/build.ts    builds the landing page and every demo into one dist/
 scripts/sync.ts     copies shared/ into every kit listed in kits.json
 explorations/       this folder; deleted once fleuron/ exists
 ```
@@ -48,24 +50,21 @@ Decided: the demo is a pretend literary quarterly, front and center, like the mo
 
 The pieces are written for the demo: no real McSweeney's text, names or marks.
 
-## Two Netlify sites
+## One site, one domain
 
-Both are linked to the same repository and both deploy from `main`. They differ only in the folder they build.
+No subdomains. One Netlify site, deployed from `main`, serves everything:
 
-| | Swiss Minimal | Fleuron |
-| --- | --- | --- |
-| Base directory | `demo` | `fleuron-demo` |
-| Build command | `npm run build` | `npm run build` |
-| Publish directory | `dist` | `dist` |
-| Production branch | `main` | `main` |
-| Address | www.swissminimal.ch | to choose |
+| Address | What |
+| --- | --- |
+| agentdesignkits.com/ | The landing page, with the controls |
+| agentdesignkits.com/swiss-minimal/ | Swiss Minimal's full demo |
+| agentdesignkits.com/fleuron/ | Fleuron's full demo, the quarterly |
 
-**Build only what changed.** Each site gets an "Ignore builds" command in Netlify (Site configuration, Build & deploy, Ignored builds), so a push that only touches the other kit doesn't redeploy it. Netlify runs it from the base directory; exit code 0 means "skip":
+**The build.** Each demo stays its own Astro project, built with Astro's `base` set to its path (`/swiss-minimal/`), so its links and assets work below the root. `npm run build` in the repository root runs `scripts/build.ts`: it reads `kits.json`, builds each demo, and gathers them with the landing page into one `dist/`. Netlify settings: base directory empty (the repository root), build `npm run build`, publish `dist`. Every push rebuilds the whole site; it is small, so there is nothing to gain from skipping parts.
 
-- Swiss Minimal: `git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ../kit ../fonts`
-- Fleuron: `git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ../fleuron`
+**The landing page switches the real kits.** The mockup copies both kits' CSS into one file and scopes it by hand; the real page doesn't. It loads each kit's own `theme.css` as a stylesheet and turns all but one off (`<link rel="stylesheet" disabled>`), so switching is instant and nothing is written twice: a fix to a kit's CSS shows on the landing page the moment it lands. Only the landing page's own layout (the hero art, the control bar) is scoped by `data-kit`. No React, no framework in the kits: the controls are a small plain script, like the kits' others.
 
-A fix in `shared/` changes the synced copies in both `kit/` and `fleuron/kit/` in the same commit, so it rebuilds both, which is what we want.
+**Leaving swissminimal.ch.** Keep the domain for at least a year, added to the same Netlify site, with one permanent redirect that keeps every path: `https://www.swissminimal.ch/* → https://agentdesignkits.com/swiss-minimal/:splat` (301). Old links and search results carry over; then decide whether to let it lapse. Update the README, the release notes and the demo's own links to the new address.
 
 ## Releases
 
@@ -87,7 +86,7 @@ Once the steps below are built, a new kit (say `bauhaus`) is a pattern to follow
 2. Add an entry to `kits.json`: folder, demo folder, tag prefix (`bauhaus-v`), and any shared files it leaves out. Run `npm run sync`.
 3. Make `bauhaus-demo/` from another demo's setup, with `src/design/kit` and `src/design/fonts` linked to `bauhaus/`. List its pages in the shared test setup, so the axe and behavior tests cover it in both themes and every accent.
 4. Give it `src/data/features.ts` and an `npm run release` that passes its name.
-5. Create its Netlify site: base directory `bauhaus-demo`, build `npm run build`, publish `dist`, the "Ignore builds" command for its folders, and its address.
+5. Give it a path in `kits.json` (`/bauhaus/`): the build puts its demo there, and the landing page's controls and kit list pick it up from the same file.
 6. Add it to the root `README.md`, and to `CLAUDE.md` and `AGENTS.md` where they list the kits.
 
 **The design work, which the plumbing doesn't do:**
@@ -111,5 +110,5 @@ Each step is its own commit, and kit, docs and demo changes stay separate, as no
 5. Make `fleuron-demo/`: `demo/`'s setup (Astro, Tailwind, the axe and behavior tests), linked to `fleuron/`, with the mockup's pages as the first content.
 6. Update `CLAUDE.md`, `AGENTS.md` and `TOOLING.md`: edit shared files in `shared/`, run the sync, and which kit a task is about.
 7. Teach the release script to take a kit's name and read `kits.json`; give `fleuron-demo/` its own release.
-8. Create the second Netlify site, add both "Ignore builds" commands, and choose Fleuron's address.
-9. Rewrite the root `README.md` as the front page for both kits, and delete `explorations/`.
+8. Build `landing/` from the mockup, switching the kits' real stylesheets, and add `scripts/build.ts`. Point the Netlify site at the repository root, add agentdesignkits.com, and set up the swissminimal.ch redirect.
+9. Rewrite the root `README.md` as the front page for every kit, and delete `explorations/`.
