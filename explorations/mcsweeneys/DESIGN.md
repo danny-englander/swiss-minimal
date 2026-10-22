@@ -30,12 +30,12 @@ Alternatives:
 
 ## Principles
 
-- **Type does the work, again.** But here type is set like a book: serif, justified, centered titles, small caps.
+- **Type does the work, again.** But here type is set like a book: serif, centered titles, small caps.
 - **Ornament is allowed, and rationed.** A fleuron marks a break, a hand points at one thing, a box holds one thing. Never a pattern, never a background, never two ornaments side by side.
 - **Flat, still.** No shadows, gradients, textures or rounded corners, the same as Swiss Minimal. Letterpress is suggested by the type and the rules, not by imitating ink spread or paper grain.
 - **One family, three voices.** EB Garamond at 400 in roman, italic and small caps. Display sizes use Libre Caslon Display, the one exception. No bold in running text.
 - **Thin rule, double rule.** A 1px rule separates rows. A double rule (two 1px lines, 3px apart) opens a section and frames the masthead. There is no thick 2px slab.
-- **Centered titles, left-aligned reading.** Mastheads, page titles and section heads center. Body text is justified with hyphenation; lists and forms align left.
+- **Centered titles, left-aligned reading.** Mastheads, page titles and section heads center. Body text, lists and forms align left, ragged right. Never justify: on a screen the browser can only fill a line by stretching the spaces between words, which a printer would never do.
 - **Color is rarer still.** One second ink, like a two-color print job: a red for rubrics (initials, a pointing hand, the primary button) and nothing else.
 
 ## Content and voice
@@ -83,7 +83,7 @@ Changes from Swiss Minimal:
 | `subtitle` | EB Garamond italic 400 | Under a display title, 1.25rem then 1.5rem, centered |
 | `h2` | EB Garamond 500, small caps | Section head, 1.25rem, 0.08em, centered between ornaments |
 | `title` | EB Garamond 500 | A list item's name, 1.25rem |
-| `body` | EB Garamond 400 | 1.125rem / 1.55, justified, hyphenated, old-style figures |
+| `body` | EB Garamond 400 | 1.125rem / 1.55, ragged right, hyphenated, old-style figures |
 | `small` | EB Garamond 400 | Captions and meta, 0.9375rem |
 | `label` | EB Garamond 500, small caps | Bylines, running heads, field labels, 1rem, 0.06em |
 | `code` | Courier Prime 400 | Code only |
@@ -95,7 +95,7 @@ Changes from Swiss Minimal:
 - **15px is the floor** for Garamond, which runs small on its body. 1.125rem for reading text.
 - Small caps are real small caps (`font-variant-caps: all-small-caps` or `small-caps`), never shrunk capitals.
 - Body uses old-style figures; tables and anything in a column use lining tabular figures (`.num`).
-- `hyphens: auto` with `lang` set, and `text-wrap: pretty`, so justified text doesn't open rivers.
+- `hyphens: auto` with `lang` set, and `text-wrap: pretty`, so the ragged edge stays even and no line ends on a lone word.
 
 ## Ornaments
 
@@ -123,7 +123,7 @@ Open question: the Google Fonts cut of EB Garamond does not reliably carry ‚ù¶ ‚
 
 ## Layout
 
-- **A narrow page.** Reading measure `measure` (34rem, about 66 characters). The page itself is `page-max` 60rem, narrower than Swiss Minimal's 88rem; this is a book, not a poster.
+- **A narrow page.** Reading measure `measure` (34rem, about 66 characters). The page itself is `page-max` 60rem, narrower than Swiss Minimal's 88rem; this is a book, not a poster. Side `gutter` 1.5rem on phones (Swiss Minimal's is 1rem), 2rem from 640px: a book page wants a margin.
 - **Centered stacks** for the masthead, an article opening (kicker, title, subtitle, byline) and section heads.
 - **Two columns** from 1024px for a table of contents or an index, separated by a 1px rule; never for running text, which stays one measure wide.
 - **Dense spacing.** Sections are `space-12` apart, not `space-16`. Paragraphs indent the first line (1.5em) instead of leaving a blank line, except after a heading.
@@ -140,7 +140,7 @@ Less than Swiss Minimal. Panels and the drawer fade and slide 300ms instead of 5
 
 ## States and accessibility
 
-All of Swiss Minimal's rules stay: the focus ring (2px solid `accent`, 3px offset, so it clears the double rules), the hand cursor, verb-first names, `aria-current`, 4.5:1 for all text. Two additions: justified text needs `hyphens: auto`; and ornaments are hidden from screen readers.
+All of Swiss Minimal's rules stay: the focus ring (2px solid `accent`, 3px offset, so it clears the double rules), the hand cursor, verb-first names, `aria-current`, 4.5:1 for all text. Two additions: text is never justified, since stretched word spaces are harder to read, for dyslexic readers especially; and ornaments are hidden from screen readers.
 
 ## Components
 
@@ -192,7 +192,7 @@ New pieces this theme needs: **Drop cap** (`.drop-cap`), **Ornament break** (`.o
 - Use Caslon Display under 2rem, or a third family for anything but code.
 - Put two ornaments side by side, or use one as a pattern or a background.
 - Use more than one accent, or the accent for anything but initials, the hand, the primary button and the focus ring.
-- Justify text without hyphenation.
+- Justify text, or stretch word spaces to fill a line.
 - Add shadows, gradients or rounded corners. Square still.
 - Hide focus rings, or let ornaments reach a screen reader.
 

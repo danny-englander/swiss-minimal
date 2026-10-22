@@ -25,7 +25,7 @@
 
     --measure: 34rem;
     --page-max: 60rem;
-    --gutter: 1rem;
+    --gutter: 1.5rem;
     color-scheme: light;
   }
   :root[data-accent="prussian"] { --accent: #2c4a7a; }
@@ -122,7 +122,8 @@
   .byline .by { font-style: italic; font-variant-caps: normal; letter-spacing: 0; font-weight: 400; }
 
   /* Running text */
-  .prose { hyphens: auto; -webkit-hyphens: auto; text-align: justify; text-wrap: pretty; }
+  /* Ragged right: never stretch word spaces to fill a line. */
+  .prose { hyphens: auto; -webkit-hyphens: auto; text-align: left; text-wrap: pretty; }
   .prose p + p { text-indent: 1.5em; }
   .drop-cap::first-letter {
     float: left; font-family: var(--font-display); color: var(--accent);
