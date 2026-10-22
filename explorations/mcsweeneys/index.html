@@ -4,11 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fleuron mockup</title>
-<meta name="description" content="A mockup of Fleuron, a bookish sister theme to Swiss Minimal.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Libre+Caslon+Display&family=Courier+Prime&display=swap" rel="stylesheet">
+<meta name="description" content="A mockup of Fleuron, a bookish sister theme to Swiss Minimal, set entirely in Cormorant Garamond.">
+<link rel="preload" href="fonts/CormorantGaramond-Medium.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+  /* Cormorant Garamond v4.002 by Christian Thalmann, SIL OFL 1.1 (fonts/Cormorant-OFL.txt).
+     From the designer's release, which carries the ornaments Google Fonts leaves out. */
+  @font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-Light.woff2") format("woff2"); font-weight: 300; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-MediumItalic.woff2") format("woff2"); font-weight: 500; font-style: italic; font-display: swap; }
+  @font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-SemiBold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+
   /* Tokens. Light is the default; dark follows the system unless data-theme is set. */
   :root {
     --paper: #f5efe2;
@@ -19,9 +24,9 @@
     --accent: #a8322a;
     --accent-ink: #fdf9f0;
 
-    --font-text: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif;
-    --font-display: "Libre Caslon Display", "EB Garamond", Georgia, serif;
-    --font-mono: "Courier Prime", ui-monospace, Menlo, monospace;
+    --font-text: "Cormorant Garamond", Garamond, "Iowan Old Style", Georgia, serif;
+    --font-display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
     --measure: 34rem;
     --page-max: 60rem;
@@ -54,7 +59,8 @@
     margin: 0;
     background: var(--paper);
     color: var(--ink);
-    font: 400 1.125rem/1.55 var(--font-text);
+    /* Cormorant runs small and light: Medium, a size up from a usual serif. */
+    font: 500 1.25rem/1.5 var(--font-text);
     font-variant-numeric: oldstyle-nums proportional-nums;
     font-kerning: normal;
     font-feature-settings: "liga" 1, "kern" 1;
@@ -73,9 +79,9 @@
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
   /* Type styles */
-  .sc { font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 500; }
-  .label { font-size: 1rem; font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 500; }
-  .small { font-size: 0.9375rem; line-height: 1.45; }
+  .sc { font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600; }
+  .label { font-size: 1.125rem; font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600; }
+  .small { font-size: 1.0625rem; line-height: 1.45; }
   .muted { color: var(--muted); }
   .num { font-variant-numeric: lining-nums tabular-nums; }
   em, .italic { font-style: italic; }
@@ -92,9 +98,9 @@
   .topbar-name { font-size: 1.0625rem; line-height: 1.2; text-decoration: none; }
   .topbar-btns { display: flex; gap: 0.5rem; }
   .topbar-btn {
-    font: inherit; font-size: 1rem; color: var(--ink); background: transparent;
+    font: inherit; font-size: 1.125rem; color: var(--ink); background: transparent;
     border: 1px solid var(--ink); border-radius: 0; min-height: 2.25rem; padding: 0 0.7rem;
-    font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 500;
+    font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-weight: 600;
     transition: background-color 150ms;
   }
   .topbar-btn:hover { background: var(--plate); }
@@ -103,8 +109,8 @@
   .masthead { padding: 2.5rem 0 0; text-align: center; }
   .masthead-kicker { margin-bottom: 1rem; }
   .masthead-name {
-    font-family: var(--font-display); font-size: clamp(2.75rem, 9vw, 6rem); line-height: 1;
-    letter-spacing: 0.005em; margin: 0.15em 0 0.2em;
+    font-family: var(--font-display); font-size: clamp(3rem, 10vw, 6.75rem); line-height: 0.95; font-weight: 300;
+    letter-spacing: 0; margin: 0.15em 0 0.2em;
   }
   .masthead-tagline { font-style: italic; font-size: clamp(1.125rem, 2.4vw, 1.375rem); max-width: 36rem; margin: 0 auto 1.25rem; line-height: 1.4; }
   .masthead-meta { display: flex; justify-content: space-between; gap: 1rem; padding: 0.35rem 0; flex-wrap: wrap; }
@@ -114,19 +120,19 @@
   /* Article opening */
   .opening { text-align: center; padding: 3rem 0 0; }
   .opening-title {
-    font-family: var(--font-display); font-size: clamp(2.25rem, 6vw, 4rem); line-height: 1.05;
+    font-family: var(--font-display); font-size: clamp(2.5rem, 6.5vw, 4.5rem); line-height: 1; font-weight: 300;
     max-width: 48rem; margin: 0.75rem auto 1rem; text-wrap: balance;
   }
   .opening-subtitle { font-style: italic; font-size: clamp(1.25rem, 2.6vw, 1.5rem); line-height: 1.35; max-width: 38rem; margin: 0 auto; text-wrap: balance; }
   .byline { margin-top: 1.5rem; }
-  .byline .by { font-style: italic; font-variant-caps: normal; letter-spacing: 0; font-weight: 400; }
+  .byline .by { font-style: italic; font-variant-caps: normal; letter-spacing: 0; font-weight: 500; }
 
   /* Running text */
   /* Ragged right: never stretch word spaces to fill a line. */
   .prose { hyphens: auto; -webkit-hyphens: auto; text-align: left; text-wrap: pretty; }
   .prose p + p { text-indent: 1.5em; }
   .drop-cap::first-letter {
-    float: left; font-family: var(--font-display); color: var(--accent);
+    float: left; font-family: var(--font-display); font-weight: 300; color: var(--accent);
     font-size: 4.6em; line-height: 0.8; padding: 0.06em 0.08em 0 0; margin-top: 0.02em;
   }
   .footnote-ref { color: var(--accent); text-decoration: none; font-size: 0.85em; vertical-align: 0.35em; line-height: 0; }
@@ -134,8 +140,8 @@
   /* Section head: small caps between fleurons */
   .section-head { text-align: center; margin: 3.5rem 0 1.5rem; }
   .section-head .double-rule { margin-bottom: 1rem; }
-  .section-head h2 { font-size: 1.25rem; font-variant-caps: all-small-caps; letter-spacing: 0.1em; font-weight: 500; }
-  .section-head h2 .orn { color: var(--accent); font-variant-caps: normal; letter-spacing: 0; padding: 0 0.6em; font-weight: 400; }
+  .section-head h2 { font-size: 1.375rem; font-variant-caps: all-small-caps; letter-spacing: 0.1em; font-weight: 600; }
+  .section-head h2 .orn { color: var(--accent); font-variant-caps: normal; letter-spacing: 0; padding: 0 0.6em; font-weight: 500; }
 
   /* Box: a frame with an inner rule */
   .box { border: 1px solid var(--ink); padding: 3px; }
@@ -149,10 +155,10 @@
   .contents a { display: grid; grid-template-columns: 2.25rem 1fr auto; column-gap: 0.25rem; align-items: baseline; text-decoration: none; }
   .contents a:hover .contents-title { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; }
   .contents-num { font-variant-caps: all-small-caps; letter-spacing: 0.04em; color: var(--muted); }
-  .contents-title { font-weight: 500; display: flex; align-items: baseline; gap: 0.35rem; min-width: 0; }
+  .contents-title { font-weight: 600; display: flex; align-items: baseline; gap: 0.35rem; min-width: 0; }
   .contents-title::after { content: ""; flex: 1; border-bottom: 1px dotted var(--muted); transform: translateY(-0.25em); min-width: 1rem; }
   .contents-page { font-variant-numeric: lining-nums tabular-nums; }
-  .contents-by { grid-column: 2 / 3; font-style: italic; color: var(--muted); font-size: 0.9375rem; }
+  .contents-by { grid-column: 2 / 3; font-style: italic; color: var(--muted); font-size: 1.0625rem; }
   @media (min-width: 1024px) {
     .contents--two { column-count: 2; column-gap: 3rem; column-rule: 1px solid var(--rule); }
     .contents--two li { break-inside: avoid; }
@@ -160,7 +166,7 @@
 
   /* Numbered list (an ordinary list in running text) */
   .list { margin: 1rem 0; padding: 0; list-style: none; counter-reset: item; }
-  .list li { counter-increment: item; position: relative; padding-left: 2.25rem; margin: 0.4rem 0; text-align: left; hyphens: manual; }
+  .list li { counter-increment: item; position: relative; padding-left: 2.75rem; margin: 0.4rem 0; text-align: left; hyphens: manual; }
   .list li::before { content: "§ " counter(item, upper-roman) "."; position: absolute; left: 0; width: 2rem; color: var(--accent); font-variant-caps: all-small-caps; white-space: nowrap; font-size: 0.95em; }
 
   /* Pull quote */
@@ -179,7 +185,7 @@
   .form-row { display: grid; gap: 1.5rem; align-items: end; }
   @media (min-width: 640px) { .form-row { grid-template-columns: 1fr auto; } }
   .btn {
-    font: inherit; font-size: 1.125rem; font-weight: 500; font-variant-caps: all-small-caps; letter-spacing: 0.1em;
+    font: inherit; font-size: 1.25rem; font-weight: 600; font-variant-caps: all-small-caps; letter-spacing: 0.1em;
     background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 0;
     padding: 0.7rem 1.75rem; min-height: 2.75rem;
   }
@@ -267,7 +273,7 @@
     <section aria-labelledby="toc-title">
       <div class="section-head">
         <hr class="double-rule">
-        <h2 id="toc-title"><span class="orn" aria-hidden="true">❧</span>In this issue<span class="orn" aria-hidden="true">☙</span></h2>
+        <h2 id="toc-title"><span class="orn" aria-hidden="true">❦</span>In this issue<span class="orn" aria-hidden="true">❦</span></h2>
       </div>
       <div class="box">
         <div class="box-inner">
@@ -287,7 +293,7 @@
     <section aria-labelledby="sub-title">
       <div class="section-head">
         <hr class="double-rule">
-        <h2 id="sub-title"><span class="orn" aria-hidden="true">❧</span>Subscribe<span class="orn" aria-hidden="true">☙</span></h2>
+        <h2 id="sub-title"><span class="orn" aria-hidden="true">❦</span>Subscribe<span class="orn" aria-hidden="true">❦</span></h2>
       </div>
       <div class="measure">
         <p class="center" style="margin-bottom:1.75rem"><span class="hand" aria-hidden="true">☞</span>Four issues a year, delivered by post, in a manner we cannot fully guarantee.</p>
@@ -321,7 +327,7 @@
       <li><a href="#top">Correspondence</a></li>
       <li><a href="#top">About</a></li>
     </ul>
-    <p class="colophon small muted">Set in EB Garamond and Libre Caslon Display. A mockup of the Fleuron theme, a sister to Swiss Minimal.</p>
+    <p class="colophon small muted">Set entirely in Cormorant Garamond, ornaments included. A mockup of the Fleuron theme, a sister to Swiss Minimal.</p>
   </div>
 </footer>
 

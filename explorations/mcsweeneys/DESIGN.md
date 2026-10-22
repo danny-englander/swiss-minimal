@@ -33,7 +33,7 @@ Alternatives:
 - **Type does the work, again.** But here type is set like a book: serif, centered titles, small caps.
 - **Ornament is allowed, and rationed.** A fleuron marks a break, a hand points at one thing, a box holds one thing. Never a pattern, never a background, never two ornaments side by side.
 - **Flat, still.** No shadows, gradients, textures or rounded corners, the same as Swiss Minimal. Letterpress is suggested by the type and the rules, not by imitating ink spread or paper grain.
-- **One family, three voices.** EB Garamond at 400 in roman, italic and small caps. Display sizes use Libre Caslon Display, the one exception. No bold in running text.
+- **One typeface, nothing else.** Cormorant Garamond does everything: the masthead, titles, text, small caps, italics and the ornaments. No second family, not even for code. Three weights, each with one job (see Type). No bold in running text.
 - **Thin rule, double rule.** A 1px rule separates rows. A double rule (two 1px lines, 3px apart) opens a section and frames the masthead. There is no thick 2px slab.
 - **Centered titles, left-aligned reading.** Mastheads, page titles and section heads center. Body text, lists and forms align left, ragged right. Never justify: on a screen the browser can only fill a line by stretching the spaces between words, which a printer would never do.
 - **Color is rarer still.** One second ink, like a two-color print job: a red for rubrics (initials, a pointing hand, the primary button) and nothing else.
@@ -44,7 +44,7 @@ Alternatives:
 - Labels are small caps in sentence case ("Table of contents", "In this issue"), never all caps. Small caps read at any length, so Swiss Minimal's two-word limit goes away.
 - Buttons and links stay plain and short: "Subscribe", "Send". Being playful is the content's job, not the interface's.
 - No emoji. Exclamation marks are the writer's business.
-- The site name is set in Caslon, centered, between double rules. Still no logo.
+- The site name is set in Cormorant Light, large, centered, between double rules. Still no logo.
 
 ## Color
 
@@ -76,50 +76,43 @@ Changes from Swiss Minimal:
 
 ## Type
 
-| Style | Font | Use |
-| --- | --- | --- |
-| `masthead` | Libre Caslon Display 400 | Site name, `clamp(2.75rem, 9vw, 6rem)`, line height 1, centered |
-| `display` | Libre Caslon Display 400 | An article or page title, `clamp(2.25rem, 6vw, 4rem)`, line height 1.05, centered |
-| `subtitle` | EB Garamond italic 400 | Under a display title, 1.25rem then 1.5rem, centered |
-| `h2` | EB Garamond 500, small caps | Section head, 1.25rem, 0.08em, centered between ornaments |
-| `title` | EB Garamond 500 | A list item's name, 1.25rem |
-| `body` | EB Garamond 400 | 1.125rem / 1.55, ragged right, hyphenated, old-style figures |
-| `small` | EB Garamond 400 | Captions and meta, 0.9375rem |
-| `label` | EB Garamond 500, small caps | Bylines, running heads, field labels, 1rem, 0.06em |
-| `code` | Courier Prime 400 | Code only |
+One family: **Cormorant Garamond** v4.002 by Christian Thalmann (Catharsis Fonts), SIL OFL 1.1, falling back to Garamond, Iowan Old Style, Georgia.
 
-- **EB Garamond** (Georg Duffner and Octavio Pardo, SIL OFL 1.1, Google Fonts). A free revival of Claude Garamont's types, the face the Quarterly is set in. It has real small caps, old-style and lining figures, ligatures and a true italic, which this theme needs and most free serifs lack. Variable, 400 to 800.
-- **Libre Caslon Display** (Pablo Impallari, SIL OFL 1.1, Google Fonts). A Caslon cut for large sizes, with the high contrast that Garamond lacks above 2rem. It gives the masthead the Victorian title-page feel. Used at 2rem and up only; it is too fine for text.
-- **Courier Prime** (Alan Dague-Greene, SIL OFL 1.1, Google Fonts). A typewriter face, closer to a manuscript than Source Code Pro. Code only.
-- Considered and set aside: **IM Fell** (lovely, but its scanned roughness reads as costume at body size), **Cormorant** (too thin for screen text), **Libre Caslon Text** (fine as an alternative to Garamond if the owner prefers one family; it lacks small caps).
-- **15px is the floor** for Garamond, which runs small on its body. 1.125rem for reading text.
+| Style | Weight | Use |
+| --- | --- | --- |
+| `masthead` | Light 300 | Site name, `clamp(3rem, 10vw, 6.75rem)`, line height 0.95, centered |
+| `display` | Light 300 | An article or page title, `clamp(2.5rem, 6.5vw, 4.5rem)`, line height 1, centered |
+| `subtitle` | Medium 500 italic | Under a display title, 1.25rem then 1.5rem, centered |
+| `h2` | SemiBold 600, small caps | Section head, 1.375rem, 0.1em, centered between ornaments |
+| `title` | SemiBold 600 | A list item's name |
+| `body` | Medium 500 | 1.25rem / 1.5, ragged right, hyphenated, old-style figures |
+| `small` | Medium 500 | Captions and meta, 1.0625rem |
+| `label` | SemiBold 600, small caps | Bylines, running heads, field labels, buttons, 1.125rem, 0.06em |
+| `code` | the system's monospace | Code only; nothing to download |
+
+- **Why Cormorant.** It is a free Garamond, close to the face the Quarterly is set in, with what this theme needs and most free serifs lack: real small caps, old-style and lining figures, ligatures (its "Th" is lovely), a true italic, and the ornaments themselves, drawn to match the type in every weight. One family is also closer to Swiss Minimal's "one typeface" rule.
+- **Three weights, one job each.** Light only at display sizes, 2.5rem and up, where its fine strokes look like a Caslon title page; it is too thin for text. Medium for reading, because Cormorant's Regular is too light on a screen. SemiBold for small caps and names, the way Swiss Minimal uses its 500 for labels. Medium italic for subtitles and emphasis. Never Regular or Bold.
+- **Self-hosted, from the designer's release** on GitHub ([CatharsisFonts/Cormorant](https://github.com/CatharsisFonts/Cormorant/releases/latest)), not Google Fonts: Google's version leaves the ornaments out. The four woff2 files and `Cormorant-OFL.txt` sit in `fonts/`; keep the license beside them.
+- **Size.** Each weight is about 200 KB, because the release files carry every glyph. A real kit subsets them to Latin, the figures and the ornaments, which should bring each well under 100 KB.
+- **Cormorant runs small.** Its x-height is low, so everything is set a size up from a usual serif: 1.25rem for reading text, and **17px is the floor**, not Swiss Minimal's 14px.
+- Considered and set aside: **EB Garamond** with **Libre Caslon Display** for titles (the first mockup: sturdier text, but two families, and Google's EB Garamond lacks the ornaments), **IM Fell** (its scanned roughness reads as costume at body size), **Libre Caslon Text** (no small caps), **Cinzel Decorative** (capitals only, no ornaments).
 - Small caps are real small caps (`font-variant-caps: all-small-caps` or `small-caps`), never shrunk capitals.
 - Body uses old-style figures; tables and anything in a column use lining tabular figures (`.num`).
 - `hyphens: auto` with `lang` set, and `text-wrap: pretty`, so the ragged edge stays even and no line ends on a lone word.
 
 ## Ornaments
 
-The only decoration, and drawn from the font, never an image or icon set.
+The only decoration, and drawn from the font, never an image or icon set. Cormorant has every one of these, in every weight.
 
-- **Fleuron** (❦, ❧): one, centered, to separate parts of a page; and either side of a section head.
+- **Fleuron** (❦, the hedera or ivy leaf): one, centered, to separate parts of a page; and either side of a section head. Its stylistic set 3 has a second design. Cormorant has no ❧ or ☙, so don't use them; they would fall back to another font.
 - **Asterism** (⁂): a scene break in running text.
-- **Pointing hand** (☞): points at one thing per screen, in the accent. It may replace the Swiss "Site ↗" arrow before a link that matters.
+- **Pointing hand** (☞, and ☜ facing left): points at one thing per screen, in the accent. It may replace the Swiss "Site ↗" arrow before a link that matters.
 - **Section, pilcrow, dagger** (§ ¶ † ‡): their usual jobs, numbering and footnotes.
 - **Double rule**: masthead, section starts, the edge of a boxed panel.
-- **Drop cap**: the first letter of an article, three lines deep, in Caslon and the accent. One per page.
+- **Drop cap**: the first letter of an article, three lines deep, in Cormorant Light and the accent. One per page.
 - **Box**: a 1px `ink` frame with an inner 1px rule 3px inside it, around a table of contents or a notice. One per screen.
 
 Ornaments are `aria-hidden="true"`. They never carry meaning a screen reader needs.
-
-Open question: the Google Fonts cut of EB Garamond does not reliably carry ❦ ❧ ☙ ☞, so in the mockup they come from the system's fallback font and look a little different on each machine. A real kit would either self-host a full EB Garamond with its ornaments, or draw five or six ornaments as inline SVG in `currentColor`, the way Swiss Minimal allows one hand-drawn mark.
-
-## Alternative: all in Cormorant Garamond
-
-[`cormorant.html`](cormorant.html) is the same mockup set in one family, **Cormorant Garamond** v4.002 (Christian Thalmann, SIL OFL 1.1), self-hosted from the designer's own release on GitHub rather than Google Fonts, whose version leaves the ornaments out. The files and license are in `fonts/`.
-
-- **Ornaments from the font.** It has ❦ (and a second design of it as stylistic set 3), ☞ and ☜, ⁂, † ‡ § ¶, drawn in every weight. It lacks ❧ and ☙, so section heads use ❦ on both sides.
-- **One family for everything.** Light (300) for the masthead, titles and drop cap; Medium (500) for text, a size up at 1.25rem because Cormorant runs small; Medium italic for subtitles; SemiBold (600) small caps for labels and list titles. No Caslon.
-- **Costs.** Each weight is about 200 KB, since the release fonts carry every glyph. A real kit would subset them to Latin plus the ornaments. Cormorant is more delicate and calligraphic than EB Garamond, with a smaller x-height; it reads well at Medium on a good screen, less so on a cheap one.
 
 ## Layout
 
@@ -153,8 +146,8 @@ How each Swiss Minimal component would change. Most keep their markup and behavi
 | Hover label | `plate` with an `ink` hairline, italic. |
 | Button | The one filled button: `accent` fill, `accent-ink` small caps. |
 | Secondary button | As the outlined button, sentence case. |
-| Panel | `plate`, a double rule along its bottom edge. The menu is centered Caslon. |
-| Menu | Centered lines with a ❧ before the current item instead of an underline. Accordion plus/minus kept. |
+| Panel | `plate`, a double rule along its bottom edge. The menu is centered, in Cormorant Light at display size. |
+| Menu | Centered lines with a ☞ before the current item instead of an underline. Accordion plus/minus kept. |
 | Panel tabs | Roman numerals (I, II, III) in small caps, the chosen one underlined in `accent`. |
 | "New" dot | Kept, round, `accent`. |
 | Field | Kept: underline only, but 1px. Label in small caps. Required mark becomes a dagger (†) in the accent. |
@@ -163,7 +156,7 @@ How each Swiss Minimal component would change. Most keep their markup and behavi
 | Filter buttons | Small caps text with a 1px frame; pressed fills `ink`. |
 | Favorite star | Becomes a fleuron (❦) or stays a star; owner's call. |
 | Page accordion | A ☞ before the summary that turns when open, instead of plus/minus. |
-| List row | Title in Garamond 500, meta in italic `muted`, a dotted leader to a page number at the right (like a contents page). Hover fills `plate`. |
+| List row | Title in SemiBold, meta in italic `muted`, a dotted leader to a page number at the right (like a contents page). Hover fills `plate`. |
 | Bottom bar | `plate` with a double rule on top. |
 | Jump to current | Kept, small caps label. |
 | Scrolling title | **Dropped.** Long titles wrap. |
@@ -174,12 +167,12 @@ How each Swiss Minimal component would change. Most keep their markup and behavi
 | Closing note | A centered fleuron over one italic line, in place of the 2px rule. |
 | Dated list | Dates in small caps with old-style figures, a hanging column. |
 | Summary list | Small caps label, dotted leader to the value. |
-| Output panel, Code block | Courier Prime; the dark log becomes `plate`. |
-| Ellipse, Number circle | Kept; the number circle uses old-style figures, Garamond. |
+| Output panel, Code block | The system's monospace; the dark log becomes `plate`. |
+| Ellipse, Number circle | Kept; the number circle uses Cormorant's old-style figures. |
 | Activity indicators | Kept, `accent`. |
 | Image | As above: plain, with an optional boxed "plate" and centered italic caption. |
-| Hero | Becomes the **Masthead**: double rule, kicker in small caps, Caslon name, italic tagline, double rule. |
-| Page title | Becomes the **Article opening**: kicker, Caslon title, italic subtitle, byline in small caps, a fleuron. |
+| Hero | Becomes the **Masthead**: double rule, kicker in small caps, the name in Light, italic tagline, double rule. |
+| Page title | Becomes the **Article opening**: kicker, title in Light, italic subtitle, byline in small caps, a fleuron. |
 | Footer | Centered: a fleuron, the site name in small caps, links in a line separated by middots, a colophon line saying what it is set in. |
 
 New pieces this theme needs: **Drop cap** (`.drop-cap`), **Ornament break** (`.ornament`), **Box** (`.box`), **Pull quote** (`.pull-quote`, italic between rules, centered), **Contents list** (`.contents`, numbered rows with dotted leaders), **Footnote** (`.footnote`, daggers and a small rule).
@@ -189,12 +182,17 @@ New pieces this theme needs: **Drop cap** (`.drop-cap`), **Ornament break** (`.o
 - Add textures, paper grain, ink spread, sepia, or any image as decoration.
 - Use bold in running text. Emphasis is italic; labels are small caps.
 - Set long text in all caps, or fake small caps by shrinking capitals.
-- Use Caslon Display under 2rem, or a third family for anything but code.
+- Use a second family, load a font for code, or use Cormorant's Regular or Bold. Light only at 2.5rem and up.
+- Use an ornament the font doesn't have (❧, ☙), or text under 17px.
 - Put two ornaments side by side, or use one as a pattern or a background.
 - Use more than one accent, or the accent for anything but initials, the hand, the primary button and the focus ring.
 - Justify text, or stretch word spaces to fill a line.
 - Add shadows, gradients or rounded corners. Square still.
 - Hide focus rings, or let ornaments reach a screen reader.
+
+## License
+
+Cormorant Garamond by Christian Thalmann (Catharsis Fonts), SIL Open Font License 1.1: https://github.com/CatharsisFonts/Cormorant. Free on any site as long as `fonts/Cormorant-OFL.txt` stays with it.
 
 ## How it could live in the repo later
 
