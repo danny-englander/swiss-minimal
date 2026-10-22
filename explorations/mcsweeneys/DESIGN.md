@@ -195,7 +195,7 @@ New pieces this theme needs: **Drop cap** (`.drop-cap`), **Ornament break** (`.o
 
 Cormorant Garamond by Christian Thalmann (Catharsis Fonts), SIL Open Font License 1.1: https://github.com/CatharsisFonts/Cormorant. Free on any site as long as `fonts/Cormorant-OFL.txt` stays with it.
 
-Courier Prime by Alan Dague-Greene (Quote-Unquote Apps), SIL Open Font License 1.1: https://github.com/quoteunquoteapps/CourierPrime. The mockup loads it from Google Fonts; the kit would self-host it with its license file beside it, like Cormorant.
+Courier Prime by Alan Dague-Greene (Quote-Unquote Apps), SIL Open Font License 1.1: https://github.com/quoteunquoteapps/CourierPrime. Self-hosted in `fonts/` (Regular and Bold, about 11 KB each) with `CourierPrime-OFL.txt` beside them. The official repository has only TTF files, so the woff2 files are Google Fonts' builds of the same font, Latin only: plenty for code. If a page ever needs accented letters in code, add Google's extended-Latin files or convert the official TTFs.
 
 ## How it could live in the repo later
 
