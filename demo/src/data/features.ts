@@ -8,6 +8,17 @@ import type { Feature } from '../design/kit/astro/types';
 export const features: Feature[] = [
   {
     date: '2026-10-23',
+    title: 'Larger body text',
+    body: 'Body text is larger and more open: 20px with a line height of 1.8, 18px on phones. Intro lines grew a step to stay above it.',
+    details: [
+      'Body text is 1.25rem (Tailwind `text-xl`) from 768px and 1.125rem (`text-lg`) below, with a line height of 1.8.',
+      '`.lead` is 1.5rem from 768px and 1.375rem below, so it stays a step above body text.',
+      'The top bar, the panel, the drawer and the toast keep 1rem with a line height of 1.5: they are interface, not reading text.',
+      'Sites on the kit: copy the new `theme.css` in. Text that inherits the body size grows with it; anything with its own size keeps it.',
+    ],
+  },
+  {
+    date: '2026-10-23',
     title: 'Code colors',
     body: 'Code blocks are highlighted in three colors: magenta keywords, teal strings and orange numbers and names, with comments in grey. See the code in Setting a grid before the words, on the Blog.',
     details: [
