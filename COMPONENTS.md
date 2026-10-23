@@ -582,11 +582,29 @@ A block of code, commands or program output in Source Code Pro: square, with a t
 **Markup.** `<pre tabindex="0"><code>…</code></pre>`. For output, add `pre--bar`: `<pre class="pre--bar" tabindex="0">`. Inside either, wrap a command line in `<span class="pre-cmd">` and an error line in `<span class="pre-err">`.
 
 - **Plain** is a 1px `rule` border and `space-4` padding, no tint behind it. **`.pre--bar`** is `bar` with `bar-ink` text in both themes, like the panel, the drawer and the toast, so output reads as a separate surface from the page.
-- **Lines.** `.pre-cmd` is bold (700, one of the kit's two weights). `.pre-err` is the accent: `accent-text` on the paper, `accent-bright` on `.pre--bar`. Don't color anything else.
+- **Lines.** `.pre-cmd` is bold (700, one of the kit's two weights). `.pre-err` is the accent: `accent-text` on the paper, `accent-bright` on `.pre--bar`. Output isn't syntax-colored.
+- **Syntax colors** are for source code only, the kit's second code exception (see Color in `DESIGN.md`):
+
+  | Token | Color | For |
+  | --- | --- | --- |
+  | `code-keyword` | magenta | keywords: `import`, `const`, `if`, `return` |
+  | `code-string` | teal | strings, template literals, HTML tags |
+  | `code-constant` | orange | numbers, constants, properties, function and attribute names |
+  | `code-comment` | `muted` | comments |
+
+  Punctuation, parameters and everything else stay in the text color. On `.pre--bar` the `-bright` versions take over by themselves.
+- **With Shiki** (built into Astro), use its css-variables theme, and the kit maps Shiki's `--astro-code-*` variables to the tokens, its background included, so Shiki sets no color of its own:
+
+  ```js
+  // astro.config.mjs
+  export default defineConfig({ markdown: { shikiConfig: { theme: 'css-variables' } } });
+  ```
+
+  Outside Astro, Shiki's `createCssVariablesTheme({ variablePrefix: '--astro-code-' })` does the same. **By hand**, wrap tokens in `.tok-keyword`, `.tok-string`, `.tok-constant` and `.tok-comment`.
 - **Scrolling.** Long lines scroll sideways rather than wrapping. Give the block `tabindex="0"` so the keyboard can scroll it. A block that grows, like live output, takes its own `max-height` from the site and scrolls down too.
 - Inline code, keys and sample output are plain `<code>`, `<kbd>` and `<samp>`; see Type in `DESIGN.md`.
 
-**Don't.** Add syntax colors, line numbers drawn as decoration, a rounded box or a tint behind code on the paper.
+**Don't.** Add a fourth syntax color, use a highlighter's own theme (it brings its own colors and background), add line numbers drawn as decoration, a rounded box or a tint behind code on the paper.
 
 ## Ellipse
 
@@ -698,3 +716,119 @@ A title banner in place of a hero, for pages that need a name but not an introdu
 - **In Astro,** `kit/astro/PageTitle.astro`: `<PageTitle title="All work" />`, or `tone="bar"` for the dark block. Put rich text in the default slot instead of `title`.
 
 **Do.** Keep it to a few words. **Don't.** Add a lead line or an image to it; that is a `Hero`.
+
+## PostList
+
+A blog's index, newest first: each post's date beside its linked title, with a summary and a quiet meta line under it.
+
+**Markup.**
+
+```html
+<ol class="post-list">
+  <li>
+    <time datetime="2026-10-20">Oct 20, 2026</time>
+    <div>
+      <h2 class="post-list-title"><a href="/blog/one-typeface/">Why one typeface is enough</a></h2>
+      <p class="post-list-summary">A site set in a single grotesque…</p>
+      <p class="post-list-meta">Type · 2 min read</p>
+    </div>
+  </li>
+</ol>
+```
+
+In Astro, `<PostList posts={posts} />`, each a `Post` (`title`, `href`, `date`, optional `summary` and `meta`; the type is in `kit/astro/types.ts`). `level="h3"` when the list sits under a section's `h2`.
+
+- A 2px `ink` rule on top, 1px `rule` between posts, like the dated list.
+- Date over the post on phones; a 10rem date column beside it from 640px. The date is 14px, 500, `muted`, tabular: the title is what stands out, not the date.
+- The title is 1.5rem, 2rem from 768px, bold; it underlines (2px) on hover. Only the title is a link.
+- **Format dates in UTC**, as for the dated list.
+- Meta is a short line: topics and reading time, joined with " · ".
+
+**Don't.** Add thumbnails beside every post or an accent on the dates. A list of things to choose and keep current is a `ListRow`, not this.
+
+## PostFeature
+
+One post at the top of a blog's index, set like a split `Hero`: the text and a square image 50/50 from 768px, text first on phones. The `PostList` of the other posts follows it.
+
+**Markup.**
+
+```html
+<article class="post-feature">
+  <div>
+    <p class="post-feature-label">Featured</p>
+    <h2 class="post-feature-title"><a href="/blog/one-typeface/">Why one typeface is enough</a></h2>
+    <p class="lead post-feature-summary">A site set in a single grotesque…</p>
+    <p class="post-feature-meta"><time datetime="2026-10-20">Oct 20, 2026</time> · Type · 2 min read</p>
+    <a class="btn" href="/blog/one-typeface/" aria-label="Read post: Why one typeface is enough">Read post</a>
+  </div>
+  <img class="media media--1x1" src="…" alt="…" width="2000" height="2000" fetchpriority="high">
+</article>
+```
+
+In Astro, `<PostFeature post={post} image={art} alt="What it shows" />`, with the same `Post` as `PostList` and an imported image. `label` (default "Featured") and `action` (default "Read post") change the two short labels; `level="h1"` when nothing else on the page is the `h1`.
+
+- It takes a hero's place and space: `space-12` above, more from 768px. A page with a `PostFeature` has no `Hero` or `PageTitle`; give it an `h1` (visually hidden is fine) naming the page.
+- The label is small, bold and `accent-text`; the title is bold and tight at `clamp(2.5rem, 5.5vw, 5rem)`, and underlines (3px) on hover.
+- The filled button is the page's one primary action. Its name adds the post's title, so it says where it goes.
+- The image is cropped square (`.media--1x1`) and loads eagerly, like a hero's. A square or portrait original crops best.
+- Only one per page. Don't repeat the featured post in the list below it.
+
+## PostHeader
+
+The top of a blog post, in place of a `Hero` or `PageTitle`: a small label back to the index, the title, an optional lead, and a byline.
+
+**Markup.**
+
+```html
+<header class="post-header">
+  <a class="post-header-label" href="/blog/">Blog</a>
+  <h1 class="post-header-title">Why one typeface is enough</h1>
+  <p class="lead post-header-lead">A site set in a single grotesque…</p>
+  <dl class="post-meta">
+    <div><dt>Published</dt><dd><time datetime="2026-10-20">October 20, 2026</time></dd></div>
+    <div><dt>By</dt><dd>Danny Englander</dd></div>
+  </dl>
+</header>
+```
+
+In Astro, `<PostHeader title="…" lead="…" back={{ label: 'Blog', href: '/blog/' }} date="2026-10-20" author="…" minutes={4} tags={['Type']} />`. It writes Published, By, Reading and Topics, leaving out any you don't pass.
+
+- The label is the `label` style in `ink`, `accent-text` and underlined on hover. One or two words.
+- The title is bold and tight at `clamp(2.5rem, 6vw, 5rem)`, between `page-title` and `h2`, since post titles run longer. It stops at 18em wide, so a long title breaks into lines of a few words, and it wraps a long word.
+- The byline is a row of small `muted` uppercase labels over their values, under a 2px `ink` rule; it wraps on phones.
+- A cover image, if any, goes after the header: full width, 16:9 (`.media .media--16x9`), never behind the title.
+
+## PostBody
+
+Long-form text from Markdown: `.post-body` styles the plain elements inside it, so the Markdown needs no classes.
+
+**Markup.** `<div class="post-body"><Content /></div>`, after the `PostHeader`.
+
+- A 42rem measure by default (`max-w-*` on the same element changes it). Paragraphs and blocks are 1.25rem apart.
+- `h2` opens with the 2px `ink` rule, like every section, at 1.75rem, 2.25rem from 768px; `h3` is the `title` size. Don't skip from the post's `h1` to an `h3`.
+- Links underline and turn `accent-text` on hover, like `.link`.
+- Lists have square markers (`ul`) or tabular numbers (`ol`), in `muted`.
+- A quote is large and bold beside a 6px `accent` edge, the same edge as the active row. Keep quotes short; one or two per post.
+- `hr` is a 2px `ink` rule. Images fill the measure, square, on `rule` until they load. A table has small uppercase headings over a 2px rule and 1px rules between rows.
+- Code uses the kit's own `pre` and `code` styles.
+
+**Don't.** Set a whole paragraph in a quote to make it stand out, or add colored callout boxes.
+
+## PostNav
+
+The previous and next posts, at the end of a post.
+
+**Markup.**
+
+```html
+<nav class="post-nav" aria-label="More posts">
+  <a href="/blog/older/" rel="prev"><span class="post-nav-label"><span aria-hidden="true">← </span>Previous</span><span class="post-nav-title">Older post</span></a>
+  <a class="post-nav-next" href="/blog/newer/" rel="next"><span class="post-nav-label">Next<span aria-hidden="true"> →</span></span><span class="post-nav-title">Newer post</span></a>
+</nav>
+```
+
+In Astro, `<PostNav prev={{ title, href }} next={{ title, href }} />` (`PostLink` in `kit/astro/types.ts`). Previous is the older post, Next the newer one; leave either off at the ends, and it draws nothing when both are off.
+
+- A 2px `ink` rule, then a small `muted` label over each post's title, which underlines on hover.
+- Stacked on phones with a 1px `rule` between; two columns from 640px, Next always on the right.
+- The arrows are the font's own glyphs, hidden from screen readers.
