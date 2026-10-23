@@ -773,6 +773,35 @@ In Astro, `<PostFeature post={post} image={art} alt="What it shows" />`, with th
 - The image is cropped square (`.media--1x1`) and loads eagerly, like a hero's. A square or portrait original crops best.
 - Only one per page. Don't repeat the featured post in the list below it.
 
+## Pager
+
+Numbered pages of a long list, such as a blog's index: the step back, the page numbers and the step on, under a 2px rule.
+
+**Markup.**
+
+```html
+<nav class="pager" aria-label="Blog pages">
+  <span></span>
+  <ol class="pager-pages">
+    <li><a href="/blog/" aria-current="page" aria-label="Page 1 of 2">1</a></li>
+    <li><a href="/blog/page/2/" aria-label="Page 2 of 2">2</a></li>
+  </ol>
+  <a class="pager-step pager-next" href="/blog/page/2/" rel="next">Older<span aria-hidden="true"> →</span></a>
+</nav>
+```
+
+On the first page an empty `<span>` holds the back step's place; on the last, leave the next step out.
+
+In Astro, `<Pager current={2} total={4} url={(n) => (n === 1 ? '/blog/' : `/blog/page/${n}/`)} label="Blog pages" prev="Newer" next="Older" />`. It draws nothing when `total` is 1. With many pages it shows the first, the last and the two beside the current one, with an ellipsis for each gap: 1 … 4 5 6 … 12.
+
+- The numbers are outlined squares, 2.75rem at least, like filter buttons: filled `ink` on hover and for the page you are on (`aria-current="page"`). Tabular numerals.
+- The steps are small labels (14px, 500, uppercase) with the font's arrows, hidden from screen readers, and turn `accent-text` on hover. One word each: Previous and Next by default; Newer and Older on a list that runs newest first.
+- From 640px, one row: the back step, the numbers in the middle, the next step on the right. On phones the steps share the first line and the numbers wrap under them.
+- Each number is named "Page 2 of 4", and the `nav` names what is paged ("Blog pages").
+- **Keep what opens the list on every page.** A `PostFeature` or a `PageTitle` stays at the top of page 2 and on; only the rows change. Say which page it is in the page's title ("Blog · Page 2").
+
+**Don't.** Use it for fewer than two pages, renumber the rows from 1 on each page, or swap it for "Load more" or endless scrolling.
+
 ## PostHeader
 
 The top of a blog post, in place of a `Hero` or `PageTitle`: a small label back to the index, the title, an optional lead, and a byline.
