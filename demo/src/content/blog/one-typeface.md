@@ -18,7 +18,7 @@ Very little, it turns out. A second family is usually there to mark a difference
 
 - **Headings** are large and bold, set tight.
 - **Labels** are small, medium weight and uppercase, and never more than two words.
-- **Body copy** is regular, at 16px, with room between the lines.
+- **Body copy** is regular, at 20px, with room between the lines.
 
 The only exception is code, which needs fixed-width characters to line up. That is a functional need, not a stylistic one.
 

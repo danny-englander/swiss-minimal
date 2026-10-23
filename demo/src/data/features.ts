@@ -45,7 +45,7 @@ export const features: Feature[] = [
     body: 'A blog index that opens with a featured post beside a square image, then lists the rest by date. Posts get a byline under a thick rule, long-form text with quotes, lists and tables, and links to the previous and next posts. See Blog in the menu.',
     details: [
       'Five new kit pieces: `PostFeature` (`.post-feature`) for one post at the top of the index, set 50/50 beside a square image like a split hero, `PostList` (`.post-list`) for the rest, `PostHeader` (`.post-header`, `.post-meta`) for the top of a post, `.post-body` for Markdown text and `PostNav` (`.post-nav`) for the previous and next posts.',
-      '`.post-body` styles plain elements, so Markdown needs no classes: h2 opens with the 2px rule, quotes are large and bold beside a 6px accent edge, lists use square markers.',
+      '`.post-body` styles plain elements, so Markdown needs no classes: h2 is set apart by size and space alone, quotes are large and bold beside a 6px accent edge, lists use square markers.',
       'The demo keeps its posts in an Astro content collection, `src/content/blog/`, one Markdown file per post.',
       'Sites on the kit: copy the new `theme.css`, `types.ts` and the four `Post*.astro` files in. Nothing existing changes.',
     ],
