@@ -6,7 +6,7 @@ Markup and rules for each component. All classes live in `kit/theme.css`, which 
 
 A sticky bar on `paper` that holds the site name, the menu button and the theme toggle, and ends in a 2px `ink` rule.
 
-**Markup.** `<div class="topbar"><div class="page">` then a flex row with `border-bottom: 2px solid currentColor; padding: 0.75rem 0`. Left: the site name at body size (1rem, 16px) and weight 500. Right: a `.burger` and a `.topbar-btn--text` theme toggle, `space-2` apart.
+**Markup.** `<div class="topbar"><div class="page">` then a flex row with `border-bottom: 2px solid currentColor; padding: 0.75rem 0`. Left: the site name at 1rem (16px) and weight 500. The bar sets `font-size: 1rem; line-height: 1.5` itself, so it stays that size when body text is larger. Right: a `.burger` and a `.topbar-btn--text` theme toggle, `space-2` apart.
 
 **Behavior.** It is `position: sticky; top: 0; z-index: 50`. While the slide-down panel is open (`<html data-menu="open">`) it flips to `bar` / `bar-ink` so bar and panel read as one black block, and it stays above the panel (z-index 50 over 30) so the burger-turned-X stays reachable.
 

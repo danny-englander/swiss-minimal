@@ -61,8 +61,8 @@ One family, `--font-sans` (Overused Grotesk, falling back to Helvetica Neue, Hel
 | `display` | Hero title, `clamp(4rem, 13vw, 10.5rem)`, 700, line height 0.88, -0.02em |
 | `h2` | Section title, 2.25rem then 3rem from 768px, 700, -0.025em |
 | `title` | A list item's name, 1.25rem then 1.5rem, 700, +0.01em |
-| `lead` | Intro paragraph, 1.125rem then 1.25rem |
-| `body` | Body copy, 1rem / 1.5 |
+| `lead` | Intro paragraph, 1.375rem then 1.5rem from 768px, a step above body |
+| `body` | Body copy, 1.125rem (`text-lg`) then 1.25rem (`text-xl`) from 768px, line height 1.8. The top bar, panel, drawer and toast stay at 1rem / 1.5 |
 | `small` | Meta, sublines, counts, 0.875rem |
 | `label` | 1 to 2 words, uppercase, 500, 0.08em |
 | `code` | Code, file names, commands, keys: `--font-mono` at 0.9375em of the text around it, never under 0.875rem |
