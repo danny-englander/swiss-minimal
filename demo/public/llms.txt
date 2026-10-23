@@ -18,7 +18,7 @@ Agents: start with AGENTS.md. It covers the three tasks people bring, which are 
 
 - [kit/tailwind.css](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/kit/tailwind.css): The entry point for a Tailwind v4 site. Imports Tailwind, loads theme.css and maps the tokens to utilities.
 - [kit/theme.css](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/kit/theme.css): Every token, the base styles and every component class, in plain CSS.
-- [kit/astro/](https://github.com/danny-englander/swiss-minimal/tree/main/kit/astro): Astro components: BaseLayout, Hero, PageTitle, Ellipse, the menu, drawer and theme toggle, and their types.
+- [kit/astro/](https://github.com/danny-englander/swiss-minimal/tree/main/kit/astro): Astro components: BaseLayout, Hero, PageTitle, Ellipse, the menu, drawer and theme toggle, the blog's PostFeature, PostList, Pager, PostHeader and PostNav, and their types.
 - [kit/example.html](https://raw.githubusercontent.com/danny-englander/swiss-minimal/main/kit/example.html): A one-page demo using only theme.css.
 
 ## Demo
@@ -26,6 +26,7 @@ Agents: start with AGENTS.md. It covers the three tasks people bring, which are 
 - [Components](https://www.swissminimal.ch/components/): Every component in the kit on one page.
 - [Agents](https://www.swissminimal.ch/agents/): How to build or restyle a site with the kit using an AI coding agent.
 - [Forms](https://www.swissminimal.ch/forms/): Fields, a select, radios, switches, date fields and a file picker in working forms, with an export task that streams live output.
+- [Blog](https://www.swissminimal.ch/blog/): A featured post beside its image, the rest by date and numbered pages; each post has a byline, Markdown body text, highlighted code and links to the posts before and after.
 
 ## Optional
 

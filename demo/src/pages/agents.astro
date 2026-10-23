@@ -8,8 +8,10 @@ const requests = [
   { ask: 'Let visitors save the ones they like', gets: 'A favorite star on each row, and a Favorites filter' },
   { ask: 'A contact form', gets: 'Underlined fields, a select, a switch and one filled Send button' },
   { ask: 'A home page with our artwork', gets: 'A hero, with the image beside the title or under it, by its shape' },
+  { ask: 'A blog, with one post featured at the top', gets: 'A featured post beside its image, the rest by date, and numbered pages' },
   { ask: 'A list of what changed and when', gets: 'A dated list, newest first' },
   { ask: 'Show our install steps', gets: 'A code block, with commands in bold' },
+  { ask: 'Code samples in our posts', gets: 'Code in three colors, set up once for every Markdown post' },
 ];
 
 const repo = 'https://github.com/danny-englander/swiss-minimal';
@@ -26,7 +28,10 @@ the kit's rules and component guide:
 - ${doc('COMPONENTS.md')}
 
 - Build pages on BaseLayout, and open each with a Hero or a PageTitle.
+  A blog index opens with a PostFeature, a post with a PostHeader.
 - Page layout is Tailwind utilities; components are kit classes.
+- Markdown code uses Shiki's css-variables theme, so it takes
+  the kit's code colors.
 - Colors only through the token utilities (text-muted, bg-bar,
   text-accent-text), never Tailwind's palette.
 - Check each change against the "Do not" list in DESIGN.md.
