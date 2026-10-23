@@ -8,6 +8,17 @@ import type { Feature } from '../design/kit/astro/types';
 export const features: Feature[] = [
   {
     date: '2026-10-23',
+    title: 'Blog pages',
+    body: 'The blog lists five posts a page, with numbered pages and Newer and Older links at the foot. The featured post stays at the top of every page.',
+    details: [
+      'A new kit piece, `Pager` (`.pager`): outlined page numbers, filled for the page you are on, between a step back and a step on. Long runs collapse to 1 … 4 5 6 … 12.',
+      'The first page is `/blog/`; the next are `/blog/page/2/` and on, each titled with its number.',
+      'Five more sample posts, so the demo has a second page.',
+      'Sites on the kit: copy the new `theme.css` and `Pager.astro` in. Nothing existing changes.',
+    ],
+  },
+  {
+    date: '2026-10-23',
     title: 'Larger body text',
     body: 'Body text is larger and more open: 20px with a line height of 1.8, 18px on phones. Intro lines grew a step to stay above it.',
     details: [

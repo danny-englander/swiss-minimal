@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
 
-// The blog: PostList on the index, PostHeader, the post body and PostNav on each post.
+// The blog: PostFeature, PostList and the Pager on the index; PostHeader, the post body and
+// PostNav on each post.
 
-test('the index opens with the featured post, then lists the rest newest first', async ({ page }) => {
-  await page.goto('/blog');
+/** The featured post, which opens every page of the index. */
+async function expectFeature(page: import('@playwright/test').Page) {
   const feature = page.locator('.post-feature');
   await expect(feature.getByRole('heading', { level: 2 })).toHaveText('Why one typeface is enough');
   await expect(feature.getByRole('link', { name: 'Read post: Why one typeface is enough' })).toHaveAttribute(
@@ -11,11 +12,49 @@ test('the index opens with the featured post, then lists the rest newest first',
     '/blog/one-typeface/',
   );
   await expect(feature.locator('img')).toHaveAttribute('alt', /red circle/);
+}
 
+test('the index opens with the featured post, then lists five of the rest newest first', async ({ page }) => {
+  await page.goto('/blog');
+  await expectFeature(page);
   const titles = page.locator('.post-list-title a');
-  await expect(titles).toHaveText(['Setting a grid before the words', 'Notes on vermilion and verdigris']);
+  await expect(titles).toHaveText([
+    'Setting a grid before the words',
+    'Notes on vermilion and verdigris',
+    'Thick rule, thin rule',
+    'Labels in two words or fewer',
+    'Why the bars stay dark',
+  ]);
   await expect(titles.first()).toHaveAttribute('href', '/blog/grid-before-words/');
   await expect(page.locator('.post-list time').first()).toHaveAttribute('datetime', '2026-09-30');
+});
+
+test('the pager leads to page 2, which keeps the feature and lists the older posts', async ({ page }) => {
+  await page.goto('/blog');
+  const pager = page.getByRole('navigation', { name: 'Blog pages' });
+  await expect(pager.getByRole('link', { name: 'Page 1 of 2' })).toHaveAttribute('aria-current', 'page');
+  await expect(pager.locator('[rel="prev"]')).toHaveCount(0);
+  await pager.getByRole('link', { name: 'Older' }).click();
+
+  await expect(page).toHaveURL(/\/blog\/page\/2\/$/);
+  await expect(page).toHaveTitle('Blog · Page 2 · Swiss Minimal');
+  await expectFeature(page);
+  await expect(page.locator('.post-list-title a')).toHaveText(['Images are content, not filler', 'Motion that stops']);
+  await expect(pager.getByRole('link', { name: 'Page 2 of 2' })).toHaveAttribute('aria-current', 'page');
+  await expect(pager.locator('[rel="next"]')).toHaveCount(0);
+  await expect(pager.getByRole('link', { name: 'Newer' })).toHaveAttribute('href', '/blog/');
+});
+
+test('the pager sits under the list on phones, with the numbers under the steps', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/blog/page/2/');
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+  expect(overflow).toBe(false);
+  const [step, numbers] = await Promise.all([
+    page.locator('.pager-step').first().boundingBox(),
+    page.locator('.pager-pages').boundingBox(),
+  ]);
+  expect(numbers!.y).toBeGreaterThan(step!.y);
 });
 
 test('the feature stacks on a phone and splits 50/50 from 768px', async ({ page }) => {
@@ -46,8 +85,8 @@ test('the newest post links only back, the oldest only forward', async ({ page }
   await expect(nav.locator('[rel="prev"]')).toHaveAttribute('href', '/blog/grid-before-words/');
   await expect(nav.locator('[rel="next"]')).toHaveCount(0);
 
-  await page.goto('/blog/two-pigments');
-  await expect(nav.locator('[rel="next"]')).toHaveAttribute('href', '/blog/grid-before-words/');
+  await page.goto('/blog/motion-that-stops');
+  await expect(nav.locator('[rel="next"]')).toHaveAttribute('href', '/blog/images-are-content/');
   await expect(nav.locator('[rel="prev"]')).toHaveCount(0);
 });
 

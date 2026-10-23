@@ -1,0 +1,29 @@
+---
+// One page of the blog's index: the featured post on every page, then five of the rest and the
+// pager. /blog/ is page 1; /blog/page/2/ and on come from pages/blog/page/[page].astro.
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PostFeature from '../design/kit/astro/PostFeature.astro';
+import PostList from '../design/kit/astro/PostList.astro';
+import Pager from '../design/kit/astro/Pager.astro';
+import { getIndex, pageUrl, toPost, PER_PAGE } from '../data/blog';
+
+interface Props {
+  page: number;
+}
+const { page } = Astro.props;
+const { featured, rest, pages } = await getIndex();
+const shown = rest.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+const title = page === 1 ? 'Blog' : `Blog · Page ${page}`;
+---
+
+<SiteLayout title={title} description="Notes on type, layout and color from the Swiss Minimal design kit.">
+  <!-- The feature opens the page in place of a hero, so the page's name is for screen readers. -->
+  <h1 class="sr-only">{page === 1 ? 'Blog' : `Blog, page ${page} of ${pages}`}</h1>
+  {
+    featured?.data.cover && (
+      <PostFeature post={toPost(featured)} image={featured.data.cover} alt={featured.data.coverAlt ?? ''} />
+    )
+  }
+  <PostList posts={shown.map(toPost)} />
+  <Pager current={page} total={pages} url={pageUrl} label="Blog pages" prev="Newer" next="Older" />
+</SiteLayout>

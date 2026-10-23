@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BlogIndex from '../../../components/BlogIndex.astro';
+import { getIndex } from '../../../data/blog';
+
+// Pages 2 and on of the blog's index; page 1 is /blog/ itself.
+export const getStaticPaths = (async () => {
+  const { pages } = await getIndex();
+  return Array.from({ length: pages - 1 }, (_, i) => ({ params: { page: String(i + 2) }, props: { page: i + 2 } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: number;
+}
+---
+
+<BlogIndex page={Astro.props.page} />
