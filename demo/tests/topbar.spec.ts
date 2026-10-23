@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 
 test('the site name links home, and says so on the home page', async ({ page }) => {
   await page.goto('/forms');
-  const home = page.locator('.topbar').getByRole('link', { name: 'Swiss Minimal demo' });
+  const home = page.locator('.topbar').getByRole('link', { name: 'A UI inspired by Swiss design' });
   await expect(home).not.toHaveAttribute('aria-current', /.+/);
   await home.click();
   await expect(page).toHaveURL('/');
