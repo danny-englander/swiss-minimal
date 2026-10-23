@@ -123,6 +123,10 @@ What the automated tests can't see. Run through it in a real browser at about 39
 - [ ] Filters: hide/show, keep numbers, status line updates, URL updates and is read on load, live region announces.
 - [ ] Forms: switches and radios work from the keyboard and show the accent when on; required fields show ⁕; a form that submits confirms with a toast above any bottom bar.
 - [ ] Page title: one `h1`, and a long title wraps instead of scrolling the page sideways on a phone.
+- [ ] Blog index: the featured post sits beside its square image from 768px and stacks text first on a phone; it isn't repeated in the list below; it stays on top of every page.
+- [ ] Pager: the current page is filled; Newer and Older lead to the right pages and are missing on the first and last; the numbers wrap under them on a phone; page 2 and on have the page number in their title.
+- [ ] Blog post: one `h1`; the byline wraps on a phone; headings, lists, quotes and tables in the body need no classes; Previous and Next link to the older and newer posts.
+- [ ] Code colors: magenta keywords, teal strings, orange numbers and names, grey comments, readable in light and dark; no background or color comes from the highlighter itself.
 - [ ] A long title in a bottom bar scrolls three rounds, then rests with an ellipsis.
 - [ ] With Reduce Motion on (macOS: System Settings > Accessibility > Display), nothing slides or loops.
 - [ ] `npm run build` passes with no errors or warnings.
