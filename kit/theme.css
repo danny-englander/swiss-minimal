@@ -751,14 +751,14 @@ a.post-header-label:hover { color: var(--accent-text); text-decoration: underlin
 /* ---------- Post body: long-form text from Markdown ---------- */
 /* Markdown can't take classes, so this styles plain elements inside it: paragraphs, h2 and h3,
    lists, quotes, rules, images, tables and code. A 42rem measure by default; a utility on the
-   same element changes it. An h2 opens with the 2px rule, like every section. A quote is set
+   same element changes it. An h2 has no rule over it: inside one article, space and size mark a
+   new part, and the thick rule is kept for sections of the page. A quote is set
    large and bold beside a 6px accent edge, the same edge the active row has. */
 .post-body { max-width: 42rem; }
 .post-body > * { margin: 0 0 1.25rem; }
 .post-body > :last-child { margin-bottom: 0; }
 .post-body h2 {
-  margin: 3rem 0 1rem; padding-top: 0.75rem;
-  border-top: 2px solid var(--ink);
+  margin: 3rem 0 1rem;
   font-size: 1.75rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em;
 }
 @media (min-width: 768px) { .post-body h2 { font-size: 2.25rem; } }
