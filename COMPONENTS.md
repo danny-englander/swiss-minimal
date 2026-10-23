@@ -834,7 +834,7 @@ Long-form text from Markdown: `.post-body` styles the plain elements inside it, 
 **Markup.** `<div class="post-body"><Content /></div>`, after the `PostHeader`.
 
 - A 42rem measure by default (`max-w-*` on the same element changes it). Paragraphs and blocks are 1.25rem apart.
-- `h2` opens with the 2px `ink` rule, like every section, at 1.75rem, 2.25rem from 768px; `h3` is the `title` size. Don't skip from the post's `h1` to an `h3`.
+- `h2` is bold at 1.75rem, 2.25rem from 768px, with `space-12` above it and no rule: inside one article, space and size mark a new part, and the 2px rule is kept for the page's own sections; `h3` is the `title` size. Don't skip from the post's `h1` to an `h3`.
 - Links underline and turn `accent-text` on hover, like `.link`.
 - Lists have square markers (`ul`) or tabular numbers (`ol`), in `muted`.
 - A quote is large and bold beside a 6px `accent` edge, the same edge as the active row. Keep quotes short; one or two per post.
