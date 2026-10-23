@@ -31,6 +31,24 @@ export interface NewDot {
   note?: string;
 }
 
+/** One post in a blog's index (PostList), newest first. */
+export interface Post {
+  title: string;
+  href: string;
+  /** YYYY-MM-DD, the day it was published. */
+  date: string;
+  /** One or two plain sentences. */
+  summary?: string;
+  /** A quiet line under the summary, e.g. "Type · 4 min read". */
+  meta?: string;
+}
+
+/** A link to a neighboring post (PostNav). */
+export interface PostLink {
+  title: string;
+  href: string;
+}
+
 /** One entry in a dated list such as a Features tab, newest first. */
 export interface Feature {
   /** YYYY-MM-DD, the day it went live. */

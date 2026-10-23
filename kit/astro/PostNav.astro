@@ -1,0 +1,32 @@
+---
+// The previous and next posts, at the end of one (PostNav in COMPONENTS.md). Either may be
+// missing on the first or last post; Next always keeps the right column.
+import type { PostLink } from './types';
+
+interface Props {
+  /** The older post. */
+  prev?: PostLink;
+  /** The newer post. */
+  next?: PostLink;
+}
+const { prev, next } = Astro.props;
+---
+
+{
+  (prev || next) && (
+    <nav class="post-nav" aria-label="More posts">
+      {prev && (
+        <a href={prev.href} rel="prev">
+          <span class="post-nav-label"><span aria-hidden="true">← </span>Previous</span>
+          <span class="post-nav-title">{prev.title}</span>
+        </a>
+      )}
+      {next && (
+        <a class="post-nav-next" href={next.href} rel="next">
+          <span class="post-nav-label">Next<span aria-hidden="true"> →</span></span>
+          <span class="post-nav-title">{next.title}</span>
+        </a>
+      )}
+    </nav>
+  )
+}

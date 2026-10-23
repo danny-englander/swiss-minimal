@@ -1,0 +1,35 @@
+---
+// A blog's index, newest first (PostList in COMPONENTS.md). The date beside each post from
+// 640px, over it on phones; the title links to the post, with its summary and meta under it.
+import type { Post } from './types';
+
+interface Props {
+  posts: Post[];
+  /** Heading level for each post's title: h2 under a PageTitle, h3 inside a section. */
+  level?: 'h2' | 'h3';
+  /** Utilities for spacing, e.g. "mb-8". */
+  class?: string;
+}
+const { posts, level: Title = 'h2', class: className } = Astro.props;
+
+// Dates are plain days, so format them in UTC or they can slip back a day.
+const format = (date: string) =>
+  new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+---
+
+<ol class:list={['post-list', className]}>
+  {
+    posts.map((p) => (
+      <li>
+        <time datetime={p.date}>{format(p.date)}</time>
+        <div>
+          <Title class="post-list-title">
+            <a href={p.href}>{p.title}</a>
+          </Title>
+          {p.summary && <p class="post-list-summary">{p.summary}</p>}
+          {p.meta && <p class="post-list-meta">{p.meta}</p>}
+        </div>
+      </li>
+    ))
+  }
+</ol>

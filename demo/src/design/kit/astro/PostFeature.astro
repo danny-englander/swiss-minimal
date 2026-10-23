@@ -1,0 +1,52 @@
+---
+// One post at the top of a blog's index (PostFeature in COMPONENTS.md): text and a square image
+// 50/50 from 768px, stacked text first on phones. Put it where a Hero would go, before the
+// PostList of the other posts. Import the image so Astro knows its size; it is cropped square.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { Post } from './types';
+
+interface Props {
+  post: Post;
+  image: ImageMetadata;
+  /** One sentence on what the image shows. */
+  alt: string;
+  /** The small label over the title. One or two words. */
+  label?: string;
+  /** The button's text. One or two words. */
+  action?: string;
+  level?: 'h1' | 'h2';
+}
+const { post, image, alt, label = 'Featured', action = 'Read post', level: Title = 'h2' } = Astro.props;
+
+// Dates are plain days, so format them in UTC or they can slip back a day.
+const date = new Date(post.date).toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<article class="post-feature">
+  <div>
+    <p class="post-feature-label">{label}</p>
+    <Title class="post-feature-title">
+      <a href={post.href}>{post.title}</a>
+    </Title>
+    {post.summary && <p class="lead post-feature-summary">{post.summary}</p>}
+    <p class="post-feature-meta">
+      <time datetime={post.date}>{date}</time>{post.meta && ` · ${post.meta}`}
+    </p>
+    <a class="btn" href={post.href} aria-label={`${action}: ${post.title}`}>{action}</a>
+  </div>
+  <Image
+    class="media media--1x1"
+    src={image}
+    alt={alt}
+    widths={[480, 800, 1200, 1600].filter((w) => w <= image.width)}
+    sizes="(min-width: 768px) 50vw, 100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+</article>
