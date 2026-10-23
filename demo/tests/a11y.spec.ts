@@ -9,7 +9,7 @@ const THEMES = ['light', 'dark'] as const;
 // The demo is vermilion; verdigris is checked by setting <html data-accent="verdigris">, as a
 // verdigris site would.
 const ACCENTS = ['vermilion', 'verdigris'] as const;
-const PAGES = ['/', '/work', '/work/field-notes', '/about', '/forms', '/components', '/agents'];
+const PAGES = ['/', '/work', '/work/field-notes', '/blog', '/blog/one-typeface', '/blog/two-pigments', '/about', '/forms', '/components', '/agents'];
 const TABS = ['menu', 'contact', 'features'];
 
 /** Wait for any running CSS animation or transition to finish. */

@@ -17,6 +17,7 @@ const menu: MenuItem[] = [
       },
     ],
   },
+  { label: 'Blog', href: '/blog/' },
   { label: 'About', href: '/about/' },
   { label: 'Forms', href: '/forms/' },
   { label: 'Components', href: '/components/' },

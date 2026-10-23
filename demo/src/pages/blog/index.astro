@@ -1,0 +1,22 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import PostFeature from '../../design/kit/astro/PostFeature.astro';
+import PostList from '../../design/kit/astro/PostList.astro';
+import { getPosts, toPost } from '../../data/blog';
+
+const posts = await getPosts();
+// The newest featured post with an image goes at the top; the rest are listed under it.
+const featured = posts.find((p) => p.data.featured && p.data.cover) ?? posts.find((p) => p.data.cover);
+const rest = posts.filter((p) => p !== featured);
+---
+
+<SiteLayout title="Blog" description="Notes on type, layout and color from the Swiss Minimal design kit.">
+  <!-- The feature opens the page in place of a hero, so the page's name is for screen readers. -->
+  <h1 class="sr-only">Blog</h1>
+  {
+    featured?.data.cover && (
+      <PostFeature post={toPost(featured)} image={featured.data.cover} alt={featured.data.coverAlt ?? ''} />
+    )
+  }
+  <PostList posts={rest.map(toPost)} class="mb-16" />
+</SiteLayout>

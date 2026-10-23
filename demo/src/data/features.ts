@@ -7,6 +7,28 @@ import type { Feature } from '../design/kit/astro/types';
  */
 export const features: Feature[] = [
   {
+    date: '2026-10-23',
+    title: 'Code colors',
+    body: 'Code blocks are highlighted in three colors: magenta keywords, teal strings and orange numbers and names, with comments in grey. See the code in Setting a grid before the words, on the Blog.',
+    details: [
+      'Code is the kit’s one exception to its single accent, as it already is to its single typeface. The colors appear only inside `pre` and `code`.',
+      'Four new tokens, `code-keyword`, `code-string`, `code-constant` and `code-comment`, each with a dark version and a `-bright` one for the dark `.pre--bar` block. All pass 4.5:1.',
+      'Sites on Astro: set `markdown.shikiConfig.theme` to `"css-variables"` and copy the new `theme.css` in; the kit maps Shiki’s variables to the tokens. Without it, Astro’s default GitHub theme sets its own dark background on Markdown code.',
+      'By hand: wrap tokens in `.tok-keyword`, `.tok-string`, `.tok-constant` and `.tok-comment`.',
+    ],
+  },
+  {
+    date: '2026-10-23',
+    title: 'Blog',
+    body: 'A blog index that opens with a featured post beside a square image, then lists the rest by date. Posts get a byline under a thick rule, long-form text with quotes, lists and tables, and links to the previous and next posts. See Blog in the menu.',
+    details: [
+      'Five new kit pieces: `PostFeature` (`.post-feature`) for one post at the top of the index, set 50/50 beside a square image like a split hero, `PostList` (`.post-list`) for the rest, `PostHeader` (`.post-header`, `.post-meta`) for the top of a post, `.post-body` for Markdown text and `PostNav` (`.post-nav`) for the previous and next posts.',
+      '`.post-body` styles plain elements, so Markdown needs no classes: h2 opens with the 2px rule, quotes are large and bold beside a 6px accent edge, lists use square markers.',
+      'The demo keeps its posts in an Astro content collection, `src/content/blog/`, one Markdown file per post.',
+      'Sites on the kit: copy the new `theme.css`, `types.ts` and the four `Post*.astro` files in. Nothing existing changes.',
+    ],
+  },
+  {
     date: '2026-10-21',
     title: 'New accent names',
     body: 'The two accents have new names and the same colors: vermilion, the orange-leaning red of Swiss posters, and verdigris, the blue-green patina of old copper.',
