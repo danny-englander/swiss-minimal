@@ -858,6 +858,8 @@ In Astro, `<PostFeature post={post} image={art} alt="What it shows" />`, with th
 - The image is cropped square (`.media--1x1`) and loads eagerly, like a hero's. A square or portrait original crops best.
 - Only one per page. Don't repeat the featured post in the list below it.
 
+**Other media.** `image` and `alt` are optional. To show something other than a raster image, such as an SVG that follows the theme, leave them out and fill the `media` slot: `<PostFeature post={post}><svg slot="media" …></svg></PostFeature>`. Keep it square, and give it its own text alternative if it says anything.
+
 ## Pager
 
 Numbered pages of a long list, such as a blog's index: the step back, the page numbers and the step on, under a 2px rule.
